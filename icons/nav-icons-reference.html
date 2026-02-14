@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueWeight — Nav Icons Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .dark-bg {
+            background: #0a0e1a;
+            color: #e8eaed;
+            padding: 48px 32px;
+        }
+
+        .light-bg {
+            background: #f0f2f5;
+            color: #1a1d24;
+            padding: 48px 32px;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.45;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            opacity: 0.35;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .dark-bg .section-title { border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .light-bg .section-title { border-bottom: 1px solid rgba(0,0,0,0.08); }
+
+        /* Icon grid */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .icon-cell {
+            border-radius: 14px;
+            padding: 28px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .dark-bg .icon-cell {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .light-bg .icon-cell {
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .icon-cell .label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            opacity: 0.5;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .icon-sizes {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-size-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .size-tag {
+            font-size: 0.6rem;
+            font-family: 'JetBrains Mono', monospace;
+            opacity: 0.3;
+        }
+
+        .dark-bg .icon-cell svg { color: #e8eaed; }
+        .light-bg .icon-cell svg { color: #1a1d24; }
+
+        /* Active state demo */
+        .dark-bg .icon-cell.active svg { color: #00E5A0; }
+        .light-bg .icon-cell.active svg { color: #00B37E; }
+
+        .dark-bg .icon-cell.active { border-color: rgba(0,229,160,0.2); background: rgba(0,229,160,0.06); }
+        .light-bg .icon-cell.active { border-color: rgba(0,179,126,0.2); background: rgba(0,179,126,0.06); }
+
+        .dark-bg .icon-cell.active .label { color: #00E5A0; opacity: 1; }
+        .light-bg .icon-cell.active .label { color: #00B37E; opacity: 1; }
+
+        /* Bottom nav demo */
+        .nav-demo-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .nav-demo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            border-radius: 16px;
+            padding: 8px 6px;
+            max-width: 420px;
+            width: 100%;
+            justify-content: space-around;
+        }
+
+        .dark-bg .nav-demo {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .light-bg .nav-demo {
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+
+        .nav-item .nav-text {
+            font-size: 0.68rem;
+            font-weight: 500;
+        }
+
+        .dark-bg .nav-item { color: rgba(255,255,255,0.4); }
+        .light-bg .nav-item { color: rgba(0,0,0,0.35); }
+
+        .dark-bg .nav-item.active {
+            color: #00E5A0;
+            background: rgba(0,229,160,0.08);
+        }
+
+        .light-bg .nav-item.active {
+            color: #00B37E;
+            background: rgba(0,179,126,0.08);
+        }
+
+        /* Inline nav demo */
+        .inline-nav-demo {
+            display: flex;
+            gap: 4px;
+            border-radius: 12px;
+            padding: 4px;
+            max-width: 480px;
+            margin: 0 auto 32px;
+        }
+
+        .dark-bg .inline-nav-demo {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .light-bg .inline-nav-demo {
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .inline-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 9px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .dark-bg .inline-item { color: rgba(255,255,255,0.4); }
+        .light-bg .inline-item { color: rgba(0,0,0,0.38); }
+
+        .dark-bg .inline-item.active {
+            background: rgba(255,255,255,0.08);
+            color: #e8eaed;
+        }
+
+        .light-bg .inline-item.active {
+            background: rgba(255,255,255,0.8);
+            color: #1a1d24;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        @media (max-width: 640px) {
+            .dark-bg, .light-bg { padding: 24px 16px; }
+            .icon-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══ DARK MODE ═══ -->
+    <div class="dark-bg">
+        <h1>Navigation Icons</h1>
+        <p class="subtitle">Diagonal trend-line style — Dark mode</p>
+
+        <div class="section-title">All Icons — Default & Active States</div>
+        <div class="icon-grid">
+            <div class="icon-cell active">
+                <div class="icon-sizes">
+                    <div class="icon-size-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12L12 4L21 12"/>
+                            <path d="M6 10V19C6 19.5523 6.44772 20 7 20H10V15C10 14.4477 10.4477 14 11 14H13C13.5523 14 14 14.4477 14 15V20H17C17.5523 20 18 19.5523 18 19V10"/>
+                        </svg>
+                        <span class="size-tag">24px</span>
+                    </div>
+                    <div class="icon-size-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12L12 4L21 12"/>
+                            <path d="M6 10V19C6 19.5523 6.44772 20 7 20H10V15C10 14.4477 10.4477 14 11 14H13C13.5523 14 14 14.4477 14 15V20H17C17.5523 20 18 19.5523 18 19V10"/>
+                        </svg>
+                        <span class="size-tag">20px</span>
+                    </div>
+                </div>
+                <div class="label">Home</div>
+            </div>
+            <div class="icon-cell">
+                <div class="icon-sizes">
+                    <div class="icon-size-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 20V4"/>
+                            <path d="M4 20H20"/>
+                            <path d="M7 14L11 9L14 12L20 6"/>
+                            <polyline points="16 6 20 6 20 10"/>
+                        </svg>
+                        <span class="size-tag">24px</span>
+                    </div>
+                    <div class="icon-size-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 20V4"/>
+                            <path d="M4 20H20"/>
+                            <path d="M7 14L11 9L14 12L20 6"/>
+                            <polyline points="16 6 20 6 20 10"/>
+                        </svg>
+                        <span class="size-tag">20px</span>
+                    </div>
+                </div>
+                <div class="label">Charts</div>
+            </div>
+            <div class="icon-cell">
+                <div class="icon-sizes">
+                    <div class="icon-size-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+                            <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+                            <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+                        </svg>
+                        <span class="size-tag">24px</span>
+                    </div>
+                    <div class="icon-size-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+                            <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+                            <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+                        </svg>
+                        <span class="size-tag">20px</span>
+                    </div>
+                </div>
+                <div class="label">Predictions</div>
+            </div>
+            <div class="icon-cell">
+                <div class="icon-sizes">
+                    <div class="icon-size-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8" r="4"/>
+                            <path d="M5 20C5 17.2386 8.13401 15 12 15C15.866 15 19 17.2386 19 20"/>
+                        </svg>
+                        <span class="size-tag">24px</span>
+                    </div>
+                    <div class="icon-size-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8" r="4"/>
+                            <path d="M5 20C5 17.2386 8.13401 15 12 15C15.866 15 19 17.2386 19 20"/>
+                        </svg>
+                        <span class="size-tag">20px</span>
+                    </div>
+                </div>
+                <div class="label">Profile</div>
+            </div>
+        </div>
+
+        <div class="section-title">Desktop Nav — Inline</div>
+        <div class="inline-nav-demo">
+            <div class="inline-item active">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12L12 4L21 12"/>
+                    <path d="M6 10V19C6 19.5523 6.44772 20 7 20H10V15C10 14.4477 10.4477 14 11 14H13C13.5523 14 14 14.4477 14 15V20H17C17.5523 20 18 19.5523 18 19V10"/>
+                </svg>
+                Dashboard
+            </div>
+            <div class="inline-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 20V4"/><path d="M4 20H20"/>
+                    <path d="M7 14L11 9L14 12L20 6"/><polyline points="16 6 20 6 20 10"/>
+                </svg>
+                Charts
+            </div>
+            <div class="inline-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+                    <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+                    <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+                </svg>
+                Predictions
+            </div>
+            <div class="inline-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M5 20C5 17.2386 8.13401 15 12 15C15.866 15 19 17.2386 19 20"/>
+                </svg>
+                Profile
+            </div>
+        </div>
+
+        <div class="section-title">Mobile Nav — Bottom Bar</div>
+        <div class="nav-demo-wrapper">
+            <div class="nav-demo">
+                <div class="nav-item active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12L12 4L21 12"/>
+                        <path d="M6 10V19C6 19.5523 6.44772 20 7 20H10V15C10 14.4477 10.4477 14 11 14H13C13.5523 14 14 14.4477 14 15V20H17C17.5523 20 18 19.5523 18 19V10"/>
+                    </svg>
+                    <span class="nav-text">Home</span>
+                </div>
+                <div class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 20V4"/><path d="M4 20H20"/>
+                        <path d="M7 14L11 9L14 12L20 6"/><polyline points="16 6 20 6 20 10"/>
+                    </svg>
+                    <span class="nav-text">Charts</span>
+                </div>
+                <div class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+                        <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+                        <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+                    </svg>
+                    <span class="nav-text">Predict</span>
+                </div>
+                <div class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M5 20C5 17.2386 8.13401 15 12 15C15.866 15 19 17.2386 19 20"/>
+                    </svg>
+                    <span class="nav-text">Profile</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ LIGHT MODE ═══ -->
+    <div class="light-bg">
+        <h1>Light Mode</h1>
+        <p class="subtitle">Same icons using currentColor — adapts automatically</p>
+
+        <div class="section-title">Desktop Nav — Inline</div>
+        <div class="inline-nav-demo">
+            <div class="inline-item active">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12L12 4L21 12"/>
+                    <path d="M6 10V19C6 19.5523 6.44772 20 7 20H10V15C10 14.4477 10.4477 14 11 14H13C13.5523 14 14 14.4477 14 15V20H17C17.5523 20 18 19.5523 18 19V10"/>
+                </svg>
+                Dashboard
+            </div>
+            <div class="inline-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 20V4"/><path d="M4 20H20"/>
+                    <path d="M7 14L11 9L14 12L20 6"/><polyline points="16 6 20 6 20 10"/>
+                </svg>
+                Charts
+            </div>
+            <div class="inline-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+                    <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+                    <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+                </svg>
+                Predictions
+            </div>
+            <div class="inline-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M5 20C5 17.2386 8.13401 15 12 15C15.866 15 19 17.2386 19 20"/>
+                </svg>
+                Profile
+            </div>
+        </div>
+
+        <div class="section-title">Mobile Nav — Bottom Bar</div>
+        <div class="nav-demo-wrapper">
+            <div class="nav-demo">
+                <div class="nav-item active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12L12 4L21 12"/>
+                        <path d="M6 10V19C6 19.5523 6.44772 20 7 20H10V15C10 14.4477 10.4477 14 11 14H13C13.5523 14 14 14.4477 14 15V20H17C17.5523 20 18 19.5523 18 19V10"/>
+                    </svg>
+                    <span class="nav-text">Home</span>
+                </div>
+                <div class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 20V4"/><path d="M4 20H20"/>
+                        <path d="M7 14L11 9L14 12L20 6"/><polyline points="16 6 20 6 20 10"/>
+                    </svg>
+                    <span class="nav-text">Charts</span>
+                </div>
+                <div class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+                        <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+                        <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+                    </svg>
+                    <span class="nav-text">Predict</span>
+                </div>
+                <div class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M5 20C5 17.2386 8.13401 15 12 15C15.866 15 19 17.2386 19 20"/>
+                    </svg>
+                    <span class="nav-text">Profile</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

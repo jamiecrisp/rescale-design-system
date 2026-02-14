@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueWeight Design System — Foundations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ═══════════════════════════════════════════
+           DESIGN TOKENS — LIGHT THEME (default)
+           ═══════════════════════════════════════════ */
+        :root {
+            /* Background */
+            --bg-page: #f0f2f5;
+            --bg-glass: rgba(255,255,255,0.55);
+            --bg-glass-hover: rgba(255,255,255,0.7);
+            --bg-elevated: #ffffff;
+            --bg-inset: #e8eaed;
+            --bg-overlay: rgba(0,0,0,0.4);
+
+            /* Borders */
+            --border-decorative: rgba(0,0,0,0.10);
+            --border-input: #7e828a;       /* 3.44:1 on bg, 3.86:1 on white */
+            --border-focus: #006B4E;       /* 5.83:1 on bg */
+
+            /* Text — all AA compliant on --bg-page */
+            --text-primary: #1a1d24;       /* 15.04:1 */
+            --text-secondary: #4a4e56;     /* 7.44:1  */
+            --text-tertiary: #696d76;      /* 4.62:1  */
+            --text-inverse: #ffffff;
+
+            /* Semantic colours — all ≥4.5:1 on --bg-page */
+            --color-success: #006B4E;      /* 5.83:1  */
+            --color-success-dim: rgba(0,107,78,0.12);
+            --color-danger: #A12040;       /* 6.70:1  */
+            --color-danger-dim: rgba(161,32,64,0.1);
+            --color-info: #2A4FA8;         /* 6.73:1  */
+            --color-info-dim: rgba(42,79,168,0.1);
+            --color-warning: #7A4B00;      /* 6.61:1  */
+            --color-warning-dim: rgba(122,75,0,0.08);
+
+            /* Accent (primary action colour) */
+            --accent: #006B4E;
+            --accent-hover: #005540;
+            --accent-dim: rgba(0,107,78,0.12);
+            --accent-on: #ffffff;          /* text on accent bg — 5.83:1 */
+            --accent-btn-bg: #008060;      /* white text 4.93:1 */
+            --accent-btn-hover: #006B4E;
+
+            /* Typography scale (rem, base 16px) */
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --text-4xl: 2.25rem;   /* 36px — page hero */
+            --text-3xl: 1.875rem;  /* 30px — page title */
+            --text-2xl: 1.5rem;    /* 24px — section title */
+            --text-xl: 1.25rem;    /* 20px — card title */
+            --text-lg: 1.125rem;   /* 18px — lead text */
+            --text-base: 1rem;     /* 16px — body */
+            --text-sm: 0.875rem;   /* 14px — secondary */
+            --text-xs: 0.75rem;    /* 12px — caption / label */
+            --text-2xs: 0.6875rem; /* 11px — badge / overline */
+
+            --leading-tight: 1.2;
+            --leading-normal: 1.5;
+            --leading-relaxed: 1.7;
+
+            --weight-light: 300;
+            --weight-regular: 400;
+            --weight-medium: 500;
+            --weight-semibold: 600;
+            --weight-bold: 700;
+
+            /* Spacing scale (4px base) */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-7: 28px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+
+            /* Radii */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 2px 12px rgba(0,0,0,0.06);
+            --shadow-lg: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-focus: 0 0 0 3px rgba(0,107,78,0.2);
+
+            /* Transitions */
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.2s ease;
+            --transition-slow: 0.35s ease;
+
+            /* Layout */
+            --content-max: 1100px;
+            --sidebar-width: 260px;
+        }
+
+        /* ═══════════════════════════════════════════
+           DARK THEME OVERRIDES
+           ═══════════════════════════════════════════ */
+        [data-theme="dark"] {
+            --bg-page: #0a0e1a;
+            --bg-glass: rgba(255,255,255,0.06);
+            --bg-glass-hover: rgba(255,255,255,0.1);
+            --bg-elevated: #131722;
+            --bg-inset: #0d1120;
+            --bg-overlay: rgba(0,0,0,0.6);
+
+            --border-decorative: rgba(255,255,255,0.10);
+            --border-input: #606472;        /* 3.04:1 on glass, 3.27:1 on bg */
+            --border-focus: #00E5A0;        /* 11.66:1 on bg */
+
+            --text-primary: #e8eaed;        /* 15.98:1 */
+            --text-secondary: #b0b4bc;      /* 9.26:1  */
+            --text-tertiary: #828690;        /* 5.28:1  */
+            --text-inverse: #0a0e1a;
+
+            --color-success: #00E5A0;       /* 11.66:1 */
+            --color-success-dim: rgba(0,229,160,0.15);
+            --color-danger: #FF6B8A;        /* 7.08:1  */
+            --color-danger-dim: rgba(255,107,138,0.15);
+            --color-info: #5B8DEF;          /* 5.96:1  */
+            --color-info-dim: rgba(91,141,239,0.15);
+            --color-warning: #FFB84D;       /* 11.20:1 */
+            --color-warning-dim: rgba(255,184,77,0.12);
+
+            --accent: #00E5A0;
+            --accent-hover: #00C98C;
+            --accent-dim: rgba(0,229,160,0.15);
+            --accent-on: #0a0e1a;           /* 11.66:1 */
+            --accent-btn-bg: #00E5A0;
+            --accent-btn-hover: #00C98C;
+
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+            --shadow-md: 0 2px 12px rgba(0,0,0,0.2);
+            --shadow-lg: 0 4px 20px rgba(0,0,0,0.25);
+            --shadow-focus: 0 0 0 3px rgba(0,229,160,0.25);
+        }
+
+        /* ═══════════════════════════════════════════
+           BASE STYLES
+           ═══════════════════════════════════════════ */
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: var(--leading-normal);
+            color: var(--text-primary);
+            background: var(--bg-page);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ═══ ACCESSIBILITY ═══ */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: var(--space-4);
+            background: var(--accent);
+            color: var(--accent-on);
+            padding: var(--space-3) var(--space-6);
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            font-weight: var(--weight-semibold);
+            font-size: var(--text-sm);
+            z-index: 200;
+            text-decoration: none;
+            transition: top var(--transition-fast);
+        }
+        .skip-link:focus { top: 0; }
+
+        *:focus-visible {
+            outline: 3px solid var(--border-focus);
+            outline-offset: 2px;
+        }
+        *:focus:not(:focus-visible) { outline: none; }
+
+        .sr-only {
+            position: absolute; width: 1px; height: 1px;
+            padding: 0; margin: -1px; overflow: hidden;
+            clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+        }
+
+        /* ═══ LAYOUT ═══ */
+        .ds-page {
+            max-width: var(--content-max);
+            margin: 0 auto;
+            padding: var(--space-12) var(--space-8);
+        }
+
+        /* ═══ THEME TOGGLE ═══ */
+        .theme-toggle {
+            position: fixed;
+            top: var(--space-4);
+            right: var(--space-4);
+            z-index: 100;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-decorative);
+            border-radius: var(--radius-full);
+            padding: var(--space-2) var(--space-4);
+            font-family: var(--font-body);
+            font-size: var(--text-xs);
+            font-weight: var(--weight-semibold);
+            color: var(--text-secondary);
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            transition: all var(--transition-fast);
+        }
+        .theme-toggle:hover { background: var(--bg-glass-hover); }
+
+        /* ═══ SECTION STYLES ═══ */
+        .ds-section {
+            margin-bottom: var(--space-16);
+        }
+
+        .ds-section-title {
+            font-size: var(--text-2xl);
+            font-weight: var(--weight-bold);
+            margin-bottom: var(--space-2);
+            line-height: var(--leading-tight);
+        }
+
+        .ds-section-desc {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-8);
+            max-width: 640px;
+        }
+
+        .ds-subsection {
+            margin-bottom: var(--space-10);
+        }
+
+        .ds-subsection-title {
+            font-size: var(--text-xs);
+            font-weight: var(--weight-semibold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-5);
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--border-decorative);
+        }
+
+        /* ═══ SPECIMEN CARDS ═══ */
+        .ds-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-decorative);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            backdrop-filter: blur(16px);
+            margin-bottom: var(--space-4);
+        }
+
+        /* ═══ COLOUR SWATCHES ═══ */
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .swatch {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-decorative);
+        }
+
+        .swatch-color {
+            height: 72px;
+            display: flex;
+            align-items: flex-end;
+            padding: var(--space-2) var(--space-3);
+        }
+
+        .swatch-ratio {
+            font-size: var(--text-2xs);
+            font-family: var(--font-mono);
+            font-weight: var(--weight-medium);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            background: rgba(0,0,0,0.25);
+            color: white;
+        }
+
+        .swatch-info {
+            padding: var(--space-3);
+            background: var(--bg-glass);
+        }
+
+        .swatch-name {
+            font-size: var(--text-sm);
+            font-weight: var(--weight-semibold);
+            margin-bottom: 2px;
+        }
+
+        .swatch-value {
+            font-size: var(--text-2xs);
+            font-family: var(--font-mono);
+            color: var(--text-tertiary);
+        }
+
+        /* ═══ TYPE SPECIMENS ═══ */
+        .type-specimen {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-6);
+            padding: var(--space-5) 0;
+            border-bottom: 1px solid var(--border-decorative);
+        }
+
+        .type-specimen:last-child { border-bottom: none; }
+
+        .type-meta {
+            flex-shrink: 0;
+            width: 140px;
+            text-align: right;
+        }
+
+        .type-meta-size {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+        }
+
+        .type-meta-name {
+            font-size: var(--text-2xs);
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .type-sample {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ═══ SPACING DEMO ═══ */
+        .space-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: var(--space-2) var(--space-4);
+            align-items: center;
+        }
+
+        .space-label {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            text-align: right;
+        }
+
+        .space-bar {
+            height: 24px;
+            border-radius: var(--radius-sm);
+            background: var(--accent-dim);
+            border: 1px solid var(--accent);
+            opacity: 0.7;
+        }
+
+        /* ═══ TOKEN TABLE ═══ */
+        .token-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .token-table th {
+            text-align: left;
+            font-size: var(--text-xs);
+            font-weight: var(--weight-semibold);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-tertiary);
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--border-decorative);
+        }
+
+        .token-table td {
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-sm);
+            border-bottom: 1px solid var(--border-decorative);
+            vertical-align: middle;
+        }
+
+        .token-table td:first-child {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
+        .token-table td:last-child {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+        }
+
+        /* ═══ RADIUS DEMO ═══ */
+        .radius-row {
+            display: flex;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .radius-demo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .radius-box {
+            width: 64px;
+            height: 64px;
+            background: var(--accent-dim);
+            border: 2px solid var(--accent);
+        }
+
+        .radius-label {
+            font-family: var(--font-mono);
+            font-size: var(--text-2xs);
+            color: var(--text-tertiary);
+        }
+
+        /* ═══ SHADOW DEMO ═══ */
+        .shadow-row {
+            display: flex;
+            gap: var(--space-8);
+            flex-wrap: wrap;
+        }
+
+        .shadow-demo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .shadow-box {
+            width: 100px;
+            height: 72px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-decorative);
+            border-radius: var(--radius-lg);
+        }
+
+        .shadow-label {
+            font-family: var(--font-mono);
+            font-size: var(--text-2xs);
+            color: var(--text-tertiary);
+        }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media (max-width: 640px) {
+            .ds-page { padding: var(--space-6) var(--space-4); }
+            .type-specimen { flex-direction: column; gap: var(--space-1); }
+            .type-meta { width: auto; text-align: left; }
+            .swatch-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">🌙 Dark mode</button>
+
+    <div class="ds-page" id="main" role="main">
+
+        <header style="margin-bottom: var(--space-16);">
+            <h1 style="font-size: var(--text-4xl); font-weight: var(--weight-bold); line-height: var(--leading-tight); margin-bottom: var(--space-2);">
+                TrueWeight <span style="color: var(--accent);">Design System</span>
+            </h1>
+            <p style="font-size: var(--text-lg); color: var(--text-secondary); max-width: 560px;">
+                Foundations, tokens, and rules for building consistent, accessible interfaces across light and dark themes.
+            </p>
+        </header>
+
+        <!-- ═══════════════════════════════════
+             COLOUR TOKENS
+             ═══════════════════════════════════ -->
+        <section class="ds-section" aria-labelledby="colours-title">
+            <h2 class="ds-section-title" id="colours-title">Colour</h2>
+            <p class="ds-section-desc">All text colours meet WCAG AA (4.5:1 minimum) against the page background. Semantic colours are used consistently for status. Accent colour drives primary actions.</p>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Text Colours</h3>
+                <div class="swatch-grid">
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--text-primary);"><span class="swatch-ratio">15:1</span></div>
+                        <div class="swatch-info"><div class="swatch-name">Primary</div><div class="swatch-value">--text-primary</div></div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--text-secondary);"><span class="swatch-ratio">7.4:1</span></div>
+                        <div class="swatch-info"><div class="swatch-name">Secondary</div><div class="swatch-value">--text-secondary</div></div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--text-tertiary);"><span class="swatch-ratio">4.6:1</span></div>
+                        <div class="swatch-info"><div class="swatch-name">Tertiary</div><div class="swatch-value">--text-tertiary</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Semantic Colours</h3>
+                <div class="swatch-grid">
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--color-success);"><span class="swatch-ratio">5.8:1</span></div>
+                        <div class="swatch-info"><div class="swatch-name">Success / Loss</div><div class="swatch-value">--color-success</div></div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--color-danger);"><span class="swatch-ratio">6.7:1</span></div>
+                        <div class="swatch-info"><div class="swatch-name">Danger / Gain</div><div class="swatch-value">--color-danger</div></div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--color-info);"><span class="swatch-ratio">6.7:1</span></div>
+                        <div class="swatch-info"><div class="swatch-name">Info / Maintain</div><div class="swatch-value">--color-info</div></div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--color-warning);"><span class="swatch-ratio">6.6:1</span></div>
+                        <div class="swatch-info"><div class="swatch-name">Warning</div><div class="swatch-value">--color-warning</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Surfaces &amp; Borders</h3>
+                <div class="swatch-grid">
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--bg-page); border: 1px solid var(--border-decorative);"></div>
+                        <div class="swatch-info"><div class="swatch-name">Page</div><div class="swatch-value">--bg-page</div></div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--bg-glass); border: 1px solid var(--border-decorative);"></div>
+                        <div class="swatch-info"><div class="swatch-name">Glass</div><div class="swatch-value">--bg-glass</div></div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--bg-elevated); border: 1px solid var(--border-decorative);"></div>
+                        <div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-value">--bg-elevated</div></div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-color" style="background: var(--bg-inset); border: 1px solid var(--border-decorative);"></div>
+                        <div class="swatch-info"><div class="swatch-name">Inset</div><div class="swatch-value">--bg-inset</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════
+             TYPOGRAPHY
+             ═══════════════════════════════════ -->
+        <section class="ds-section" aria-labelledby="type-title">
+            <h2 class="ds-section-title" id="type-title">Typography</h2>
+            <p class="ds-section-desc">Two font families: Outfit for display and body, JetBrains Mono for data values and code. All sizes use rem for user scaling. Minimum body size is 16px.</p>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Type Scale — Outfit</h3>
+                <div class="ds-card">
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">36px / 2.25rem</div><div class="type-meta-name">4XL — Hero</div></div>
+                        <div class="type-sample" style="font-size: var(--text-4xl); font-weight: var(--weight-bold); line-height: var(--leading-tight);">Your True Weight</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">30px / 1.875rem</div><div class="type-meta-name">3XL — Page title</div></div>
+                        <div class="type-sample" style="font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: var(--leading-tight);">Dashboard</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">24px / 1.5rem</div><div class="type-meta-name">2XL — Section</div></div>
+                        <div class="type-sample" style="font-size: var(--text-2xl); font-weight: var(--weight-semibold); line-height: var(--leading-tight);">Weight Trend</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">20px / 1.25rem</div><div class="type-meta-name">XL — Card title</div></div>
+                        <div class="type-sample" style="font-size: var(--text-xl); font-weight: var(--weight-semibold);">Recent Entries</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">18px / 1.125rem</div><div class="type-meta-name">LG — Lead</div></div>
+                        <div class="type-sample" style="font-size: var(--text-lg); color: var(--text-secondary);">Track your weight trend without worrying about daily fluctuations.</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">16px / 1rem</div><div class="type-meta-name">Base — Body</div></div>
+                        <div class="type-sample" style="font-size: var(--text-base);">Weigh yourself daily at the same time for the most consistent results. The trend line smooths out natural variation.</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">14px / 0.875rem</div><div class="type-meta-name">SM — Secondary</div></div>
+                        <div class="type-sample" style="font-size: var(--text-sm); color: var(--text-secondary);">Last synced 2 minutes ago · 5 entries this week</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">12px / 0.75rem</div><div class="type-meta-name">XS — Caption</div></div>
+                        <div class="type-sample" style="font-size: var(--text-xs); color: var(--text-tertiary);">WEEKLY CHANGE · SOURCE: GOOGLE FIT</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">11px / 0.688rem</div><div class="type-meta-name">2XS — Badge</div></div>
+                        <div class="type-sample" style="font-size: var(--text-2xs); font-weight: var(--weight-semibold); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.1em;">OVERLINE LABEL</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Type Scale — JetBrains Mono (Data)</h3>
+                <div class="ds-card">
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">30px</div><div class="type-meta-name">Metric hero</div></div>
+                        <div class="type-sample" style="font-family: var(--font-mono); font-size: var(--text-3xl); font-weight: var(--weight-medium); color: var(--color-success);">82.4</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">20px</div><div class="type-meta-name">Card metric</div></div>
+                        <div class="type-sample" style="font-family: var(--font-mono); font-size: var(--text-xl); font-weight: var(--weight-medium);">−0.8 kg</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">14px</div><div class="type-meta-name">Table data</div></div>
+                        <div class="type-sample" style="font-family: var(--font-mono); font-size: var(--text-sm); font-weight: var(--weight-medium);">82.4 kg &nbsp; 82.7 kg &nbsp; 82.9 kg &nbsp; 83.2 kg</div>
+                    </div>
+                    <div class="type-specimen">
+                        <div class="type-meta"><div class="type-meta-size">12px</div><div class="type-meta-name">Token / code</div></div>
+                        <div class="type-sample" style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--accent);">--color-success: #006B4E;</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Usage Rules</h3>
+                <div class="ds-card" style="max-width: 640px;">
+                    <table class="token-table" role="table">
+                        <caption class="sr-only">Typography usage rules</caption>
+                        <thead><tr><th scope="col">Rule</th><th scope="col">Value</th></tr></thead>
+                        <tbody>
+                            <tr><td>Minimum body size</td><td>16px (1rem)</td></tr>
+                            <tr><td>Minimum touch target</td><td>44 × 44px</td></tr>
+                            <tr><td>Max line width (prose)</td><td>65ch (~640px)</td></tr>
+                            <tr><td>Body line-height</td><td>1.5 (--leading-normal)</td></tr>
+                            <tr><td>Heading line-height</td><td>1.2 (--leading-tight)</td></tr>
+                            <tr><td>Paragraph spacing</td><td>1em (matches base size)</td></tr>
+                            <tr><td>Label text</td><td>XS (12px), semibold, uppercase</td></tr>
+                            <tr><td>Data values</td><td>Always JetBrains Mono</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════
+             SPACING
+             ═══════════════════════════════════ -->
+        <section class="ds-section" aria-labelledby="spacing-title">
+            <h2 class="ds-section-title" id="spacing-title">Spacing</h2>
+            <p class="ds-section-desc">4px base unit. Use multiples consistently. Larger gaps between sections, tighter gaps within cards.</p>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Scale</h3>
+                <div class="ds-card">
+                    <div class="space-grid">
+                        <div class="space-label">--space-1<br>4px</div>  <div class="space-bar" style="width: 4px;"></div>
+                        <div class="space-label">--space-2<br>8px</div>  <div class="space-bar" style="width: 8px;"></div>
+                        <div class="space-label">--space-3<br>12px</div> <div class="space-bar" style="width: 12px;"></div>
+                        <div class="space-label">--space-4<br>16px</div> <div class="space-bar" style="width: 16px;"></div>
+                        <div class="space-label">--space-5<br>20px</div> <div class="space-bar" style="width: 20px;"></div>
+                        <div class="space-label">--space-6<br>24px</div> <div class="space-bar" style="width: 24px;"></div>
+                        <div class="space-label">--space-8<br>32px</div> <div class="space-bar" style="width: 32px;"></div>
+                        <div class="space-label">--space-10<br>40px</div><div class="space-bar" style="width: 40px;"></div>
+                        <div class="space-label">--space-12<br>48px</div><div class="space-bar" style="width: 48px;"></div>
+                        <div class="space-label">--space-16<br>64px</div><div class="space-bar" style="width: 64px;"></div>
+                        <div class="space-label">--space-20<br>80px</div><div class="space-bar" style="width: 80px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Contextual Usage</h3>
+                <div class="ds-card" style="max-width: 640px;">
+                    <table class="token-table" role="table">
+                        <caption class="sr-only">Spacing usage guidelines</caption>
+                        <thead><tr><th scope="col">Context</th><th scope="col">Token</th></tr></thead>
+                        <tbody>
+                            <tr><td>Page padding (desktop)</td><td>--space-12 (48px)</td></tr>
+                            <tr><td>Page padding (mobile)</td><td>--space-4 (16px)</td></tr>
+                            <tr><td>Between sections</td><td>--space-16 (64px)</td></tr>
+                            <tr><td>Card padding</td><td>--space-6 (24px)</td></tr>
+                            <tr><td>Card padding (compact)</td><td>--space-4 (16px)</td></tr>
+                            <tr><td>Card grid gap</td><td>--space-4 (16px)</td></tr>
+                            <tr><td>Between form fields</td><td>--space-4 (16px)</td></tr>
+                            <tr><td>Label to input</td><td>--space-2 (8px)</td></tr>
+                            <tr><td>Input padding</td><td>--space-3 / --space-4</td></tr>
+                            <tr><td>Inline element gap</td><td>--space-2 (8px)</td></tr>
+                            <tr><td>Icon to text</td><td>--space-2 (8px)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════
+             RADII & SHADOWS
+             ═══════════════════════════════════ -->
+        <section class="ds-section" aria-labelledby="shape-title">
+            <h2 class="ds-section-title" id="shape-title">Shape &amp; Elevation</h2>
+            <p class="ds-section-desc">Rounded corners create a soft, approachable feel. Shadows provide elevation hierarchy. Glass blur adds depth on both themes.</p>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Border Radius</h3>
+                <div class="ds-card">
+                    <div class="radius-row">
+                        <div class="radius-demo">
+                            <div class="radius-box" style="border-radius: var(--radius-sm);"></div>
+                            <div class="radius-label">sm · 6px</div>
+                        </div>
+                        <div class="radius-demo">
+                            <div class="radius-box" style="border-radius: var(--radius-md);"></div>
+                            <div class="radius-label">md · 10px</div>
+                        </div>
+                        <div class="radius-demo">
+                            <div class="radius-box" style="border-radius: var(--radius-lg);"></div>
+                            <div class="radius-label">lg · 14px</div>
+                        </div>
+                        <div class="radius-demo">
+                            <div class="radius-box" style="border-radius: var(--radius-xl);"></div>
+                            <div class="radius-label">xl · 16px</div>
+                        </div>
+                        <div class="radius-demo">
+                            <div class="radius-box" style="border-radius: var(--radius-full);"></div>
+                            <div class="radius-label">full · pill</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Shadows</h3>
+                <div class="ds-card">
+                    <div class="shadow-row">
+                        <div class="shadow-demo">
+                            <div class="shadow-box" style="box-shadow: var(--shadow-sm);"></div>
+                            <div class="shadow-label">sm</div>
+                        </div>
+                        <div class="shadow-demo">
+                            <div class="shadow-box" style="box-shadow: var(--shadow-md);"></div>
+                            <div class="shadow-label">md</div>
+                        </div>
+                        <div class="shadow-demo">
+                            <div class="shadow-box" style="box-shadow: var(--shadow-lg);"></div>
+                            <div class="shadow-label">lg</div>
+                        </div>
+                        <div class="shadow-demo">
+                            <div class="shadow-box" style="box-shadow: var(--shadow-focus);"></div>
+                            <div class="shadow-label">focus</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ds-subsection">
+                <h3 class="ds-subsection-title">Usage Rules</h3>
+                <div class="ds-card" style="max-width: 640px;">
+                    <table class="token-table" role="table">
+                        <caption class="sr-only">Shape and elevation usage</caption>
+                        <thead><tr><th scope="col">Element</th><th scope="col">Radius / Shadow</th></tr></thead>
+                        <tbody>
+                            <tr><td>Cards, dialogs</td><td>radius-xl, shadow-md</td></tr>
+                            <tr><td>Inputs, selects</td><td>radius-md, no shadow</td></tr>
+                            <tr><td>Buttons</td><td>radius-md, shadow-sm</td></tr>
+                            <tr><td>Badges, chips</td><td>radius-sm or radius-full</td></tr>
+                            <tr><td>Tooltips</td><td>radius-md, shadow-lg</td></tr>
+                            <tr><td>Bottom nav</td><td>none (flat), shadow-md</td></tr>
+                            <tr><td>Focus ring</td><td>shadow-focus (outline + offset)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════
+             ACCESSIBILITY RULES
+             ═══════════════════════════════════ -->
+        <section class="ds-section" aria-labelledby="a11y-title">
+            <h2 class="ds-section-title" id="a11y-title">Accessibility</h2>
+            <p class="ds-section-desc">Every component must meet WCAG 2.1 AA. These are non-negotiable rules for the entire system.</p>
+
+            <div class="ds-card" style="max-width: 720px;">
+                <table class="token-table" role="table">
+                    <caption class="sr-only">Accessibility requirements</caption>
+                    <thead><tr><th scope="col">Requirement</th><th scope="col">Standard</th></tr></thead>
+                    <tbody>
+                        <tr><td>Text contrast (normal)</td><td>≥ 4.5:1 (WCAG 1.4.3)</td></tr>
+                        <tr><td>Text contrast (large 18px+ bold or 24px+)</td><td>≥ 3:1 (WCAG 1.4.3)</td></tr>
+                        <tr><td>UI component contrast (inputs, icons)</td><td>≥ 3:1 (WCAG 1.4.11)</td></tr>
+                        <tr><td>Focus indicator</td><td>3px outline, offset 2px (1.4.11)</td></tr>
+                        <tr><td>Touch targets</td><td>≥ 44 × 44px (2.5.8)</td></tr>
+                        <tr><td>Form labels</td><td>Every input has a visible or sr-only label</td></tr>
+                        <tr><td>Error identification</td><td>Colour + text + icon (never colour alone)</td></tr>
+                        <tr><td>Motion</td><td>Respect prefers-reduced-motion</td></tr>
+                        <tr><td>Page landmarks</td><td>header, nav, main, footer with aria-label</td></tr>
+                        <tr><td>Skip link</td><td>First focusable element on every page</td></tr>
+                        <tr><td>Heading hierarchy</td><td>Sequential, no skipped levels</td></tr>
+                        <tr><td>Images / icons</td><td>Decorative: aria-hidden. Functional: alt text</td></tr>
+                        <tr><td>Tables</td><td>caption + scope on th elements</td></tr>
+                        <tr><td>Live regions</td><td>Toast/notifications use aria-live="polite"</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.querySelector('.theme-toggle');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                btn.textContent = '🌙 Dark mode';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '☀️ Light mode';
+            }
+        }
+    </script>
+</body>
+</html>

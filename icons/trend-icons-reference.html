@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueWeight — Trend Icons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0a0e1a;
+            color: #e8eaed;
+            min-height: 100vh;
+            padding: 48px 32px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.45);
+            font-size: 0.88rem;
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .section { margin-bottom: 48px; }
+
+        /* Icon grid */
+        .icon-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .icon-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            transition: border-color 0.2s ease;
+        }
+
+        .icon-card:hover { border-color: rgba(255,255,255,0.15); }
+
+        .icon-card .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 16px;
+        }
+
+        .icon-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 12px;
+        }
+
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-item .size-label {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* SVG icon containers */
+        .icon-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-wrap svg {
+            display: block;
+        }
+
+        .icon-desc {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.55);
+            margin-top: 4px;
+        }
+
+        /* In-context demos */
+        .context-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .context-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        .context-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 10px;
+        }
+
+        .context-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.6rem;
+            font-weight: 500;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .context-unit {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 10px;
+        }
+
+        .context-delta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .delta-loss {
+            background: rgba(0,229,160,0.15);
+            color: #00E5A0;
+        }
+
+        .delta-gain {
+            background: rgba(255,107,138,0.15);
+            color: #FF6B8A;
+        }
+
+        .delta-maintain {
+            background: rgba(91,141,239,0.15);
+            color: #5B8DEF;
+        }
+
+        /* Table demo */
+        .table-demo {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .table-demo th {
+            text-align: left;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.35);
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .table-demo td {
+            padding: 12px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            vertical-align: middle;
+        }
+
+        .table-demo .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+        }
+
+        .table-delta {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .table-delta svg { flex-shrink: 0; }
+
+        .loss { color: #00E5A0; }
+        .gain { color: #FF6B8A; }
+        .maintain { color: #5B8DEF; }
+
+        /* Light section */
+        .light-section {
+            background: #f0f2f5;
+            margin: 48px -32px;
+            padding: 48px 32px;
+            border-radius: 0;
+        }
+
+        .light-section h1, .light-section .section-title { color: #1a1d24; }
+        .light-section .subtitle { color: rgba(0,0,0,0.45); }
+        .light-section .section-title {
+            color: rgba(0,0,0,0.35);
+            border-bottom-color: rgba(0,0,0,0.08);
+        }
+
+        .light-section .icon-card {
+            background: rgba(255,255,255,0.6);
+            border-color: rgba(0,0,0,0.06);
+        }
+        .light-section .icon-card:hover { border-color: rgba(0,0,0,0.12); }
+        .light-section .icon-card .label { color: rgba(0,0,0,0.4); }
+        .light-section .icon-desc { color: rgba(0,0,0,0.5); }
+
+        .light-section .context-card {
+            background: rgba(255,255,255,0.6);
+            border-color: rgba(0,0,0,0.06);
+        }
+        .light-section .context-label { color: rgba(0,0,0,0.4); }
+        .light-section .context-value { color: #1a1d24; }
+        .light-section .context-unit { color: rgba(0,0,0,0.35); }
+
+        .light-section .delta-loss { background: rgba(0,179,126,0.1); color: #00916A; }
+        .light-section .delta-gain { background: rgba(229,71,106,0.1); color: #C93D5C; }
+        .light-section .delta-maintain { background: rgba(74,122,229,0.1); color: #3A65C4; }
+
+        .light-section .loss { color: #00916A; }
+        .light-section .gain { color: #C93D5C; }
+        .light-section .maintain { color: #3A65C4; }
+
+        .light-section .table-demo th { color: rgba(0,0,0,0.35); border-bottom-color: rgba(0,0,0,0.08); }
+        .light-section .table-demo td { color: #1a1d24; border-bottom-color: rgba(0,0,0,0.04); }
+
+        @media (max-width: 640px) {
+            body { padding: 24px 16px; }
+            .icon-row, .context-row { grid-template-columns: 1fr; }
+            .light-section { margin: 48px -16px; padding: 32px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Trend Icons</h1>
+    <p class="subtitle">Icon options for weight loss, gain, and maintenance — dark mode</p>
+
+    <!-- ═══ OPTION 1: Simple arrows ═══ -->
+    <div class="section">
+        <div class="section-title">Option 1 — Minimal Arrows</div>
+        <div class="icon-row">
+            <div class="icon-card">
+                <div class="label">Loss</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00E5A0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <polyline points="5 12 12 19 19 12"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">24px</span>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00E5A0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <polyline points="5 12 12 19 19 12"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">16px</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Down arrow — clear, universal</div>
+            </div>
+            <div class="icon-card">
+                <div class="label">Gain</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B8A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="19" x2="12" y2="5"/>
+                                <polyline points="5 12 12 5 19 12"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">24px</span>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B8A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="19" x2="12" y2="5"/>
+                                <polyline points="5 12 12 5 19 12"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">16px</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Up arrow — clear, universal</div>
+            </div>
+            <div class="icon-card">
+                <div class="label">Maintain</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">24px</span>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">16px</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Dash — no change</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ OPTION 2: Trend arrows (diagonal) ═══ -->
+    <div class="section">
+        <div class="section-title">Option 2 — Trend Arrows (Diagonal)</div>
+        <div class="icon-row">
+            <div class="icon-card">
+                <div class="label">Loss</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00E5A0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="7" x2="17" y2="17"/>
+                                <polyline points="17 7 17 17 7 17"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">24px</span>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00E5A0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="7" x2="17" y2="17"/>
+                                <polyline points="17 7 17 17 7 17"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">16px</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Downward trend — like a chart line</div>
+            </div>
+            <div class="icon-card">
+                <div class="label">Gain</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B8A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"/>
+                                <polyline points="7 7 17 7 17 17"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">24px</span>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B8A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"/>
+                                <polyline points="7 7 17 7 17 17"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">16px</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Upward trend — like a chart line</div>
+            </div>
+            <div class="icon-card">
+                <div class="label">Maintain</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                                <polyline points="15 8 19 12 15 16"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">24px</span>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                                <polyline points="15 8 19 12 15 16"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">16px</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Right arrow — steady, moving forward</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ OPTION 3: Filled badge icons ═══ -->
+    <div class="section">
+        <div class="section-title">Option 3 — Filled Circle Badges</div>
+        <div class="icon-row">
+            <div class="icon-card">
+                <div class="label">Loss</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="28" height="28" viewBox="0 0 28 28">
+                                <circle cx="14" cy="14" r="14" fill="rgba(0,229,160,0.15)"/>
+                                <path d="M14 8v12M9 15l5 5 5-5" fill="none" stroke="#00E5A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">28px</span>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="20" height="20" viewBox="0 0 28 28">
+                                <circle cx="14" cy="14" r="14" fill="rgba(0,229,160,0.15)"/>
+                                <path d="M14 8v12M9 15l5 5 5-5" fill="none" stroke="#00E5A0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">20px</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Circled arrow — prominent, badge-like</div>
+            </div>
+            <div class="icon-card">
+                <div class="label">Gain</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="28" height="28" viewBox="0 0 28 28">
+                                <circle cx="14" cy="14" r="14" fill="rgba(255,107,138,0.15)"/>
+                                <path d="M14 20V8M9 13l5-5 5 5" fill="none" stroke="#FF6B8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">28px</span>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="20" height="20" viewBox="0 0 28 28">
+                                <circle cx="14" cy="14" r="14" fill="rgba(255,107,138,0.15)"/>
+                                <path d="M14 20V8M9 13l5-5 5 5" fill="none" stroke="#FF6B8A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">20px</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Circled arrow — prominent, badge-like</div>
+            </div>
+            <div class="icon-card">
+                <div class="label">Maintain</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="28" height="28" viewBox="0 0 28 28">
+                                <circle cx="14" cy="14" r="14" fill="rgba(91,141,239,0.15)"/>
+                                <line x1="8" y1="14" x2="20" y2="14" stroke="#5B8DEF" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">28px</span>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="20" height="20" viewBox="0 0 28 28">
+                                <circle cx="14" cy="14" r="14" fill="rgba(91,141,239,0.15)"/>
+                                <line x1="8" y1="14" x2="20" y2="14" stroke="#5B8DEF" stroke-width="2.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">20px</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Circled dash — stable</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ OPTION 4: Mini sparkline-style ═══ -->
+    <div class="section">
+        <div class="section-title">Option 4 — Mini Trend Lines</div>
+        <div class="icon-row">
+            <div class="icon-card">
+                <div class="label">Loss</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="32" height="20" viewBox="0 0 32 20" fill="none">
+                                <path d="M2 4 C8 3, 12 8, 16 9 C20 10, 24 14, 30 17" stroke="#00E5A0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(0 0 3px rgba(0,229,160,0.4))"/>
+                                <circle cx="30" cy="17" r="2.5" fill="#00E5A0"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">32×20</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Downward sparkline — matches chart aesthetic</div>
+            </div>
+            <div class="icon-card">
+                <div class="label">Gain</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="32" height="20" viewBox="0 0 32 20" fill="none">
+                                <path d="M2 17 C8 15, 12 10, 16 9 C20 8, 24 5, 30 3" stroke="#FF6B8A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(0 0 3px rgba(255,107,138,0.4))"/>
+                                <circle cx="30" cy="3" r="2.5" fill="#FF6B8A"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">32×20</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Upward sparkline — matches chart aesthetic</div>
+            </div>
+            <div class="icon-card">
+                <div class="label">Maintain</div>
+                <div class="icon-display">
+                    <div class="icon-item">
+                        <div class="icon-wrap">
+                            <svg width="32" height="20" viewBox="0 0 32 20" fill="none">
+                                <path d="M2 11 C8 9, 12 12, 16 10 C20 8, 24 11, 30 10" stroke="#5B8DEF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(0 0 3px rgba(91,141,239,0.4))"/>
+                                <circle cx="30" cy="10" r="2.5" fill="#5B8DEF"/>
+                            </svg>
+                        </div>
+                        <span class="size-label">32×20</span>
+                    </div>
+                </div>
+                <div class="icon-desc">Flat sparkline — stable with natural wobble</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ IN CONTEXT: Metric cards ═══ -->
+    <div class="section">
+        <div class="section-title">In Context — Metric Cards</div>
+        <div class="context-row">
+            <div class="context-card">
+                <div class="context-label">This Week</div>
+                <div class="context-value loss">−0.8</div>
+                <div class="context-unit">kg lost</div>
+                <span class="context-delta delta-loss">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="7" y1="7" x2="17" y2="17"/><polyline points="17 7 17 17 7 17"/>
+                    </svg>
+                    Losing
+                </span>
+            </div>
+            <div class="context-card">
+                <div class="context-label">This Week</div>
+                <div class="context-value gain">+0.4</div>
+                <div class="context-unit">kg gained</div>
+                <span class="context-delta delta-gain">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+                    </svg>
+                    Gaining
+                </span>
+            </div>
+            <div class="context-card">
+                <div class="context-label">This Week</div>
+                <div class="context-value maintain">0.0</div>
+                <div class="context-unit">kg change</div>
+                <span class="context-delta delta-maintain">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="15 8 19 12 15 16"/>
+                    </svg>
+                    Steady
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ IN CONTEXT: Table rows ═══ -->
+    <div class="section">
+        <div class="section-title">In Context — Table Rows</div>
+        <div class="context-card">
+            <table class="table-demo">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Weight</th>
+                        <th>Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Feb 12</td>
+                        <td class="mono">82.4 kg</td>
+                        <td>
+                            <span class="table-delta loss">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/>
+                                </svg>
+                                −0.3
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Feb 11</td>
+                        <td class="mono">82.7 kg</td>
+                        <td>
+                            <span class="table-delta loss">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/>
+                                </svg>
+                                −0.2
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Feb 10</td>
+                        <td class="mono">82.9 kg</td>
+                        <td>
+                            <span class="table-delta gain">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+                                </svg>
+                                +0.1
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Feb 9</td>
+                        <td class="mono">82.8 kg</td>
+                        <td>
+                            <span class="table-delta maintain">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"/>
+                                </svg>
+                                0.0
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ═══ LIGHT MODE VERSIONS ═══ -->
+    <div class="light-section">
+        <h1>Light Mode Equivalents</h1>
+        <p class="subtitle">Same icons with adjusted colours for light backgrounds</p>
+
+        <div class="section">
+            <div class="section-title">Metric Cards — Light</div>
+            <div class="context-row">
+                <div class="context-card">
+                    <div class="context-label">This Week</div>
+                    <div class="context-value loss">−0.8</div>
+                    <div class="context-unit">kg lost</div>
+                    <span class="context-delta delta-loss">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="7" x2="17" y2="17"/><polyline points="17 7 17 17 7 17"/>
+                        </svg>
+                        Losing
+                    </span>
+                </div>
+                <div class="context-card">
+                    <div class="context-label">This Week</div>
+                    <div class="context-value gain">+0.4</div>
+                    <div class="context-unit">kg gained</div>
+                    <span class="context-delta delta-gain">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+                        </svg>
+                        Gaining
+                    </span>
+                </div>
+                <div class="context-card">
+                    <div class="context-label">This Week</div>
+                    <div class="context-value maintain">0.0</div>
+                    <div class="context-unit">kg change</div>
+                    <span class="context-delta delta-maintain">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="15 8 19 12 15 16"/>
+                        </svg>
+                        Steady
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Table Rows — Light</div>
+            <div class="context-card">
+                <table class="table-demo">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Weight</th>
+                            <th>Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Feb 12</td>
+                            <td class="mono">82.4 kg</td>
+                            <td>
+                                <span class="table-delta loss">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/>
+                                    </svg>
+                                    −0.3
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Feb 11</td>
+                            <td class="mono">82.7 kg</td>
+                            <td>
+                                <span class="table-delta gain">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+                                    </svg>
+                                    +0.1
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Feb 10</td>
+                            <td class="mono">82.9 kg</td>
+                            <td>
+                                <span class="table-delta maintain">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12"/>
+                                    </svg>
+                                    0.0
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

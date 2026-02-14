@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueWeight Design System — Components</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #f0f2f5; --bg-glass: rgba(255,255,255,0.55); --bg-glass-hover: rgba(255,255,255,0.7);
+            --bg-elevated: #ffffff; --bg-inset: #e8eaed; --bg-overlay: rgba(0,0,0,0.4);
+            --border-decorative: rgba(0,0,0,0.10); --border-input: #7e828a; --border-focus: #006B4E;
+            --text-primary: #1a1d24; --text-secondary: #4a4e56; --text-tertiary: #696d76; --text-inverse: #ffffff;
+            --color-success: #006B4E; --color-success-dim: rgba(0,107,78,0.12);
+            --color-danger: #A12040; --color-danger-dim: rgba(161,32,64,0.1);
+            --color-info: #2A4FA8; --color-info-dim: rgba(42,79,168,0.1);
+            --color-warning: #7A4B00; --color-warning-dim: rgba(122,75,0,0.08);
+            --accent: #006B4E; --accent-hover: #005540; --accent-dim: rgba(0,107,78,0.12);
+            --accent-on: #ffffff; --accent-btn-bg: #008060; --accent-btn-hover: #006B4E;
+            --font-body: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+            --text-3xl: 1.875rem; --text-2xl: 1.5rem; --text-xl: 1.25rem; --text-lg: 1.125rem;
+            --text-base: 1rem; --text-sm: 0.875rem; --text-xs: 0.75rem; --text-2xs: 0.6875rem;
+            --leading-tight: 1.2; --leading-normal: 1.5;
+            --weight-medium: 500; --weight-semibold: 600; --weight-bold: 700;
+            --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px;
+            --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px;
+            --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 16px; --radius-full: 9999px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 2px 12px rgba(0,0,0,0.06);
+            --shadow-lg: 0 4px 20px rgba(0,0,0,0.08); --shadow-focus: 0 0 0 3px rgba(0,107,78,0.2);
+            --transition-fast: 0.15s ease; --transition-normal: 0.2s ease;
+        }
+        [data-theme="dark"] {
+            --bg-page: #0a0e1a; --bg-glass: rgba(255,255,255,0.06); --bg-glass-hover: rgba(255,255,255,0.1);
+            --bg-elevated: #131722; --bg-inset: #0d1120; --bg-overlay: rgba(0,0,0,0.6);
+            --border-decorative: rgba(255,255,255,0.10); --border-input: #606472; --border-focus: #00E5A0;
+            --text-primary: #e8eaed; --text-secondary: #b0b4bc; --text-tertiary: #828690; --text-inverse: #0a0e1a;
+            --color-success: #00E5A0; --color-success-dim: rgba(0,229,160,0.15);
+            --color-danger: #FF6B8A; --color-danger-dim: rgba(255,107,138,0.15);
+            --color-info: #5B8DEF; --color-info-dim: rgba(91,141,239,0.15);
+            --color-warning: #FFB84D; --color-warning-dim: rgba(255,184,77,0.12);
+            --accent: #00E5A0; --accent-hover: #00C98C; --accent-dim: rgba(0,229,160,0.15);
+            --accent-on: #0a0e1a; --accent-btn-bg: #00E5A0; --accent-btn-hover: #00C98C;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2); --shadow-md: 0 2px 12px rgba(0,0,0,0.2);
+            --shadow-lg: 0 4px 20px rgba(0,0,0,0.25); --shadow-focus: 0 0 0 3px rgba(0,229,160,0.25);
+        }
+
+        body { font-family: var(--font-body); font-size: var(--text-base); line-height: var(--leading-normal); color: var(--text-primary); background: var(--bg-page); -webkit-font-smoothing: antialiased; }
+
+        .skip-link { position: absolute; top: -100px; left: var(--space-4); background: var(--accent); color: var(--accent-on); padding: var(--space-3) var(--space-6); border-radius: 0 0 var(--radius-md) var(--radius-md); font-weight: var(--weight-semibold); font-size: var(--text-sm); z-index: 200; text-decoration: none; }
+        .skip-link:focus { top: 0; }
+        *:focus-visible { outline: 3px solid var(--border-focus); outline-offset: 2px; }
+        *:focus:not(:focus-visible) { outline: none; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+        .ds-page { max-width: 1100px; margin: 0 auto; padding: var(--space-12) var(--space-8); }
+        .theme-toggle { position: fixed; top: var(--space-4); right: var(--space-4); z-index: 100; background: var(--bg-glass); border: 1px solid var(--border-decorative); border-radius: var(--radius-full); padding: var(--space-2) var(--space-4); font-family: var(--font-body); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--text-secondary); cursor: pointer; backdrop-filter: blur(12px); }
+        .ds-section { margin-bottom: var(--space-16); }
+        .ds-section-title { font-size: var(--text-2xl); font-weight: var(--weight-bold); margin-bottom: var(--space-2); }
+        .ds-section-desc { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-8); max-width: 640px; }
+        .ds-sub-title { font-size: var(--text-xs); font-weight: var(--weight-semibold); text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-tertiary); margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-decorative); }
+        .ds-card { background: var(--bg-glass); border: 1px solid var(--border-decorative); border-radius: var(--radius-xl); padding: var(--space-6); backdrop-filter: blur(16px); margin-bottom: var(--space-4); }
+        .demo-row { display: flex; gap: var(--space-4); flex-wrap: wrap; align-items: flex-start; margin-bottom: var(--space-4); }
+        .demo-row:last-child { margin-bottom: 0; }
+        .demo-col { display: flex; flex-direction: column; gap: var(--space-4); flex: 1; min-width: 260px; }
+        .mb-10 { margin-bottom: var(--space-10); }
+
+        /* ═══ BUTTONS ═══ */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-sm); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-fast); text-decoration: none; min-height: 44px; padding: var(--space-3) var(--space-5); }
+        .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .btn-primary { background: var(--accent-btn-bg); color: var(--accent-on); box-shadow: var(--shadow-sm); }
+        .btn-primary:hover { background: var(--accent-btn-hover); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+        .btn-primary:active { transform: translateY(0); box-shadow: none; }
+        .btn-secondary { background: var(--bg-glass); color: var(--text-primary); border: 1px solid var(--border-input); box-shadow: var(--shadow-sm); }
+        .btn-secondary:hover { background: var(--bg-glass-hover); }
+        .btn-ghost { background: transparent; color: var(--accent); }
+        .btn-ghost:hover { background: var(--accent-dim); }
+        .btn-danger { background: var(--color-danger); color: var(--text-inverse); box-shadow: var(--shadow-sm); }
+        .btn-danger:hover { opacity: 0.9; }
+        .btn-sm { min-height: 36px; padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
+        .btn-lg { min-height: 52px; padding: var(--space-4) var(--space-8); font-size: var(--text-base); }
+        .btn-block { width: 100%; }
+        .btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+
+        /* ═══ FORM INPUTS ═══ */
+        .form-field { display: flex; flex-direction: column; gap: var(--space-2); }
+        .form-label { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--text-primary); }
+        .form-label-req::after { content: ' *'; color: var(--color-danger); }
+        .form-hint { font-size: var(--text-xs); color: var(--text-tertiary); }
+        .form-input { width: 100%; padding: var(--space-3) var(--space-4); border: 1px solid var(--border-input); border-radius: var(--radius-md); background: var(--bg-elevated); color: var(--text-primary); font-family: var(--font-body); font-size: var(--text-base); transition: border-color var(--transition-fast), box-shadow var(--transition-fast); min-height: 44px; }
+        .form-input::placeholder { color: var(--text-tertiary); }
+        .form-input:hover { border-color: var(--text-secondary); }
+        .form-input:focus { border-color: var(--border-focus); box-shadow: var(--shadow-focus); outline: none; }
+        .form-input-mono { font-family: var(--font-mono); font-size: var(--text-lg); }
+        .form-field-error .form-input { border-color: var(--color-danger); }
+        .form-field-error .form-input:focus { box-shadow: 0 0 0 3px rgba(161,32,64,0.15); }
+        [data-theme="dark"] .form-field-error .form-input:focus { box-shadow: 0 0 0 3px rgba(255,107,138,0.2); }
+        .form-error { font-size: var(--text-xs); color: var(--color-danger); font-weight: var(--weight-medium); display: flex; align-items: center; gap: var(--space-1); }
+        .form-error svg { width: 14px; height: 14px; flex-shrink: 0; }
+        .form-field-success .form-input { border-color: var(--color-success); }
+        .form-input:disabled { opacity: 0.5; cursor: not-allowed; background: var(--bg-inset); }
+        .form-textarea { min-height: 100px; resize: vertical; line-height: var(--leading-normal); }
+        .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23696d76' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right var(--space-3) center; padding-right: var(--space-10); }
+        [data-theme="dark"] .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23828690' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); }
+
+        /* Checkbox & Radio */
+        .form-check { display: flex; align-items: center; gap: var(--space-3); min-height: 44px; cursor: pointer; }
+        .form-check-input { width: 20px; height: 20px; border: 2px solid var(--border-input); border-radius: var(--radius-sm); appearance: none; cursor: pointer; transition: all var(--transition-fast); flex-shrink: 0; background: var(--bg-elevated); position: relative; }
+        .form-check-input[type="radio"] { border-radius: var(--radius-full); }
+        .form-check-input:checked { background: var(--accent); border-color: var(--accent); }
+        .form-check-input:checked::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .form-check-input[type="checkbox"]:checked::after { width: 6px; height: 10px; border: 2px solid var(--accent-on); border-top: none; border-left: none; transform: translate(-50%, -60%) rotate(45deg); }
+        .form-check-input[type="radio"]:checked::after { width: 8px; height: 8px; background: var(--accent-on); border-radius: var(--radius-full); }
+        .form-check-label { font-size: var(--text-sm); cursor: pointer; }
+
+        /* Toggle */
+        .form-toggle { display: flex; align-items: center; gap: var(--space-3); min-height: 44px; cursor: pointer; }
+        .toggle-track { width: 44px; height: 24px; border-radius: var(--radius-full); background: var(--bg-inset); border: 2px solid var(--border-input); position: relative; transition: all var(--transition-fast); cursor: pointer; flex-shrink: 0; }
+        .toggle-track::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: var(--radius-full); background: var(--text-tertiary); transition: all var(--transition-fast); }
+        .toggle-input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .toggle-input:checked + .toggle-track { background: var(--accent); border-color: var(--accent); }
+        .toggle-input:checked + .toggle-track::after { transform: translateX(20px); background: var(--accent-on); }
+        .toggle-input:focus-visible + .toggle-track { outline: 3px solid var(--border-focus); outline-offset: 2px; }
+        .toggle-label { font-size: var(--text-sm); }
+
+        /* Range */
+        .form-range { width: 100%; height: 6px; border-radius: var(--radius-full); background: var(--bg-inset); appearance: none; outline: none; margin: var(--space-2) 0; }
+        .form-range::-webkit-slider-thumb { appearance: none; width: 22px; height: 22px; border-radius: var(--radius-full); background: var(--accent); cursor: pointer; border: 3px solid var(--bg-elevated); box-shadow: var(--shadow-sm); }
+        .form-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: var(--radius-full); background: var(--accent); cursor: pointer; border: 3px solid var(--bg-elevated); box-shadow: var(--shadow-sm); }
+
+        /* ═══ BADGES ═══ */
+        .badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--text-xs); font-weight: var(--weight-semibold); padding: 3px var(--space-3); border-radius: var(--radius-sm); }
+        .badge svg { width: 12px; height: 12px; }
+        .badge-success { background: var(--color-success-dim); color: var(--color-success); }
+        .badge-danger { background: var(--color-danger-dim); color: var(--color-danger); }
+        .badge-info { background: var(--color-info-dim); color: var(--color-info); }
+        .badge-warning { background: var(--color-warning-dim); color: var(--color-warning); }
+        .badge-neutral { background: var(--bg-inset); color: var(--text-secondary); }
+
+        /* ═══ CHIPS ═══ */
+        .chip { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); font-weight: var(--weight-medium); padding: var(--space-2) var(--space-4); border-radius: var(--radius-full); border: 1px solid var(--border-input); background: var(--bg-glass); cursor: pointer; transition: all var(--transition-fast); min-height: 36px; font-family: var(--font-body); }
+        .chip:hover { background: var(--bg-glass-hover); }
+        .chip-active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+        /* ═══ ALERTS ═══ */
+        .alert { display: flex; gap: var(--space-3); padding: var(--space-4) var(--space-5); border-radius: var(--radius-lg); font-size: var(--text-sm); }
+        .alert svg { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; }
+        .alert-content { flex: 1; }
+        .alert-title { font-weight: var(--weight-semibold); margin-bottom: var(--space-1); }
+        .alert-success { background: var(--color-success-dim); color: var(--color-success); border: 1px solid var(--color-success); }
+        .alert-danger { background: var(--color-danger-dim); color: var(--color-danger); border: 1px solid var(--color-danger); }
+        .alert-info { background: var(--color-info-dim); color: var(--color-info); border: 1px solid var(--color-info); }
+        .alert-warning { background: var(--color-warning-dim); color: var(--color-warning); border: 1px solid var(--color-warning); }
+
+        /* ═══ TOAST ═══ */
+        .toast { display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-5); background: var(--bg-elevated); border: 1px solid var(--border-decorative); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); font-size: var(--text-sm); font-weight: var(--weight-medium); }
+        .toast svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+        /* ═══ PROGRESS ═══ */
+        .progress { width: 100%; height: 8px; background: var(--bg-inset); border-radius: var(--radius-full); overflow: hidden; }
+        .progress-bar { height: 100%; border-radius: var(--radius-full); transition: width 0.5s ease; }
+        .progress-success .progress-bar { background: var(--color-success); }
+        .progress-info .progress-bar { background: var(--color-info); }
+        .progress-warning .progress-bar { background: var(--color-warning); }
+        .progress-danger .progress-bar { background: var(--color-danger); }
+
+        /* ═══ PILL TABS ═══ */
+        .pill-tabs { display: inline-flex; gap: 2px; background: var(--bg-inset); border-radius: var(--radius-md); padding: 3px; }
+        .pill-tab { padding: var(--space-2) var(--space-4); border: none; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--text-tertiary); background: transparent; cursor: pointer; transition: all var(--transition-fast); min-height: 36px; }
+        .pill-tab:hover { color: var(--text-secondary); }
+        .pill-tab[aria-selected="true"] { background: var(--bg-glass); color: var(--text-primary); box-shadow: var(--shadow-sm); }
+
+        /* ═══ DATA TABLE ═══ */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { text-align: left; font-size: var(--text-xs); font-weight: var(--weight-semibold); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border-decorative); }
+        .data-table td { padding: var(--space-3) var(--space-4); font-size: var(--text-sm); border-bottom: 1px solid var(--border-decorative); }
+        .data-table tbody tr:hover { background: var(--accent-dim); }
+        .data-table .mono { font-family: var(--font-mono); font-weight: var(--weight-medium); }
+
+        /* ═══ MODAL ═══ */
+        .modal-backdrop { position: fixed; inset: 0; background: var(--bg-overlay); display: flex; align-items: center; justify-content: center; z-index: 150; padding: var(--space-4); }
+        .modal-backdrop[hidden] { display: none; }
+        .modal { background: var(--bg-elevated); border: 1px solid var(--border-decorative); border-radius: var(--radius-xl); padding: var(--space-8); max-width: 480px; width: 100%; box-shadow: var(--shadow-lg); position: relative; }
+        .modal-title { font-size: var(--text-xl); font-weight: var(--weight-bold); margin-bottom: var(--space-2); }
+        .modal-desc { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-6); }
+        .modal-actions { display: flex; gap: var(--space-3); justify-content: flex-end; }
+        .modal-close { position: absolute; top: var(--space-4); right: var(--space-4); background: none; border: none; color: var(--text-tertiary); cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); }
+        .modal-close:hover { background: var(--bg-inset); }
+
+        /* ═══ EMPTY STATE ═══ */
+        .empty-state { text-align: center; padding: var(--space-12) var(--space-6); }
+        .empty-icon { width: 64px; height: 64px; margin: 0 auto var(--space-4); color: var(--text-tertiary); opacity: 0.5; }
+        .empty-title { font-size: var(--text-lg); font-weight: var(--weight-semibold); margin-bottom: var(--space-2); }
+        .empty-desc { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-6); max-width: 320px; margin-left: auto; margin-right: auto; }
+
+        @media (max-width: 640px) {
+            .ds-page { padding: var(--space-6) var(--space-4); }
+            .demo-row { flex-direction: column; }
+            .demo-col { min-width: 0; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <button class="theme-toggle" onclick="document.documentElement.getAttribute('data-theme')==='dark'?(document.documentElement.removeAttribute('data-theme'),this.textContent='🌙 Dark'):(document.documentElement.setAttribute('data-theme','dark'),this.textContent='☀️ Light')" aria-label="Toggle dark mode">🌙 Dark</button>
+
+    <div class="ds-page" id="main" role="main">
+
+        <header style="margin-bottom: var(--space-16);">
+            <h1 style="font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: var(--leading-tight); margin-bottom: var(--space-2);">Components</h1>
+            <p style="font-size: var(--text-lg); color: var(--text-secondary); max-width: 560px;">Interactive elements, form controls, and data display. All WCAG 2.1 AA compliant.</p>
+        </header>
+
+        <!-- ═══ BUTTONS ═══ -->
+        <section class="ds-section" aria-labelledby="btn-t">
+            <h2 class="ds-section-title" id="btn-t">Buttons</h2>
+            <p class="ds-section-desc">Minimum 44px touch target. Primary for main action, secondary for alternatives, ghost for tertiary. All include focus-visible ring.</p>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Variants</h3>
+                <div class="ds-card"><div class="demo-row">
+                    <button class="btn btn-primary">Primary</button>
+                    <button class="btn btn-secondary">Secondary</button>
+                    <button class="btn btn-ghost">Ghost</button>
+                    <button class="btn btn-danger">Danger</button>
+                    <button class="btn btn-primary" disabled>Disabled</button>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Sizes</h3>
+                <div class="ds-card"><div class="demo-row" style="align-items: center;">
+                    <button class="btn btn-primary btn-sm">Small (36px)</button>
+                    <button class="btn btn-primary">Default (44px)</button>
+                    <button class="btn btn-primary btn-lg">Large (52px)</button>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">With Icons</h3>
+                <div class="ds-card"><div class="demo-row">
+                    <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Log Weight</button>
+                    <button class="btn btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 20V4"/><path d="M4 20H20"/><path d="M7 14L11 9L14 12L20 6"/><polyline points="16 6 20 6 20 10"/></svg> Charts</button>
+                    <button class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> Sync</button>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Full Width</h3>
+                <div class="ds-card" style="max-width: 400px;">
+                    <button class="btn btn-primary btn-block" style="margin-bottom: var(--space-3);">Save Entry</button>
+                    <button class="btn btn-secondary btn-block">Cancel</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ FORM INPUTS ═══ -->
+        <section class="ds-section" aria-labelledby="form-t">
+            <h2 class="ds-section-title" id="form-t">Form Inputs</h2>
+            <p class="ds-section-desc">Every input has a visible label. Errors use colour + text + icon (never colour alone). Minimum 44px height for touch targets.</p>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Text Input — States</h3>
+                <div class="ds-card"><div class="demo-row">
+                    <div class="demo-col">
+                        <div class="form-field">
+                            <label class="form-label" for="d1">Weight</label>
+                            <input class="form-input form-input-mono" type="number" id="d1" step="0.1" placeholder="82.4">
+                            <span class="form-hint">Enter weight in kilograms</span>
+                        </div>
+                    </div>
+                    <div class="demo-col">
+                        <div class="form-field form-field-error">
+                            <label class="form-label form-label-req" for="d2">Weight</label>
+                            <input class="form-input form-input-mono" type="text" id="d2" value="abc" aria-invalid="true" aria-describedby="err1">
+                            <span class="form-error" id="err1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Enter a valid number</span>
+                        </div>
+                    </div>
+                    <div class="demo-col">
+                        <div class="form-field form-field-success">
+                            <label class="form-label" for="d3">Weight</label>
+                            <input class="form-input form-input-mono" type="number" id="d3" value="82.4" aria-describedby="suc1">
+                            <span class="form-hint" id="suc1" style="color: var(--color-success);">✓ Saved</span>
+                        </div>
+                    </div>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Common Fields</h3>
+                <div class="ds-card"><div class="demo-row">
+                    <div class="demo-col">
+                        <div class="form-field"><label class="form-label" for="d4">Email</label><input class="form-input" type="email" id="d4" placeholder="you@example.com"></div>
+                        <div class="form-field"><label class="form-label" for="d5">Password</label><input class="form-input" type="password" id="d5" placeholder="••••••••"></div>
+                    </div>
+                    <div class="demo-col">
+                        <div class="form-field"><label class="form-label" for="d6">Date</label><input class="form-input" type="date" id="d6" value="2026-02-14"></div>
+                        <div class="form-field"><label class="form-label" for="d7">Disabled</label><input class="form-input" type="text" id="d7" value="Cannot edit" disabled></div>
+                    </div>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Textarea</h3>
+                <div class="ds-card"><div class="form-field" style="max-width: 480px;">
+                    <label class="form-label" for="d8">Notes</label>
+                    <textarea class="form-input form-textarea" id="d8" placeholder="Add a note about today's weigh-in..."></textarea>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Select</h3>
+                <div class="ds-card"><div class="demo-row">
+                    <div class="demo-col"><div class="form-field"><label class="form-label" for="d9">Display unit</label><select class="form-input form-select" id="d9"><option>Kilograms (kg)</option><option>Pounds (lbs)</option><option>Stone &amp; Pounds</option></select></div></div>
+                    <div class="demo-col"><div class="form-field"><label class="form-label" for="d10">Time range</label><select class="form-input form-select" id="d10"><option>Last 7 days</option><option>Last 30 days</option><option>Last 3 months</option><option>Last year</option></select></div></div>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Checkbox &amp; Radio</h3>
+                <div class="ds-card"><div class="demo-row">
+                    <div class="demo-col"><fieldset style="border:none;"><legend class="form-label" style="margin-bottom:var(--space-2);">Notifications</legend>
+                        <label class="form-check"><input type="checkbox" class="form-check-input" checked><span class="form-check-label">Daily reminder</span></label>
+                        <label class="form-check"><input type="checkbox" class="form-check-input"><span class="form-check-label">Weekly summary</span></label>
+                        <label class="form-check"><input type="checkbox" class="form-check-input" checked><span class="form-check-label">Goal alerts</span></label>
+                    </fieldset></div>
+                    <div class="demo-col"><fieldset style="border:none;"><legend class="form-label" style="margin-bottom:var(--space-2);">Theme</legend>
+                        <label class="form-check"><input type="radio" name="th" class="form-check-input" checked><span class="form-check-label">Light mode</span></label>
+                        <label class="form-check"><input type="radio" name="th" class="form-check-input"><span class="form-check-label">Dark mode</span></label>
+                        <label class="form-check"><input type="radio" name="th" class="form-check-input"><span class="form-check-label">System default</span></label>
+                    </fieldset></div>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Toggle Switch</h3>
+                <div class="ds-card"><div class="demo-row">
+                    <label class="form-toggle"><input type="checkbox" class="toggle-input" checked><span class="toggle-track" role="switch" aria-checked="true"></span><span class="toggle-label">Sync with Google Fit</span></label>
+                    <label class="form-toggle"><input type="checkbox" class="toggle-input"><span class="toggle-track" role="switch" aria-checked="false"></span><span class="toggle-label">Show in stone</span></label>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Range Slider</h3>
+                <div class="ds-card"><div class="form-field" style="max-width: 400px;">
+                    <label class="form-label" for="dr">Goal: <span id="rv" style="font-family:var(--font-mono);">80.0</span> kg</label>
+                    <input class="form-range" type="range" id="dr" min="60" max="120" step="0.5" value="80" oninput="document.getElementById('rv').textContent=parseFloat(this.value).toFixed(1)">
+                </div></div>
+            </div>
+        </section>
+
+        <!-- ═══ BADGES & CHIPS ═══ -->
+        <section class="ds-section" aria-labelledby="badge-t">
+            <h2 class="ds-section-title" id="badge-t">Badges &amp; Chips</h2>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Status Badges</h3>
+                <div class="ds-card"><div class="demo-row">
+                    <span class="badge badge-success">↓ 0.3 kg</span>
+                    <span class="badge badge-danger">↑ 0.4 kg</span>
+                    <span class="badge badge-info">Steady</span>
+                    <span class="badge badge-warning">Limit</span>
+                    <span class="badge badge-neutral">Manual</span>
+                </div></div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Filter Chips</h3>
+                <div class="ds-card"><div class="demo-row">
+                    <button class="chip chip-active">All entries</button>
+                    <button class="chip">Google Fit</button>
+                    <button class="chip">Manual</button>
+                    <button class="chip">This week</button>
+                </div></div>
+            </div>
+        </section>
+
+        <!-- ═══ ALERTS ═══ -->
+        <section class="ds-section" aria-labelledby="alert-t">
+            <h2 class="ds-section-title" id="alert-t">Alerts</h2>
+            <p class="ds-section-desc">Colour + border + icon for status. Never colour alone. Toast uses aria-live="polite".</p>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Inline Alerts</h3>
+                <div class="ds-card" style="display:flex;flex-direction:column;gap:var(--space-4);">
+                    <div class="alert alert-success" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><div class="alert-content"><div class="alert-title">Weight logged</div>82.4 kg recorded. Trend is down 0.5 kg.</div></div>
+                    <div class="alert alert-danger" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><div class="alert-content"><div class="alert-title">Sync failed</div>Could not connect to Google Fit. Please try again.</div></div>
+                    <div class="alert alert-info" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><div class="alert-content"><div class="alert-title">Tip</div>Weigh yourself at the same time each day for best accuracy.</div></div>
+                    <div class="alert alert-warning" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div class="alert-content"><div class="alert-title">Rate limit</div>You've logged 3 entries today. Consider logging once daily.</div></div>
+                </div>
+            </div>
+
+            <div class="mb-10"><h3 class="ds-sub-title">Toast Notification</h3>
+                <div class="ds-card">
+                    <div class="toast" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--color-success)"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Entry saved · 82.4 kg</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ PROGRESS ═══ -->
+        <section class="ds-section" aria-labelledby="prog-t">
+            <h2 class="ds-section-title" id="prog-t">Progress Bars</h2>
+            <div class="ds-card" style="display:flex;flex-direction:column;gap:var(--space-5);max-width:500px;">
+                <div>
+                    <div style="display:flex;justify-content:space-between;font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-2);"><span>Monthly goal</span><span style="font-family:var(--font-mono);">70%</span></div>
+                    <div class="progress progress-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-label="Monthly goal: 70%"><div class="progress-bar" style="width:70%;"></div></div>
+                </div>
+                <div>
+                    <div style="display:flex;justify-content:space-between;font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-2);"><span>Weekly target</span><span style="font-family:var(--font-mono);">45%</span></div>
+                    <div class="progress progress-info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Weekly target: 45%"><div class="progress-bar" style="width:45%;"></div></div>
+                </div>
+                <div>
+                    <div style="display:flex;justify-content:space-between;font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-2);"><span>Over limit</span><span style="font-family:var(--font-mono);">92%</span></div>
+                    <div class="progress progress-danger" role="progressbar" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100" aria-label="Over limit: 92%"><div class="progress-bar" style="width:92%;"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ TABS ═══ -->
+        <section class="ds-section" aria-labelledby="tab-t">
+            <h2 class="ds-section-title" id="tab-t">Pill Tabs</h2>
+            <div class="ds-card">
+                <div class="demo-row">
+                    <div class="pill-tabs" role="tablist" aria-label="Time range">
+                        <button class="pill-tab" role="tab" aria-selected="true">1W</button>
+                        <button class="pill-tab" role="tab">1M</button>
+                        <button class="pill-tab" role="tab">3M</button>
+                        <button class="pill-tab" role="tab">1Y</button>
+                    </div>
+                    <div class="pill-tabs" role="tablist" aria-label="Data filter">
+                        <button class="pill-tab" role="tab" aria-selected="true">This Week</button>
+                        <button class="pill-tab" role="tab">All</button>
+                        <button class="pill-tab" role="tab">Google Fit</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ TABLE ═══ -->
+        <section class="ds-section" aria-labelledby="table-t">
+            <h2 class="ds-section-title" id="table-t">Data Table</h2>
+            <p class="ds-section-desc">Always include caption (sr-only is fine) and scope on th. Hover state aids scanability.</p>
+            <div class="ds-card">
+                <table class="data-table" role="table">
+                    <caption class="sr-only">Recent weight entries</caption>
+                    <thead><tr><th scope="col">Date</th><th scope="col">Weight</th><th scope="col">Change</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                        <tr><td>Feb 12, 2026</td><td class="mono">82.4 kg</td><td><span class="badge badge-success">↓ 0.3</span></td><td><span class="badge badge-info">Google Fit</span></td></tr>
+                        <tr><td>Feb 11, 2026</td><td class="mono">82.7 kg</td><td><span class="badge badge-success">↓ 0.2</span></td><td><span class="badge badge-neutral">Manual</span></td></tr>
+                        <tr><td>Feb 10, 2026</td><td class="mono">82.9 kg</td><td><span class="badge badge-danger">↑ 0.1</span></td><td><span class="badge badge-info">Google Fit</span></td></tr>
+                        <tr><td>Feb 9, 2026</td><td class="mono">82.8 kg</td><td><span class="badge badge-success">↓ 0.4</span></td><td><span class="badge badge-info">Google Fit</span></td></tr>
+                        <tr><td>Feb 8, 2026</td><td class="mono">83.2 kg</td><td><span class="badge badge-info">— 0.0</span></td><td><span class="badge badge-neutral">Manual</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ═══ MODAL ═══ -->
+        <section class="ds-section" aria-labelledby="modal-t">
+            <h2 class="ds-section-title" id="modal-t">Modal Dialog</h2>
+            <p class="ds-section-desc">Traps focus when open, returns focus on close. Uses role="dialog" and aria-labelledby.</p>
+            <div class="ds-card">
+                <button class="btn btn-secondary" onclick="document.getElementById('modal-demo').hidden=false">Open Modal</button>
+            </div>
+            <div class="modal-backdrop" id="modal-demo" hidden onclick="if(event.target===this)this.hidden=true">
+                <div class="modal" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-body">
+                    <button class="modal-close" onclick="document.getElementById('modal-demo').hidden=true" aria-label="Close dialog"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                    <h3 class="modal-title" id="modal-title">Delete entry?</h3>
+                    <p class="modal-desc" id="modal-body">This will permanently remove the weight entry for Feb 12, 2026. This action cannot be undone.</p>
+                    <div class="modal-actions">
+                        <button class="btn btn-secondary" onclick="document.getElementById('modal-demo').hidden=true">Cancel</button>
+                        <button class="btn btn-danger" onclick="document.getElementById('modal-demo').hidden=true">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ EMPTY STATE ═══ -->
+        <section class="ds-section" aria-labelledby="empty-t">
+            <h2 class="ds-section-title" id="empty-t">Empty State</h2>
+            <div class="ds-card">
+                <div class="empty-state">
+                    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg>
+                    <h3 class="empty-title">No entries yet</h3>
+                    <p class="empty-desc">Start tracking your weight to see trends and predictions. Log your first entry to get started.</p>
+                    <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Log First Entry</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
