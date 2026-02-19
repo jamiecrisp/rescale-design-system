@@ -471,6 +471,7 @@
             .swatch-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
+<script>if(localStorage.getItem("theme")==="dark")document.documentElement.setAttribute("data-theme","dark");</script>
 </head>
 <body>
     <a href="#main" class="skip-link">Skip to content</a>
@@ -817,10 +818,16 @@
             if (html.getAttribute('data-theme') === 'dark') {
                 html.removeAttribute('data-theme');
                 btn.textContent = '🌙 Dark mode';
+                localStorage.setItem('theme', 'light');
             } else {
                 html.setAttribute('data-theme', 'dark');
                 btn.textContent = '☀️ Light mode';
+                localStorage.setItem('theme', 'dark');
             }
+        }
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.querySelector('.theme-toggle').textContent = '☀️ Light mode';
         }
     </script>
 </body>

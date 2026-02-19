@@ -113,10 +113,11 @@
             .page { padding: var(--space-6) var(--space-4); }
         }
     </style>
+<script>if(localStorage.getItem("theme")==="dark")document.documentElement.setAttribute("data-theme","dark");</script>
 </head>
 <body>
     <a href="#main" class="skip-link">Skip to content</a>
-    <button class="theme-toggle" onclick="document.documentElement.getAttribute('data-theme')==='dark'?(document.documentElement.removeAttribute('data-theme'),this.textContent='🌙 Dark'):(document.documentElement.setAttribute('data-theme','dark'),this.textContent='☀️ Light')" aria-label="Toggle dark mode">🌙 Dark</button>
+    <button class="theme-toggle" onclick="" aria-label="Toggle dark mode">🌙 Dark</button>
 
     <div class="page" id="main" role="main">
         <header style="margin-bottom: var(--space-16);">
@@ -910,12 +911,21 @@ Chart role="img" with descriptive aria-label
         if (html.getAttribute('data-theme') === 'dark') {
             html.removeAttribute('data-theme');
             this.textContent = '🌙 Dark';
+            localStorage.setItem('theme', 'light');
         } else {
             html.setAttribute('data-theme', 'dark');
             this.textContent = '☀️ Light';
+            localStorage.setItem('theme', 'dark');
         }
         setTimeout(renderAll, 50);
     };
+
+    // Apply saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.querySelector('.theme-toggle').textContent = '☀️ Light';
+        setTimeout(renderAll, 50);
+    }
 
     // Resize handler
     let resizeTimer;

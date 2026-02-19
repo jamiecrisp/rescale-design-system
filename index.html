@@ -82,6 +82,7 @@
         .footer a { color: var(--accent); text-decoration: none; }
         .footer a:hover { text-decoration: underline; }
     </style>
+<script>if(localStorage.getItem("theme")==="dark")document.documentElement.setAttribute("data-theme","dark");</script>
 </head>
 <body>
     <button class="theme-toggle" onclick="document.documentElement.getAttribute('data-theme')==='dark'?(document.documentElement.removeAttribute('data-theme'),this.textContent='🌙 Dark',localStorage.setItem('theme','light')):(document.documentElement.setAttribute('data-theme','dark'),this.textContent='☀️ Light',localStorage.setItem('theme','dark'))" aria-label="Toggle dark mode">🌙 Dark</button>
