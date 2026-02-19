@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueWeight Design System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #f0f2f5; --bg-glass: rgba(255,255,255,0.55); --bg-elevated: #ffffff;
+            --bg-inset: #e8eaed; --border-decorative: rgba(0,0,0,0.10);
+            --text-primary: #1a1d24; --text-secondary: #4a4e56; --text-tertiary: #696d76;
+            --color-success: #006B4E; --color-success-dim: rgba(0,107,78,0.12);
+            --color-info: #2A4FA8; --color-info-dim: rgba(42,79,168,0.1);
+            --color-warning: #7A4B00; --color-warning-dim: rgba(122,75,0,0.08);
+            --color-danger: #A12040; --color-danger-dim: rgba(161,32,64,0.1);
+            --accent: #006B4E; --accent-dim: rgba(0,107,78,0.12); --accent-on: #ffffff;
+            --font-body: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+            --radius-md: 10px; --radius-lg: 14px; --radius-xl: 16px; --radius-full: 9999px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        [data-theme="dark"] {
+            --bg-page: #0a0e1a; --bg-glass: rgba(255,255,255,0.06); --bg-elevated: #131722;
+            --bg-inset: #0d1120; --border-decorative: rgba(255,255,255,0.10);
+            --text-primary: #e8eaed; --text-secondary: #b0b4bc; --text-tertiary: #828690;
+            --color-success: #00E5A0; --color-success-dim: rgba(0,229,160,0.15);
+            --color-info: #5B8DEF; --color-info-dim: rgba(91,141,239,0.15);
+            --color-warning: #FFB84D; --color-warning-dim: rgba(255,184,77,0.12);
+            --color-danger: #FF6B8A; --color-danger-dim: rgba(255,107,138,0.15);
+            --accent: #00E5A0; --accent-dim: rgba(0,229,160,0.15); --accent-on: #0a0e1a;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2); --shadow-md: 0 2px 12px rgba(0,0,0,0.2);
+        }
+
+        body { font-family: var(--font-body); color: var(--text-primary); background: var(--bg-page); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+        *:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+        *:focus:not(:focus-visible) { outline: none; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+
+        .theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 100; background: var(--bg-glass); border: 1px solid var(--border-decorative); border-radius: var(--radius-full); padding: 8px 16px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; backdrop-filter: blur(12px); }
+
+        .page { max-width: 880px; margin: 0 auto; padding: 80px 32px 64px; }
+        @media (max-width: 640px) { .page { padding: 48px 16px 48px; } }
+
+        /* Hero */
+        .hero { margin-bottom: 64px; }
+        .hero-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+        .hero-icon { width: 48px; height: 48px; border-radius: var(--radius-lg); background: linear-gradient(135deg, var(--color-success), var(--color-info)); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+        .hero-wordmark { font-size: 1.5rem; font-weight: 700; }
+        .hero-wordmark span { color: var(--accent); }
+        .hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.15; margin-bottom: 12px; max-width: 600px; }
+        .hero p { font-size: 1.125rem; color: var(--text-secondary); max-width: 520px; }
+
+        /* Nav grid */
+        .section-label { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-tertiary); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border-decorative); }
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; }
+        @media (max-width: 560px) { .nav-grid { grid-template-columns: 1fr; } }
+
+        .nav-card {
+            display: block; text-decoration: none; color: inherit;
+            background: var(--bg-glass); border: 1px solid var(--border-decorative);
+            border-radius: var(--radius-xl); padding: 24px; backdrop-filter: blur(16px);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+        .nav-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+        .nav-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .nav-card-icon { width: 36px; height: 36px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+        .nav-card-title { font-size: 1rem; font-weight: 600; }
+        .nav-card-desc { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5; }
+        .nav-card-tag { display: inline-block; font-size: 0.6875rem; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-full); margin-top: 10px; }
+
+        .tag-tokens { background: var(--color-info-dim); color: var(--color-info); }
+        .tag-components { background: var(--color-success-dim); color: var(--color-success); }
+        .tag-layouts { background: var(--color-warning-dim); color: var(--color-warning); }
+        .tag-charts { background: var(--color-danger-dim); color: var(--color-danger); }
+        .tag-mockup { background: var(--bg-inset); color: var(--text-secondary); }
+
+        /* Footer */
+        .footer { padding-top: 24px; border-top: 1px solid var(--border-decorative); font-size: 0.75rem; color: var(--text-tertiary); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .footer a { color: var(--accent); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="document.documentElement.getAttribute('data-theme')==='dark'?(document.documentElement.removeAttribute('data-theme'),this.textContent='🌙 Dark',localStorage.setItem('theme','light')):(document.documentElement.setAttribute('data-theme','dark'),this.textContent='☀️ Light',localStorage.setItem('theme','dark'))" aria-label="Toggle dark mode">🌙 Dark</button>
+
+    <div class="page">
+        <div class="hero">
+            <div class="hero-brand">
+                <div class="hero-icon">⚡</div>
+                <div class="hero-wordmark">True<span>Weight</span></div>
+            </div>
+            <h1>Design System</h1>
+            <p>Glassmorphism UI, WCAG AA compliant, light &amp; dark themes. Everything needed to build TrueWeight.</p>
+        </div>
+
+        <!-- DESIGN SYSTEM -->
+        <div class="section-label">Design System</div>
+        <div class="nav-grid">
+            <a href="design-system/foundations.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--color-info-dim);">🎨</div>
+                    <div class="nav-card-title">Foundations</div>
+                </div>
+                <div class="nav-card-desc">Design tokens, colour system with contrast ratios, typography scale, spacing, border radii, shadows, and accessibility rules.</div>
+                <span class="nav-card-tag tag-tokens">Tokens</span>
+            </a>
+
+            <a href="design-system/components.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--color-success-dim);">🧩</div>
+                    <div class="nav-card-title">Components</div>
+                </div>
+                <div class="nav-card-desc">Buttons, form inputs, toggles, badges, alerts, toasts, progress bars, tabs, tables, modals, and empty states.</div>
+                <span class="nav-card-tag tag-components">Components</span>
+            </a>
+
+            <a href="design-system/layouts.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--color-warning-dim);">📐</div>
+                    <div class="nav-card-title">Page Layouts</div>
+                </div>
+                <div class="nav-card-desc">Settings, chart detail, log entry, onboarding, and profile page templates with responsive behaviour.</div>
+                <span class="nav-card-tag tag-layouts">Layouts</span>
+            </a>
+
+            <a href="design-system/charts/chart-components.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--color-danger-dim);">📈</div>
+                    <div class="nav-card-title">Chart Designs</div>
+                </div>
+                <div class="nav-card-desc">Trend-focused weight charts for all goal types and weighing patterns. EWMA algorithm, colour logic, gap handling specs.</div>
+                <span class="nav-card-tag tag-charts">Charts</span>
+            </a>
+        </div>
+
+        <!-- CHARTS — REAL DATA -->
+        <div class="section-label">Charts — Real Data</div>
+        <div class="nav-grid">
+            <a href="design-system/charts/chart-realdata.html" class="nav-card" style="grid-column: 1 / -1;">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--color-danger-dim);">📊</div>
+                    <div class="nav-card-title">Real Data Demo</div>
+                </div>
+                <div class="nav-card-desc">415 days of actual weight data — full journey, cut phase, regain, maintenance, and 7d/30d/3m/6m time range views.</div>
+                <span class="nav-card-tag tag-charts">Charts</span>
+            </a>
+        </div>
+
+        <!-- MOCKUPS -->
+        <div class="section-label">Dashboard Mockups</div>
+        <div class="nav-grid">
+            <a href="mockups/dashboard/light.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--bg-inset);">☀️</div>
+                    <div class="nav-card-title">Dashboard — Light</div>
+                </div>
+                <div class="nav-card-desc">Final accessible responsive dashboard mockup in light mode.</div>
+                <span class="nav-card-tag tag-mockup">Mockup</span>
+            </a>
+
+            <a href="mockups/dashboard/dark.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--bg-inset);">🌙</div>
+                    <div class="nav-card-title">Dashboard — Dark</div>
+                </div>
+                <div class="nav-card-desc">Final accessible responsive dashboard mockup in dark mode.</div>
+                <span class="nav-card-tag tag-mockup">Mockup</span>
+            </a>
+        </div>
+
+        <!-- ICONS -->
+        <div class="section-label">Icons</div>
+        <div class="nav-grid">
+            <a href="icons/nav-icons-reference.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--bg-inset);">🧭</div>
+                    <div class="nav-card-title">Navigation Icons</div>
+                </div>
+                <div class="nav-card-desc">Home, charts, predictions, and profile icons in both themes.</div>
+                <span class="nav-card-tag tag-mockup">Reference</span>
+            </a>
+
+            <a href="icons/trend-icons-reference.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--bg-inset);">↗️</div>
+                    <div class="nav-card-title">Trend Icons</div>
+                </div>
+                <div class="nav-card-desc">Weight gain, loss, and maintain directional indicator icons.</div>
+                <span class="nav-card-tag tag-mockup">Reference</span>
+            </a>
+        </div>
+
+        <!-- EXPLORATION -->
+        <div class="section-label">Early Exploration</div>
+        <div class="nav-grid">
+            <a href="mockups/exploration/01-typography.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--bg-inset);">✏️</div>
+                    <div class="nav-card-title">Concept 1 — Typography</div>
+                </div>
+                <div class="nav-card-desc">Editorial, typography-driven design concept.</div>
+                <span class="nav-card-tag tag-mockup">Exploration</span>
+            </a>
+
+            <a href="mockups/exploration/02-flat-ui.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--bg-inset);">🟦</div>
+                    <div class="nav-card-title">Concept 2 — Flat UI</div>
+                </div>
+                <div class="nav-card-desc">Colourful flat UI design concept.</div>
+                <span class="nav-card-tag tag-mockup">Exploration</span>
+            </a>
+
+            <a href="mockups/exploration/03-glassmorphism-original.html" class="nav-card">
+                <div class="nav-card-header">
+                    <div class="nav-card-icon" style="background: var(--bg-inset);">🪟</div>
+                    <div class="nav-card-title">Concept 3 — Glassmorphism</div>
+                </div>
+                <div class="nav-card-desc">Original dark glassmorphism concept (evolved into final design).</div>
+                <span class="nav-card-tag tag-mockup">Exploration</span>
+            </a>
+        </div>
+
+        <div class="footer">
+            <span>TrueWeight Design System</span>
+            <a href="https://github.com/jamiecrisp/trueweight-design-system">GitHub</a>
+        </div>
+    </div>
+
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.querySelector('.theme-toggle').textContent = '☀️ Light';
+        }
+    </script>
+</body>
+</html>
