@@ -1,6 +1,6 @@
-# TrueWeight Design System
+# Re:Scale Design System
 
-A complete design system for **TrueWeight** — a weight tracking app focused on revealing long-term trends rather than stressing over daily fluctuations.
+A complete design system for **Re:Scale** — a weight tracking app focused on revealing long-term trends rather than stressing over daily fluctuations.
 
 ## Overview
 
@@ -147,7 +147,7 @@ Open any `.html` file directly in a browser. Every page includes a theme toggle 
 cd trueweight-design-system
 git init
 git add .
-git commit -m "Initial commit: TrueWeight design system"
+git commit -m "Initial commit: Re:Scale design system"
 git remote add origin git@github.com:YOUR_USERNAME/trueweight-design-system.git
 git push -u origin main
 ```
