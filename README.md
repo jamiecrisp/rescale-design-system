@@ -15,7 +15,10 @@ A complete design system for **TrueWeight** — a weight tracking app focused on
 ├── design-system/
 │   ├── foundations.html      # Tokens, typography, spacing, colour, radii, shadows
 │   ├── components.html       # Buttons, form inputs, badges, alerts, tables, modals
-│   └── layouts.html          # Settings, chart, log entry, onboarding, profile pages
+│   ├── layouts.html          # Settings, chart, log entry, onboarding, profile pages
+│   └── charts/
+│       ├── chart-components.html  # Chart design specs, all goal types & weighing patterns
+│       └── chart-realdata.html    # Real data rendered across time ranges & goals
 │
 ├── mockups/
 │   ├── dashboard/
@@ -102,6 +105,30 @@ Every component meets WCAG 2.1 Level AA:
 - **Tables**: `<caption>` + `scope` on `<th>` elements
 - **Motion**: Respects `prefers-reduced-motion`
 - **Screen readers**: `aria-current`, `aria-live`, `aria-hidden` on decorative elements
+
+## Charts
+
+Trend-focused weight charts designed for every scenario. The trend line (EWMA, α=0.15) is always the primary visual; raw data points are secondary.
+
+### Visual Hierarchy
+- **Trend line**: 3px solid (measured), 2px dashed at 35% opacity (gaps/estimated)
+- **Raw dots**: 3px radius, tertiary colour at 40% opacity
+- **Range bars**: 5px wide at 18% opacity for multi-weigh days (min→max)
+- **Goal line**: 1.5px dashed in info colour
+- **Maintenance band**: Filled zone with dashed edges
+
+### Colour Logic (when goal is set)
+| Status | Condition | Colour |
+|--------|-----------|--------|
+| On track | Trend moving towards goal / within maintenance band | Green |
+| Unclear | Trend flat when change expected / near boundary edge | Amber |
+| Off track | Trend moving away from goal / outside maintenance band | Red |
+
+### Supported Scenarios
+- Daily weighing, irregular weighing, multi-weigh per day
+- Goals: lose (with target), gain (with target), maintain (with ± band), no goal
+- Data gaps carry the trend forward as dashed line
+- Sparse data (<5 entries) renders entire trend dashed at reduced opacity
 
 ## Icons
 

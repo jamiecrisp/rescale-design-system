@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueWeight — Real Data Charts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #f0f2f5; --bg-glass: rgba(255,255,255,0.55); --bg-elevated: #ffffff;
+            --bg-inset: #e8eaed; --border-decorative: rgba(0,0,0,0.10); --border-input: #7e828a;
+            --text-primary: #1a1d24; --text-secondary: #4a4e56; --text-tertiary: #696d76; --text-inverse: #fff;
+            --color-success: #006B4E; --color-success-dim: rgba(0,107,78,0.12);
+            --color-danger: #A12040; --color-danger-dim: rgba(161,32,64,0.1);
+            --color-info: #2A4FA8; --color-info-dim: rgba(42,79,168,0.1);
+            --color-warning: #7A4B00; --color-warning-dim: rgba(122,75,0,0.08);
+            --accent: #006B4E; --accent-dim: rgba(0,107,78,0.12);
+            --accent-btn-bg: #008060; --accent-on: #ffffff;
+            --font-body: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+            --text-3xl: 1.875rem; --text-2xl: 1.5rem; --text-xl: 1.25rem; --text-lg: 1.125rem;
+            --text-base: 1rem; --text-sm: 0.875rem; --text-xs: 0.75rem; --text-2xs: 0.6875rem;
+            --weight-medium: 500; --weight-semibold: 600; --weight-bold: 700;
+            --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px;
+            --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px;
+            --radius-md: 10px; --radius-lg: 14px; --radius-xl: 16px; --radius-full: 9999px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 2px 12px rgba(0,0,0,0.06);
+            --transition-fast: 0.15s ease;
+            --on-track: #006B4E; --off-track: #A12040; --unclear: #7A4B00;
+            --goal-line: #2A4FA8; --goal-line-dim: rgba(42,79,168,0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-page: #0a0e1a; --bg-glass: rgba(255,255,255,0.06); --bg-elevated: #131722;
+            --bg-inset: #0d1120; --border-decorative: rgba(255,255,255,0.10); --border-input: #606472;
+            --text-primary: #e8eaed; --text-secondary: #b0b4bc; --text-tertiary: #828690; --text-inverse: #0a0e1a;
+            --color-success: #00E5A0; --color-success-dim: rgba(0,229,160,0.15);
+            --color-danger: #FF6B8A; --color-danger-dim: rgba(255,107,138,0.15);
+            --color-info: #5B8DEF; --color-info-dim: rgba(91,141,239,0.15);
+            --color-warning: #FFB84D; --color-warning-dim: rgba(255,184,77,0.12);
+            --accent: #00E5A0; --accent-dim: rgba(0,229,160,0.15);
+            --accent-btn-bg: #00E5A0; --accent-on: #0a0e1a;
+            --on-track: #00E5A0; --off-track: #FF6B8A; --unclear: #FFB84D;
+            --goal-line: #5B8DEF; --goal-line-dim: rgba(91,141,239,0.15);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2); --shadow-md: 0 2px 12px rgba(0,0,0,0.2);
+        }
+
+        body { font-family: var(--font-body); font-size: var(--text-base); line-height: 1.5; color: var(--text-primary); background: var(--bg-page); -webkit-font-smoothing: antialiased; }
+        .skip-link { position: absolute; top: -100px; left: var(--space-4); background: var(--accent); color: var(--accent-on); padding: var(--space-3) var(--space-6); border-radius: 0 0 var(--radius-md) var(--radius-md); font-weight: var(--weight-semibold); font-size: var(--text-sm); z-index: 200; text-decoration: none; }
+        .skip-link:focus { top: 0; }
+        *:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+        *:focus:not(:focus-visible) { outline: none; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+        .page { max-width: 1100px; margin: 0 auto; padding: var(--space-12) var(--space-8); }
+        .theme-toggle { position: fixed; top: var(--space-4); right: var(--space-4); z-index: 100; background: var(--bg-glass); border: 1px solid var(--border-decorative); border-radius: var(--radius-full); padding: var(--space-2) var(--space-4); font-family: var(--font-body); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--text-secondary); cursor: pointer; backdrop-filter: blur(12px); }
+
+        .section { margin-bottom: var(--space-16); }
+        .section-title { font-size: var(--text-2xl); font-weight: var(--weight-bold); margin-bottom: var(--space-2); }
+        .section-desc { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-8); max-width: 640px; }
+
+        .chart-card {
+            background: var(--bg-glass); border: 1px solid var(--border-decorative);
+            border-radius: var(--radius-xl); padding: var(--space-6); backdrop-filter: blur(16px);
+            margin-bottom: var(--space-6);
+        }
+        .chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-4); flex-wrap: wrap; gap: var(--space-3); }
+        .chart-title { font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+        .chart-subtitle { font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 2px; }
+        .chart-badge { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); font-weight: var(--weight-semibold); padding: 3px var(--space-3); border-radius: var(--radius-full); }
+        .badge-on { background: var(--color-success-dim); color: var(--color-success); }
+        .badge-off { background: var(--color-danger-dim); color: var(--color-danger); }
+        .badge-unclear { background: var(--color-warning-dim); color: var(--color-warning); }
+        .badge-neutral { background: var(--bg-inset); color: var(--text-secondary); }
+
+        .chart-wrap { position: relative; width: 100%; }
+        .chart-wrap canvas { width: 100% !important; height: auto !important; display: block; border-radius: var(--radius-md); }
+
+        .chart-legend { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--border-decorative); }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: var(--text-xs); color: var(--text-secondary); }
+        .legend-swatch { width: 14px; height: 4px; border-radius: 2px; flex-shrink: 0; }
+        .legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .legend-range { width: 14px; height: 10px; border-radius: 2px; flex-shrink: 0; opacity: 0.5; }
+        .legend-dash { width: 14px; height: 0; border-top: 2px dashed; flex-shrink: 0; }
+
+        /* Stats row */
+        .stats-row { display: flex; gap: var(--space-4); margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border-decorative); flex-wrap: wrap; }
+        .stat { flex: 1; min-width: 100px; }
+        .stat-label { font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-tertiary); margin-bottom: 2px; }
+        .stat-value { font-family: var(--font-mono); font-size: var(--text-lg); font-weight: var(--weight-medium); }
+        .stat-unit { font-size: var(--text-xs); color: var(--text-tertiary); font-weight: 400; }
+        .stat-delta { font-size: var(--text-xs); font-weight: var(--weight-semibold); margin-top: 1px; }
+        .delta-down { color: var(--color-success); }
+        .delta-up { color: var(--color-danger); }
+
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+        @media (max-width: 840px) {
+            .chart-grid { grid-template-columns: 1fr; }
+            .page { padding: var(--space-6) var(--space-4); }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <button class="theme-toggle" onclick="document.documentElement.getAttribute('data-theme')==='dark'?(document.documentElement.removeAttribute('data-theme'),this.textContent='🌙 Dark'):(document.documentElement.setAttribute('data-theme','dark'),this.textContent='☀️ Light')" aria-label="Toggle dark mode">🌙 Dark</button>
+
+    <div class="page" id="main" role="main">
+        <header style="margin-bottom: var(--space-16);">
+            <h1 style="font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: 1.2; margin-bottom: var(--space-3);">Real Data</h1>
+            <p style="font-size: var(--text-lg); color: var(--text-secondary); max-width: 620px;">
+                415 days of actual weight data rendered across different time ranges and goal configurations.
+            </p>
+        </header>
+
+        <!-- FULL JOURNEY -->
+        <div class="section">
+            <h2 class="section-title">Full Journey</h2>
+            <p class="section-desc">Jan 2025 → Feb 2026. The complete picture — a strong cut, a holiday reversal, and a stabilisation phase. Two notable data gaps: 4 days in April and 12 days in late May/early June.</p>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Weight Trend — All Time</div>
+                        <div class="chart-subtitle">2 Jan 2025 – 19 Feb 2026 · 415 days</div>
+                    </div>
+                    <div class="chart-badge badge-neutral">↘ 22.1 kg total</div>
+                </div>
+                <div class="chart-wrap"><canvas id="chart-full" height="320"></canvas></div>
+                <div class="chart-legend">
+                    <div class="legend-item"><span class="legend-swatch" style="background: var(--accent); height: 3px;"></span> Trend</div>
+                    <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Daily weigh-in</div>
+                    <div class="legend-item"><span class="legend-dash" style="border-color: var(--accent); opacity: 0.35;"></span> Estimated (gap)</div>
+                </div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-label">Start</div>
+                        <div class="stat-value">117.1 <span class="stat-unit">kg</span></div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Lowest</div>
+                        <div class="stat-value">88.0 <span class="stat-unit">kg</span></div>
+                        <div class="stat-delta delta-down">29 Sep</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Current</div>
+                        <div class="stat-value">95.1 <span class="stat-unit">kg</span></div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Total</div>
+                        <div class="stat-value delta-down">−22.1 <span class="stat-unit">kg</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GOAL: LOSE — TARGET 90 -->
+        <div class="section">
+            <h2 class="section-title">With Goal: Lose to 90 kg</h2>
+            <p class="section-desc">Showing how the chart would look at different points in the journey if the goal had been set to 90.0 kg from the start.</p>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Jan – Sep 2025 · The Cut</div>
+                        <div class="chart-subtitle">Viewed at end of September — goal reached</div>
+                    </div>
+                    <div class="chart-badge badge-on">✓ Goal reached</div>
+                </div>
+                <div class="chart-wrap"><canvas id="chart-cut" height="280"></canvas></div>
+                <div class="chart-legend">
+                    <div class="legend-item"><span class="legend-swatch" style="background: var(--on-track); height: 3px;"></span> Trend</div>
+                    <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Daily weigh-in</div>
+                    <div class="legend-item"><span class="legend-dash" style="border-color: var(--goal-line);"></span> Target 90.0</div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Oct – Dec 2025 · The Regain</div>
+                        <div class="chart-subtitle">Viewed at end of December — trending away from goal</div>
+                    </div>
+                    <div class="chart-badge badge-off">↗ Off track</div>
+                </div>
+                <div class="chart-wrap"><canvas id="chart-regain" height="280"></canvas></div>
+                <div class="chart-legend">
+                    <div class="legend-item"><span class="legend-swatch" style="background: var(--off-track); height: 3px;"></span> Trend</div>
+                    <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Daily weigh-in</div>
+                    <div class="legend-item"><span class="legend-dash" style="border-color: var(--goal-line);"></span> Target 90.0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GOAL: MAINTAIN 95 -->
+        <div class="section">
+            <h2 class="section-title">With Goal: Maintain at 95.0 kg ± 1.0</h2>
+            <p class="section-desc">If the user decided to maintain at their current weight after the regain settled. Showing the last 50 days.</p>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Jan – Feb 2026 · Maintenance Phase</div>
+                        <div class="chart-subtitle">Last 50 days · Maintain 95.0 kg ± 1.0</div>
+                    </div>
+                    <div class="chart-badge badge-on">→ Maintaining</div>
+                </div>
+                <div class="chart-wrap"><canvas id="chart-maintain" height="280"></canvas></div>
+                <div class="chart-legend">
+                    <div class="legend-item"><span class="legend-swatch" style="background: var(--on-track); height: 3px;"></span> Trend</div>
+                    <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Daily weigh-in</div>
+                    <div class="legend-item"><span class="legend-range" style="background: var(--goal-line);"></span> Maintenance zone</div>
+                </div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-label">Trend now</div>
+                        <div class="stat-value">95.2 <span class="stat-unit">kg</span></div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Zone</div>
+                        <div class="stat-value">94.0 – 96.0 <span class="stat-unit">kg</span></div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Avg variance</div>
+                        <div class="stat-value">±0.6 <span class="stat-unit">kg/day</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIME RANGE VIEWS -->
+        <div class="section">
+            <h2 class="section-title">Time Range Views</h2>
+            <p class="section-desc">The same data viewed through different time windows — showing how the pill tab selector would look.</p>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Last 7 Days</div>
+                            <div class="chart-subtitle">13 – 19 Feb 2026</div>
+                        </div>
+                        <div class="chart-badge badge-neutral">→ Flat</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-7d" height="200"></canvas></div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Last 30 Days</div>
+                            <div class="chart-subtitle">21 Jan – 19 Feb 2026</div>
+                        </div>
+                        <div class="chart-badge badge-neutral">→ Flat</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-30d" height="200"></canvas></div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Last 3 Months</div>
+                            <div class="chart-subtitle">19 Nov 2025 – 19 Feb 2026</div>
+                        </div>
+                        <div class="chart-badge badge-unclear">↘ Slight loss</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-3m" height="200"></canvas></div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Last 6 Months</div>
+                            <div class="chart-subtitle">19 Aug 2025 – 19 Feb 2026</div>
+                        </div>
+                        <div class="chart-badge badge-off">↗ +3.5 kg</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-6m" height="200"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    // ═══ REAL DATA ═══
+    const RAW_DATA = `02/01/2025	117.10
+03/01/2025	117.40
+04/01/2025	118.40
+05/01/2025	117.80
+06/01/2025	118.95
+07/01/2025	118.00
+08/01/2025	117.75
+09/01/2025	118.00
+10/01/2025	116.10
+11/01/2025	116.00
+12/01/2025	114.70
+13/01/2025	114.20
+14/01/2025	113.80
+15/01/2025	113.35
+16/01/2025	113.50
+17/01/2025	113.10
+18/01/2025	112.30
+19/01/2025	112.42
+20/01/2025	112.05
+21/01/2025	112.30
+22/01/2025	112.65
+23/01/2025	112.13
+24/01/2025	112.00
+25/01/2025	112.05
+26/01/2025	110.90
+27/01/2025	111.40
+28/01/2025	111.65
+29/01/2025	111.45
+30/01/2025	111.80
+31/01/2025	111.50
+01/02/2025	109.40
+02/02/2025	110.55
+03/02/2025	110.05
+04/02/2025	111.20
+05/02/2025	111.10
+06/02/2025	110.40
+07/02/2025	110.00
+08/02/2025	109.92
+09/02/2025	110.00
+10/02/2025	109.70
+11/02/2025	109.50
+12/02/2025	109.20
+13/02/2025	108.50
+14/02/2025	108.80
+15/02/2025	108.65
+16/02/2025	108.10
+17/02/2025	108.40
+18/02/2025	108.40
+19/02/2025	108.35
+20/02/2025	107.35
+21/02/2025	107.00
+22/02/2025	106.85
+23/02/2025	107.25
+24/02/2025	107.60
+25/02/2025	107.45
+26/02/2025	108.05
+27/02/2025	108.65
+28/02/2025	108.35
+01/03/2025	107.65
+02/03/2025	107.35
+03/03/2025	106.80
+04/03/2025	106.85
+05/03/2025	107.20
+06/03/2025	107.25
+07/03/2025	106.80
+08/03/2025	106.20
+09/03/2025	106.75
+10/03/2025	106.45
+11/03/2025	106.40
+12/03/2025	106.40
+13/03/2025	107.10
+14/03/2025	106.55
+15/03/2025	106.15
+16/03/2025	105.00
+17/03/2025	105.05
+18/03/2025	105.00
+19/03/2025	105.65
+20/03/2025	105.75
+21/03/2025	105.50
+22/03/2025	105.70
+23/03/2025	105.30
+24/03/2025	105.00
+25/03/2025	104.75
+26/03/2025	104.80
+27/03/2025	104.60
+28/03/2025	104.80
+29/03/2025	104.45
+30/03/2025	104.15
+31/03/2025	103.85
+01/04/2025	103.65
+02/04/2025	103.45
+03/04/2025	103.70
+04/04/2025	
+05/04/2025	
+06/04/2025	
+07/04/2025	
+08/04/2025	103.50
+09/04/2025	103.25
+10/04/2025	102.80
+11/04/2025	102.70
+12/04/2025	102.50
+13/04/2025	101.90
+14/04/2025	101.50
+15/04/2025	101.35
+16/04/2025	102.15
+17/04/2025	102.25
+18/04/2025	101.85
+19/04/2025	101.70
+20/04/2025	102.00
+21/04/2025	102.35
+22/04/2025	102.15
+23/04/2025	101.55
+24/04/2025	101.50
+25/04/2025	101.30
+26/04/2025	101.10
+27/04/2025	101.40
+28/04/2025	100.90
+29/04/2025	100.55
+30/04/2025	100.70
+01/05/2025	101.05
+02/05/2025	100.85
+03/05/2025	100.38
+04/05/2025	100.65
+05/05/2025	99.75
+06/05/2025	99.85
+07/05/2025	100.20
+08/05/2025	100.70
+09/05/2025	100.80
+10/05/2025	100.85
+11/05/2025	99.90
+12/05/2025	99.10
+13/05/2025	99.15
+14/05/2025	99.55
+15/05/2025	99.95
+16/05/2025	100.15
+17/05/2025	99.40
+18/05/2025	99.70
+19/05/2025	98.95
+20/05/2025	98.15
+21/05/2025	98.80
+22/05/2025	99.00
+23/05/2025	99.35
+24/05/2025	99.35
+25/05/2025	99.10
+26/05/2025	
+27/05/2025	
+28/05/2025	
+29/05/2025	
+30/05/2025	
+31/05/2025	
+01/06/2025	
+02/06/2025	
+03/06/2025	
+04/06/2025	
+05/06/2025	
+06/06/2025	
+07/06/2025	98.75
+08/06/2025	98.60
+09/06/2025	98.60
+10/06/2025	98.20
+11/06/2025	98.80
+12/06/2025	98.60
+13/06/2025	98.90
+14/06/2025	98.00
+15/06/2025	97.85
+16/06/2025	97.95
+17/06/2025	97.55
+18/06/2025	97.55
+19/06/2025	98.10
+20/06/2025	98.45
+21/06/2025	98.00
+22/06/2025	97.25
+23/06/2025	97.55
+24/06/2025	97.30
+25/06/2025	97.65
+26/06/2025	97.65
+27/06/2025	97.75
+28/06/2025	97.00
+29/06/2025	97.60
+30/06/2025	97.10
+01/07/2025	97.00
+02/07/2025	97.60
+03/07/2025	97.55
+04/07/2025	97.05
+05/07/2025	96.90
+06/07/2025	96.05
+07/07/2025	95.95
+08/07/2025	96.40
+09/07/2025	96.30
+10/07/2025	96.80
+11/07/2025	96.40
+12/07/2025	95.70
+13/07/2025	95.40
+14/07/2025	95.65
+15/07/2025	95.85
+16/07/2025	95.60
+17/07/2025	96.50
+18/07/2025	95.70
+19/07/2025	94.95
+20/07/2025	95.05
+21/07/2025	95.35
+22/07/2025	94.70
+23/07/2025	94.55
+24/07/2025	94.90
+25/07/2025	94.60
+26/07/2025	94.40
+27/07/2025	94.55
+28/07/2025	94.75
+29/07/2025	94.55
+30/07/2025	93.90
+31/07/2025	94.80
+01/08/2025	94.75
+02/08/2025	94.00
+03/08/2025	94.20
+04/08/2025	94.00
+05/08/2025	95.00
+06/08/2025	94.10
+07/08/2025	93.75
+08/08/2025	93.85
+09/08/2025	93.50
+10/08/2025	93.15
+11/08/2025	92.65
+12/08/2025	92.85
+13/08/2025	92.45
+14/08/2025	92.70
+15/08/2025	92.35
+16/08/2025	
+17/08/2025	
+18/08/2025	91.35
+19/08/2025	91.30
+20/08/2025	92.65
+21/08/2025	93.40
+22/08/2025	93.20
+23/08/2025	92.55
+24/08/2025	92.60
+25/08/2025	92.45
+26/08/2025	91.90
+27/08/2025	92.05
+28/08/2025	92.40
+29/08/2025	92.20
+30/08/2025	91.55
+31/08/2025	91.20
+01/09/2025	91.20
+02/09/2025	91.50
+03/09/2025	90.85
+04/09/2025	90.90
+05/09/2025	90.55
+06/09/2025	89.95
+07/09/2025	89.95
+08/09/2025	89.85
+09/09/2025	89.85
+10/09/2025	89.60
+11/09/2025	90.20
+12/09/2025	90.40
+13/09/2025	90.10
+14/09/2025	89.85
+15/09/2025	89.80
+16/09/2025	89.75
+17/09/2025	90.05
+18/09/2025	89.65
+19/09/2025	89.95
+20/09/2025	89.75
+21/09/2025	88.85
+22/09/2025	89.05
+23/09/2025	88.75
+24/09/2025	89.20
+25/09/2025	88.95
+26/09/2025	88.95
+27/09/2025	88.90
+28/09/2025	88.20
+29/09/2025	88.00
+30/09/2025	88.35
+01/10/2025	88.60
+02/10/2025	88.40
+03/10/2025	88.25
+04/10/2025	88.80
+05/10/2025	89.05
+06/10/2025	89.15
+07/10/2025	89.30
+08/10/2025	89.45
+09/10/2025	89.45
+10/10/2025	89.45
+11/10/2025	89.70
+12/10/2025	89.50
+13/10/2025	89.40
+14/10/2025	89.95
+15/10/2025	90.00
+16/10/2025	89.60
+17/10/2025	90.00
+18/10/2025	90.35
+19/10/2025	89.30
+20/10/2025	90.70
+21/10/2025	90.55
+22/10/2025	90.60
+23/10/2025	90.20
+24/10/2025	90.45
+25/10/2025	90.00
+26/10/2025	90.50
+27/10/2025	91.15
+28/10/2025	90.40
+29/10/2025	91.00
+30/10/2025	91.40
+31/10/2025	90.70
+01/11/2025	90.85
+02/11/2025	91.45
+03/11/2025	92.45
+04/11/2025	92.60
+05/11/2025	92.05
+06/11/2025	91.75
+07/11/2025	91.25
+08/11/2025	91.50
+09/11/2025	91.50
+10/11/2025	91.05
+11/11/2025	90.40
+12/11/2025	91.25
+13/11/2025	91.55
+14/11/2025	91.55
+15/11/2025	91.40
+16/11/2025	91.85
+17/11/2025	91.95
+18/11/2025	92.30
+19/11/2025	92.70
+20/11/2025	92.30
+21/11/2025	92.15
+22/11/2025	92.25
+23/11/2025	92.05
+24/11/2025	92.55
+25/11/2025	
+26/11/2025	93.95
+27/11/2025	93.00
+28/11/2025	93.35
+29/11/2025	92.50
+30/11/2025	93.60
+01/12/2025	93.05
+02/12/2025	92.80
+03/12/2025	93.00
+04/12/2025	93.40
+05/12/2025	93.70
+06/12/2025	93.50
+07/12/2025	93.15
+08/12/2025	93.15
+09/12/2025	93.70
+10/12/2025	94.30
+11/12/2025	93.70
+12/12/2025	93.80
+13/12/2025	
+14/12/2025	94.20
+15/12/2025	94.00
+16/12/2025	93.55
+17/12/2025	91.60
+18/12/2025	92.45
+19/12/2025	92.30
+20/12/2025	93.45
+21/12/2025	92.75
+22/12/2025	93.35
+23/12/2025	92.80
+24/12/2025	93.95
+25/12/2025	94.15
+26/12/2025	94.40
+27/12/2025	94.55
+28/12/2025	93.95
+29/12/2025	94.95
+30/12/2025	95.00
+31/12/2025	94.25
+01/01/2026	94.50
+02/01/2026	96.65
+03/01/2026	97.00
+04/01/2026	95.60
+05/01/2026	94.60
+06/01/2026	
+07/01/2026	95.10
+08/01/2026	94.85
+09/01/2026	94.80
+10/01/2026	94.70
+11/01/2026	95.65
+12/01/2026	95.25
+13/01/2026	95.40
+14/01/2026	95.30
+15/01/2026	95.40
+16/01/2026	94.90
+17/01/2026	95.45
+18/01/2026	95.30
+19/01/2026	95.50
+20/01/2026	95.20
+21/01/2026	95.50
+22/01/2026	95.55
+23/01/2026	96.05
+24/01/2026	95.95
+25/01/2026	96.15
+26/01/2026	95.70
+27/01/2026	96.20
+28/01/2026	95.25
+29/01/2026	95.30
+30/01/2026	95.95
+31/01/2026	95.40
+01/02/2026	94.35
+02/02/2026	94.15
+03/02/2026	94.95
+04/02/2026	96.15
+05/02/2026	95.80
+06/02/2026	94.70
+07/02/2026	95.15
+08/02/2026	95.20
+09/02/2026	95.35
+10/02/2026	95.95
+11/02/2026	95.20
+12/02/2026	94.85
+13/02/2026	95.35
+14/02/2026	94.90
+15/02/2026	95.40
+16/02/2026	95.65
+17/02/2026	95.90
+18/02/2026	95.10
+19/02/2026	95.05`;
+
+    // Parse data
+    function parseData(raw) {
+        return raw.trim().split('\n').map(line => {
+            const [dateStr, valStr] = line.split('\t');
+            const [d, m, y] = dateStr.split('/').map(Number);
+            const date = new Date(y, m - 1, d);
+            const val = valStr && valStr.trim() ? parseFloat(valStr.trim()) : null;
+            return { date, val, label: dateStr };
+        });
+    }
+
+    function toChartData(entries) {
+        return entries.map(e => ({
+            day: e.date.getTime(),
+            values: e.val !== null ? [e.val] : [],
+            label: `${e.date.getDate()} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][e.date.getMonth()]}`,
+            shortLabel: `${e.date.getDate()}`,
+            monthLabel: `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][e.date.getMonth()]} ${e.date.getFullYear().toString().slice(2)}`,
+        }));
+    }
+
+    function sliceByDate(allEntries, startDate, endDate) {
+        return allEntries.filter(e => e.date >= startDate && e.date <= endDate);
+    }
+
+    const DARK = () => document.documentElement.getAttribute('data-theme') === 'dark';
+
+    function getColors() {
+        const s = getComputedStyle(document.documentElement);
+        return {
+            onTrack: s.getPropertyValue('--on-track').trim(),
+            offTrack: s.getPropertyValue('--off-track').trim(),
+            unclear: s.getPropertyValue('--unclear').trim(),
+            accent: s.getPropertyValue('--accent').trim(),
+            goal: s.getPropertyValue('--goal-line').trim(),
+            goalDim: s.getPropertyValue('--goal-line-dim').trim(),
+            grid: DARK() ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+            textPri: s.getPropertyValue('--text-primary').trim(),
+            textSec: s.getPropertyValue('--text-secondary').trim(),
+            textTer: s.getPropertyValue('--text-tertiary').trim(),
+        };
+    }
+
+    function ewma(data, alpha = 0.15) {
+        const result = [];
+        let prev = null;
+        let gapCount = 0;
+        for (const d of data) {
+            if (d.values.length === 0) {
+                if (prev !== null) {
+                    gapCount++;
+                    result.push({ ...d, trend: prev, avg: null, min: null, max: null, raw: [], measured: false, gapLength: gapCount });
+                } else {
+                    result.push({ ...d, trend: null, avg: null, min: null, max: null, raw: [], measured: false, gapLength: 0 });
+                }
+                continue;
+            }
+            gapCount = 0;
+            const avg = d.values.reduce((a, b) => a + b, 0) / d.values.length;
+            const mn = Math.min(...d.values);
+            const mx = Math.max(...d.values);
+            const trend = prev === null ? avg : alpha * avg + (1 - alpha) * prev;
+            prev = trend;
+            result.push({ ...d, trend, avg, min: mn, max: mx, raw: d.values, measured: true, gapLength: 0 });
+        }
+        return result;
+    }
+
+    function drawChart(canvasId, opts) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const W = rect.width;
+        const H = canvas.height;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        const C = getColors();
+        const PAD = { top: 20, right: 20, bottom: 32, left: 52 };
+        const cW = W - PAD.left - PAD.right;
+        const cH = H - PAD.top - PAD.bottom;
+
+        const { data, goalLine, goalBand, trendColor, sparse } = opts;
+        const trend = ewma(data, 0.15);
+
+        // Y range
+        let allVals = [];
+        trend.forEach(t => {
+            if (t.trend !== null) allVals.push(t.trend);
+            if (t.avg !== null) allVals.push(t.min, t.max);
+        });
+        if (goalLine != null) allVals.push(goalLine);
+        if (goalBand) { allVals.push(goalBand[0], goalBand[1]); }
+        let yMin = Math.min(...allVals);
+        let yMax = Math.max(...allVals);
+        let range = yMax - yMin;
+        if (range < 2) { const mid = (yMax + yMin) / 2; yMin = mid - 1; yMax = mid + 1; range = 2; }
+        const pad = range * 0.12;
+        yMin -= pad; yMax += pad; range = yMax - yMin;
+
+        const xScale = (i) => PAD.left + (i / Math.max(data.length - 1, 1)) * cW;
+        const yScale = (v) => PAD.top + (1 - (v - yMin) / range) * cH;
+
+        // Grid
+        ctx.strokeStyle = C.grid;
+        ctx.lineWidth = 1;
+        const nGridY = 5;
+        const step = range / nGridY;
+        ctx.font = `500 10px 'JetBrains Mono', monospace`;
+        ctx.fillStyle = C.textTer;
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= nGridY; i++) {
+            const v = yMin + i * step;
+            const y = yScale(v);
+            ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W - PAD.right, y); ctx.stroke();
+            ctx.fillText(v.toFixed(1), PAD.left - 8, y + 3.5);
+        }
+
+        // Goal band
+        if (goalBand) {
+            const y1 = yScale(goalBand[1]);
+            const y2 = yScale(goalBand[0]);
+            ctx.fillStyle = C.goalDim;
+            ctx.fillRect(PAD.left, y1, cW, y2 - y1);
+            ctx.strokeStyle = C.goal;
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath(); ctx.moveTo(PAD.left, y1); ctx.lineTo(W - PAD.right, y1); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(PAD.left, y2); ctx.lineTo(W - PAD.right, y2); ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        // Goal line
+        if (goalLine != null && !goalBand) {
+            const gy = yScale(goalLine);
+            ctx.strokeStyle = C.goal;
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([6, 4]);
+            ctx.beginPath(); ctx.moveTo(PAD.left, gy); ctx.lineTo(W - PAD.right, gy); ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = C.goal;
+            ctx.font = `600 10px 'JetBrains Mono', monospace`;
+            ctx.textAlign = 'left';
+            ctx.fillText(goalLine.toFixed(1), W - PAD.right + 4, gy + 3.5);
+        }
+
+        // Raw dots
+        trend.forEach((t, i) => {
+            if (t.avg === null) return;
+            const x = xScale(i);
+            t.raw.forEach(v => {
+                ctx.beginPath();
+                ctx.arc(x, yScale(v), data.length > 200 ? 1.5 : 3, 0, Math.PI * 2);
+                ctx.fillStyle = C.textTer;
+                ctx.globalAlpha = data.length > 200 ? 0.25 : 0.4;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            });
+        });
+
+        // Trend fill
+        const trendPoints = trend.filter(t => t.trend !== null);
+        if (trendPoints.length >= 2) {
+            const fillBase = goalLine != null ? yScale(goalLine) : goalBand ? yScale((goalBand[0] + goalBand[1]) / 2) : PAD.top + cH;
+            const col = typeof trendColor === 'function' ? trendColor(0.5) : (typeof trendColor === 'string' ? trendColor : C.onTrack);
+            ctx.beginPath();
+            trendPoints.forEach((p, j) => {
+                const idx = trend.indexOf(p);
+                const x = xScale(idx); const y = yScale(p.trend);
+                j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            });
+            const lastIdx = trend.indexOf(trendPoints[trendPoints.length - 1]);
+            const firstIdx = trend.indexOf(trendPoints[0]);
+            ctx.lineTo(xScale(lastIdx), fillBase);
+            ctx.lineTo(xScale(firstIdx), fillBase);
+            ctx.closePath();
+            ctx.globalAlpha = 0.06;
+            ctx.fillStyle = col;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+
+        // Trend line
+        if (trendPoints.length >= 2) {
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            for (let j = 1; j < trend.length; j++) {
+                const p0 = trend[j - 1];
+                const p1 = trend[j];
+                if (p0.trend === null || p1.trend === null) continue;
+
+                const x0 = xScale(j - 1), y0 = yScale(p0.trend);
+                const x1 = xScale(j), y1 = yScale(p1.trend);
+                const isGap = !p0.measured || !p1.measured;
+
+                let col;
+                if (typeof trendColor === 'function') {
+                    col = trendColor(j / (trend.length - 1));
+                } else {
+                    col = trendColor || C.onTrack;
+                }
+                ctx.strokeStyle = col;
+
+                if (isGap || sparse) {
+                    ctx.setLineDash([6, 5]);
+                    ctx.globalAlpha = sparse ? 0.45 : 0.35;
+                    ctx.lineWidth = 2;
+                } else {
+                    ctx.setLineDash([]);
+                    ctx.globalAlpha = 1;
+                    ctx.lineWidth = data.length > 200 ? 2.5 : 3;
+                }
+
+                ctx.beginPath();
+                ctx.moveTo(x0, y0);
+                ctx.lineTo(x1, y1);
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+            ctx.globalAlpha = 1;
+        }
+
+        // X axis labels
+        ctx.font = `500 10px 'JetBrains Mono', monospace`;
+        ctx.fillStyle = C.textTer;
+        ctx.textAlign = 'center';
+
+        if (data.length <= 14) {
+            // Show every day
+            data.forEach((d, i) => ctx.fillText(d.shortLabel, xScale(i), H - 8));
+        } else if (data.length <= 60) {
+            // Show ~6-8 labels
+            const every = Math.ceil(data.length / 7);
+            data.forEach((d, i) => {
+                if (i % every === 0 || i === data.length - 1) ctx.fillText(d.label, xScale(i), H - 8);
+            });
+        } else {
+            // Show month labels
+            let lastMonth = -1;
+            data.forEach((d, i) => {
+                // Extract month from the label
+                const parts = d.label.split(' ');
+                const month = parts[1];
+                const day = parseInt(parts[0]);
+                if (day <= 3 && month !== lastMonth) {
+                    lastMonth = month;
+                    ctx.fillText(d.monthLabel, xScale(i), H - 8);
+                }
+            });
+        }
+
+        // Aria
+        const tStart = trend.find(t => t.trend !== null);
+        const tEnd = [...trend].reverse().find(t => t.trend !== null);
+        canvas.setAttribute('role', 'img');
+        canvas.setAttribute('aria-label', tStart && tEnd ?
+            `Weight chart. Trend from ${tStart.trend.toFixed(1)} to ${tEnd.trend.toFixed(1)} kg over ${data.length} days.` :
+            'Weight chart.');
+    }
+
+    // ═══ RENDER ═══
+    const allEntries = parseData(RAW_DATA);
+
+    function renderAll() {
+        const C = getColors();
+
+        // FULL JOURNEY — no goal, accent colour
+        drawChart('chart-full', {
+            data: toChartData(allEntries),
+            trendColor: C.accent,
+        });
+
+        // CUT PHASE: Jan–Sep 2025 with goal 90
+        const cutEntries = sliceByDate(allEntries, new Date(2025, 0, 2), new Date(2025, 8, 30));
+        drawChart('chart-cut', {
+            data: toChartData(cutEntries),
+            goalLine: 90.0,
+            trendColor: C.onTrack,
+        });
+
+        // REGAIN PHASE: Oct–Dec 2025 with goal 90
+        const regainEntries = sliceByDate(allEntries, new Date(2025, 9, 1), new Date(2025, 11, 31));
+        drawChart('chart-regain', {
+            data: toChartData(regainEntries),
+            goalLine: 90.0,
+            trendColor: C.offTrack,
+        });
+
+        // MAINTAIN: last 50 days with band
+        const maintainEntries = sliceByDate(allEntries, new Date(2026, 0, 1), new Date(2026, 1, 19));
+        drawChart('chart-maintain', {
+            data: toChartData(maintainEntries),
+            goalBand: [94.0, 96.0],
+            trendColor: C.onTrack,
+        });
+
+        // 7 DAY
+        const d7 = sliceByDate(allEntries, new Date(2026, 1, 13), new Date(2026, 1, 19));
+        drawChart('chart-7d', {
+            data: toChartData(d7),
+            trendColor: C.accent,
+        });
+
+        // 30 DAY
+        const d30 = sliceByDate(allEntries, new Date(2026, 0, 21), new Date(2026, 1, 19));
+        drawChart('chart-30d', {
+            data: toChartData(d30),
+            trendColor: C.accent,
+        });
+
+        // 3 MONTH
+        const m3 = sliceByDate(allEntries, new Date(2025, 10, 19), new Date(2026, 1, 19));
+        drawChart('chart-3m', {
+            data: toChartData(m3),
+            trendColor: (t) => {
+                if (t < 0.35) return C.offTrack;
+                if (t < 0.55) return C.unclear;
+                return C.accent;
+            },
+        });
+
+        // 6 MONTH
+        const m6 = sliceByDate(allEntries, new Date(2025, 7, 19), new Date(2026, 1, 19));
+        drawChart('chart-6m', {
+            data: toChartData(m6),
+            trendColor: (t) => {
+                if (t < 0.25) return C.onTrack;
+                if (t < 0.45) return C.unclear;
+                if (t < 0.7) return C.offTrack;
+                return C.unclear;
+            },
+        });
+    }
+
+    renderAll();
+
+    document.querySelector('.theme-toggle').onclick = function() {
+        const html = document.documentElement;
+        if (html.getAttribute('data-theme') === 'dark') {
+            html.removeAttribute('data-theme');
+            this.textContent = '🌙 Dark';
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            this.textContent = '☀️ Light';
+        }
+        setTimeout(renderAll, 50);
+    };
+
+    let resizeTimer;
+    window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(renderAll, 150); });
+    </script>
+</body>
+</html>

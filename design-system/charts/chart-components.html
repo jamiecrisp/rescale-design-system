@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueWeight — Chart Designs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #f0f2f5; --bg-glass: rgba(255,255,255,0.55); --bg-elevated: #ffffff;
+            --bg-inset: #e8eaed; --border-decorative: rgba(0,0,0,0.10); --border-input: #7e828a;
+            --text-primary: #1a1d24; --text-secondary: #4a4e56; --text-tertiary: #696d76; --text-inverse: #fff;
+            --color-success: #006B4E; --color-success-dim: rgba(0,107,78,0.12);
+            --color-danger: #A12040; --color-danger-dim: rgba(161,32,64,0.1);
+            --color-info: #2A4FA8; --color-info-dim: rgba(42,79,168,0.1);
+            --color-warning: #7A4B00; --color-warning-dim: rgba(122,75,0,0.08);
+            --accent: #006B4E; --accent-dim: rgba(0,107,78,0.12);
+            --accent-btn-bg: #008060; --accent-on: #ffffff;
+            --font-body: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+            --text-3xl: 1.875rem; --text-2xl: 1.5rem; --text-xl: 1.25rem; --text-lg: 1.125rem;
+            --text-base: 1rem; --text-sm: 0.875rem; --text-xs: 0.75rem; --text-2xs: 0.6875rem;
+            --weight-medium: 500; --weight-semibold: 600; --weight-bold: 700;
+            --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px;
+            --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px;
+            --radius-md: 10px; --radius-lg: 14px; --radius-xl: 16px; --radius-full: 9999px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 2px 12px rgba(0,0,0,0.06);
+            --transition-fast: 0.15s ease;
+            /* Chart-specific tokens */
+            --chart-grid: rgba(0,0,0,0.06); --chart-gap-pattern: rgba(0,0,0,0.03);
+            --trend-width: 3; --raw-dot-radius: 3; --range-opacity: 0.18;
+            --on-track: #006B4E; --off-track: #A12040; --unclear: #7A4B00;
+            --on-track-fill: rgba(0,107,78,0.08); --off-track-fill: rgba(161,32,64,0.06);
+            --unclear-fill: rgba(122,75,0,0.06);
+            --goal-line: #2A4FA8; --goal-line-dim: rgba(42,79,168,0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-page: #0a0e1a; --bg-glass: rgba(255,255,255,0.06); --bg-elevated: #131722;
+            --bg-inset: #0d1120; --border-decorative: rgba(255,255,255,0.10); --border-input: #606472;
+            --text-primary: #e8eaed; --text-secondary: #b0b4bc; --text-tertiary: #828690; --text-inverse: #0a0e1a;
+            --color-success: #00E5A0; --color-success-dim: rgba(0,229,160,0.15);
+            --color-danger: #FF6B8A; --color-danger-dim: rgba(255,107,138,0.15);
+            --color-info: #5B8DEF; --color-info-dim: rgba(91,141,239,0.15);
+            --color-warning: #FFB84D; --color-warning-dim: rgba(255,184,77,0.12);
+            --accent: #00E5A0; --accent-dim: rgba(0,229,160,0.15);
+            --accent-btn-bg: #00E5A0; --accent-on: #0a0e1a;
+            --chart-grid: rgba(255,255,255,0.06); --chart-gap-pattern: rgba(255,255,255,0.03);
+            --on-track: #00E5A0; --off-track: #FF6B8A; --unclear: #FFB84D;
+            --on-track-fill: rgba(0,229,160,0.08); --off-track-fill: rgba(255,107,138,0.06);
+            --unclear-fill: rgba(255,184,77,0.06);
+            --goal-line: #5B8DEF; --goal-line-dim: rgba(91,141,239,0.15);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2); --shadow-md: 0 2px 12px rgba(0,0,0,0.2);
+        }
+
+        body { font-family: var(--font-body); font-size: var(--text-base); line-height: 1.5; color: var(--text-primary); background: var(--bg-page); -webkit-font-smoothing: antialiased; }
+
+        .skip-link { position: absolute; top: -100px; left: var(--space-4); background: var(--accent); color: var(--accent-on); padding: var(--space-3) var(--space-6); border-radius: 0 0 var(--radius-md) var(--radius-md); font-weight: var(--weight-semibold); font-size: var(--text-sm); z-index: 200; text-decoration: none; }
+        .skip-link:focus { top: 0; }
+        *:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+        *:focus:not(:focus-visible) { outline: none; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+        .page { max-width: 1100px; margin: 0 auto; padding: var(--space-12) var(--space-8); }
+        .theme-toggle { position: fixed; top: var(--space-4); right: var(--space-4); z-index: 100; background: var(--bg-glass); border: 1px solid var(--border-decorative); border-radius: var(--radius-full); padding: var(--space-2) var(--space-4); font-family: var(--font-body); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--text-secondary); cursor: pointer; backdrop-filter: blur(12px); }
+
+        .section { margin-bottom: var(--space-16); }
+        .section-title { font-size: var(--text-2xl); font-weight: var(--weight-bold); margin-bottom: var(--space-2); }
+        .section-desc { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-8); max-width: 640px; }
+        .sub-title { font-size: var(--text-xs); font-weight: var(--weight-semibold); text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-tertiary); margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-decorative); }
+
+        /* Chart card */
+        .chart-card {
+            background: var(--bg-glass); border: 1px solid var(--border-decorative);
+            border-radius: var(--radius-xl); padding: var(--space-6); backdrop-filter: blur(16px);
+            margin-bottom: var(--space-6);
+        }
+        .chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-4); flex-wrap: wrap; gap: var(--space-3); }
+        .chart-title { font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+        .chart-subtitle { font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 2px; }
+        .chart-badge { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); font-weight: var(--weight-semibold); padding: 3px var(--space-3); border-radius: var(--radius-full); }
+        .badge-on { background: var(--color-success-dim); color: var(--color-success); }
+        .badge-off { background: var(--color-danger-dim); color: var(--color-danger); }
+        .badge-unclear { background: var(--color-warning-dim); color: var(--color-warning); }
+        .badge-neutral { background: var(--bg-inset); color: var(--text-secondary); }
+
+        /* Canvas wrapper */
+        .chart-wrap { position: relative; width: 100%; }
+        .chart-wrap canvas { width: 100% !important; height: auto !important; display: block; border-radius: var(--radius-md); }
+
+        /* Legend */
+        .chart-legend { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--border-decorative); }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: var(--text-xs); color: var(--text-secondary); }
+        .legend-swatch { width: 14px; height: 4px; border-radius: 2px; flex-shrink: 0; }
+        .legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .legend-range { width: 14px; height: 10px; border-radius: 2px; flex-shrink: 0; opacity: 0.5; }
+        .legend-dash { width: 14px; height: 0; border-top: 2px dashed; flex-shrink: 0; }
+        .legend-gap { width: 14px; height: 10px; flex-shrink: 0; background: repeating-linear-gradient(90deg, var(--text-tertiary) 0 2px, transparent 2px 6px); opacity: 0.3; }
+
+        /* Annotation box */
+        .chart-annotations { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
+        .annotation { font-size: var(--text-xs); color: var(--text-tertiary); padding: var(--space-2) var(--space-3); background: var(--bg-inset); border-radius: var(--radius-md); }
+
+        /* Design spec note */
+        .spec-note { font-size: var(--text-xs); color: var(--text-tertiary); font-family: var(--font-mono); background: var(--bg-inset); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); margin-top: var(--space-3); line-height: 1.6; }
+
+        /* Grid for chart pairs */
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+        @media (max-width: 840px) {
+            .chart-grid { grid-template-columns: 1fr; }
+            .page { padding: var(--space-6) var(--space-4); }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <button class="theme-toggle" onclick="document.documentElement.getAttribute('data-theme')==='dark'?(document.documentElement.removeAttribute('data-theme'),this.textContent='🌙 Dark'):(document.documentElement.setAttribute('data-theme','dark'),this.textContent='☀️ Light')" aria-label="Toggle dark mode">🌙 Dark</button>
+
+    <div class="page" id="main" role="main">
+        <header style="margin-bottom: var(--space-16);">
+            <h1 style="font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: 1.2; margin-bottom: var(--space-3);">
+                Chart Designs
+            </h1>
+            <p style="font-size: var(--text-lg); color: var(--text-secondary); max-width: 620px;">
+                Trend-focused weight charts designed for every scenario — different weighing habits, goal types, and data patterns. The trend line is always the primary visual; raw data points are secondary.
+            </p>
+        </header>
+
+        <!-- ════════════════════════════════════════
+             CHART ANATOMY
+             ════════════════════════════════════════ -->
+        <div class="section">
+            <h2 class="section-title">Chart Anatomy</h2>
+            <p class="section-desc">Every chart shares the same visual hierarchy: bold trend line on top, subtle raw data underneath. Goal and status information is encoded through colour, not clutter.</p>
+
+            <div class="chart-card" id="anatomy-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Visual Hierarchy</div>
+                        <div class="chart-subtitle">How the layers compose together</div>
+                    </div>
+                    <div class="chart-badge badge-on">● On track</div>
+                </div>
+                <div class="chart-wrap"><canvas id="chart-anatomy" height="280"></canvas></div>
+                <div class="chart-legend">
+                    <div class="legend-item"><span class="legend-swatch" style="background: var(--on-track); height: 3px;"></span> Trend line (primary)</div>
+                    <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw data points</div>
+                    <div class="legend-item"><span class="legend-range" style="background: var(--on-track);"></span> Daily range (multi-weigh)</div>
+                    <div class="legend-item"><span class="legend-dash" style="border-color: var(--goal-line);"></span> Goal / target</div>
+                </div>
+                <div class="spec-note">
+                    <strong>Layer order (back→front):</strong> Goal band fill → Grid → Daily range bars → Raw dots → Trend fill → Trend line<br>
+                    <strong>Trend line:</strong> 3px solid where data exists, 2px dashed at 35% opacity through gaps<br>
+                    <strong>Raw dots:</strong> 3px radius, tertiary colour at 40% opacity — visible but never competing<br>
+                    <strong>Range bars:</strong> 5px wide, trend colour at 18% opacity — shows daily min→max for multi-weigh days<br>
+                    <strong>Goal line:</strong> 1.5px dashed, info colour — steady reference that doesn't dominate<br>
+                    <strong>Gaps:</strong> Trend line switches from solid to dashed — no additional decoration needed
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             GOAL: LOSE WEIGHT
+             ════════════════════════════════════════ -->
+        <div class="section">
+            <h2 class="section-title">Goal: Lose Weight</h2>
+            <p class="section-desc">Target weight shown as a dashed line. Trend colour shifts from green (on track) through amber (stalling) to red (gaining). The fill between trend and goal provides at-a-glance status.</p>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Daily Weigher — On Track</div>
+                            <div class="chart-subtitle">30 days · Target: 80.0 kg</div>
+                        </div>
+                        <div class="chart-badge badge-on">↘ On track</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-lose-daily-on" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--on-track); height: 3px;"></span> Trend</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                        <div class="legend-item"><span class="legend-dash" style="border-color: var(--goal-line);"></span> Target 80.0</div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Daily Weigher — Off Track</div>
+                            <div class="chart-subtitle">30 days · Target: 80.0 kg</div>
+                        </div>
+                        <div class="chart-badge badge-off">↗ Off track</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-lose-daily-off" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--off-track); height: 3px;"></span> Trend</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                        <div class="legend-item"><span class="legend-dash" style="border-color: var(--goal-line);"></span> Target 80.0</div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Irregular Weigher — Trend Unclear</div>
+                            <div class="chart-subtitle">30 days · 11 entries · Target: 78.0 kg</div>
+                        </div>
+                        <div class="chart-badge badge-unclear">― Unclear</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-lose-irregular" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--unclear); height: 3px;"></span> Trend (measured)</div>
+                        <div class="legend-item"><span class="legend-dash" style="border-color: var(--unclear); opacity: 0.4;"></span> Trend (estimated)</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                        <div class="legend-item"><span class="legend-dash" style="border-color: var(--goal-line);"></span> Target 78.0</div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Multi-Weigh — On Track</div>
+                            <div class="chart-subtitle">14 days · 2–3× daily · Target: 82.0 kg</div>
+                        </div>
+                        <div class="chart-badge badge-on">↘ On track</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-lose-multi" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--on-track); height: 3px;"></span> Trend</div>
+                        <div class="legend-item"><span class="legend-range" style="background: var(--on-track);"></span> Daily range</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                        <div class="legend-item"><span class="legend-dash" style="border-color: var(--goal-line);"></span> Target 82.0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             GOAL: GAIN WEIGHT
+             ════════════════════════════════════════ -->
+        <div class="section">
+            <h2 class="section-title">Goal: Gain Weight</h2>
+            <p class="section-desc">Same visual language, inverted logic — upward trend is green, downward is red. Target line sits above current weight.</p>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Daily — On Track</div>
+                            <div class="chart-subtitle">30 days · Target: 72.0 kg</div>
+                        </div>
+                        <div class="chart-badge badge-on">↗ On track</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-gain-on" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--on-track); height: 3px;"></span> Trend</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                        <div class="legend-item"><span class="legend-dash" style="border-color: var(--goal-line);"></span> Target 72.0</div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Irregular — Off Track</div>
+                            <div class="chart-subtitle">30 days · 9 entries · Target: 70.0 kg</div>
+                        </div>
+                        <div class="chart-badge badge-off">↘ Off track</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-gain-off" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--off-track); height: 3px;"></span> Trend (measured)</div>
+                        <div class="legend-item"><span class="legend-dash" style="border-color: var(--off-track); opacity: 0.4;"></span> Trend (estimated)</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                        <div class="legend-item"><span class="legend-dash" style="border-color: var(--goal-line);"></span> Target 70.0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             GOAL: MAINTAIN
+             ════════════════════════════════════════ -->
+        <div class="section">
+            <h2 class="section-title">Goal: Maintain Weight</h2>
+            <p class="section-desc">Maintenance zone shown as a shaded band (±0.5–1% of target). Trend turns amber when approaching the edge of the band, red when it crosses outside.</p>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Daily — Within Range</div>
+                            <div class="chart-subtitle">30 days · Maintain 82.0 kg ± 0.8</div>
+                        </div>
+                        <div class="chart-badge badge-on">→ Maintaining</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-maintain-in" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--on-track); height: 3px;"></span> Trend</div>
+                        <div class="legend-item"><span class="legend-range" style="background: var(--goal-line);"></span> Maintenance zone</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Daily — Drifting Out</div>
+                            <div class="chart-subtitle">30 days · Maintain 82.0 kg ± 0.8</div>
+                        </div>
+                        <div class="chart-badge badge-off">↗ Drifting up</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-maintain-out" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--off-track); height: 3px;"></span> Trend (out of range)</div>
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--on-track); height: 3px;"></span> Trend (in range)</div>
+                        <div class="legend-item"><span class="legend-range" style="background: var(--goal-line);"></span> Maintenance zone</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Multi-Weigh — Approaching Edge</div>
+                            <div class="chart-subtitle">14 days · 2–4× daily · Maintain 75.0 kg ± 0.7</div>
+                        </div>
+                        <div class="chart-badge badge-unclear">⚠ Near boundary</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-maintain-multi" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--unclear); height: 3px;"></span> Trend (near edge)</div>
+                        <div class="legend-item"><span class="legend-range" style="background: var(--unclear);"></span> Daily range</div>
+                        <div class="legend-item"><span class="legend-range" style="background: var(--goal-line);"></span> Maintenance zone</div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Irregular — No Target Range Set</div>
+                            <div class="chart-subtitle">30 days · 14 entries · Maintain (no bounds)</div>
+                        </div>
+                        <div class="chart-badge badge-neutral">→ Stable</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-maintain-nobounds" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--on-track); height: 3px;"></span> Trend (measured)</div>
+                        <div class="legend-item"><span class="legend-dash" style="border-color: var(--on-track); opacity: 0.4;"></span> Trend (estimated)</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                    </div>
+                    <div class="spec-note">
+                        Without a defined maintenance range, status is derived from trend slope alone:<br>
+                        <strong>Green:</strong> |slope| &lt; 0.02 kg/day → stable &nbsp;
+                        <strong>Amber:</strong> 0.02–0.05 kg/day → drifting &nbsp;
+                        <strong>Red:</strong> &gt; 0.05 kg/day → significant change
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             NO GOAL SET
+             ════════════════════════════════════════ -->
+        <div class="section">
+            <h2 class="section-title">No Goal Set</h2>
+            <p class="section-desc">When no goal is set, the trend line uses the accent colour — neutral, no judgement. The chart just shows the data.</p>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Daily — No Goal</div>
+                            <div class="chart-subtitle">30 days · Just tracking</div>
+                        </div>
+                        <div class="chart-badge badge-neutral">Trend: ↘ 0.3 kg/wk</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-nogoal-daily" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--accent); height: 3px;"></span> Trend</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Very Sparse — 4 entries in 30 days</div>
+                            <div class="chart-subtitle">Insufficient data for reliable trend</div>
+                        </div>
+                        <div class="chart-badge badge-neutral">Not enough data</div>
+                    </div>
+                    <div class="chart-wrap"><canvas id="chart-nogoal-sparse" height="240"></canvas></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-swatch" style="background: var(--accent); height: 3px; opacity: 0.5;"></span> Trend (low confidence)</div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--text-tertiary); opacity: 0.5;"></span> Raw</div>
+                    </div>
+                    <div class="spec-note">
+                        <strong>Sparse data rule:</strong> When &lt;5 entries exist, trend line is drawn dashed at reduced opacity to indicate low confidence. A message encourages more frequent weighing.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             DESIGN RULES
+             ════════════════════════════════════════ -->
+        <div class="section">
+            <h2 class="section-title">Chart Design Rules</h2>
+            <p class="section-desc">Codified rules for consistent rendering across all scenarios.</p>
+
+            <div class="chart-card" style="max-width: 720px;">
+                <div class="spec-note" style="background: transparent; padding: 0; line-height: 1.8;">
+<strong>TREND ALGORITHM</strong>
+Exponentially Weighted Moving Average (EWMA), α=0.15
+→ Smooths out daily ±0.5–1.0 kg water fluctuations
+→ Responds to genuine change within ~7 days
+
+<strong>COLOUR LOGIC (when goal is set)</strong>
+Green (on-track): Trend moving towards goal, or within maintenance band
+Amber (unclear): Trend flat when loss/gain expected, or within 20% of maintenance boundary
+Red (off-track): Trend moving away from goal, or outside maintenance band
+
+<strong>COLOUR TRANSITION</strong>
+Trend line can change colour along its length via gradient stops
+→ Reflects status changes mid-period (e.g. on-track → stalling)
+→ Transition occurs at the point where status changes
+
+<strong>DATA GAP HANDLING</strong>
+Trend carries forward through gaps (your weight doesn't vanish)
+Gap segments drawn dashed at 35% opacity → clearly "estimated, not measured"
+When a new measurement arrives, EWMA resumes from the carried value
+
+<strong>SPARSE DATA (&lt;5 entries)</strong>
+Entire trend line drawn dashed at 45% opacity → "low confidence"
+Badge shows "Not enough data" rather than a directional status
+Encourages more frequent weighing without hiding what data exists
+
+<strong>MULTI-WEIGH DAYS</strong>
+Show vertical range bar (min→max) at 18% opacity
+Plot average as the primary data point
+Trend calculations use the daily average
+
+<strong>Y-AXIS SCALING</strong>
+Auto-scale to data range + 10% padding top/bottom
+If goal exists, always include goal line in visible range
+Maintain minimum 2kg visible range (prevents noisy appearance)
+
+<strong>X-AXIS</strong>
+Show date labels at regular intervals (daily, weekly, or monthly depending on range)
+Weekend shading optional (subtle bg tint)
+Today marker: vertical dotted line
+
+<strong>ACCESSIBILITY</strong>
+All colours meet 3:1 minimum on chart background (non-text contrast)
+Trend status conveyed by badge text + icon, never colour alone
+Screen reader: provide sr-only table of data points as alternative
+Chart role="img" with descriptive aria-label
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    // ═══════════════════════════════════════════════════
+    // CHART RENDERER
+    // ═══════════════════════════════════════════════════
+    const DARK = () => document.documentElement.getAttribute('data-theme') === 'dark';
+
+    function getColors() {
+        const s = getComputedStyle(document.documentElement);
+        return {
+            onTrack: s.getPropertyValue('--on-track').trim(),
+            offTrack: s.getPropertyValue('--off-track').trim(),
+            unclear: s.getPropertyValue('--unclear').trim(),
+            accent: s.getPropertyValue('--accent').trim(),
+            goal: s.getPropertyValue('--goal-line').trim(),
+            goalDim: s.getPropertyValue('--goal-line-dim').trim(),
+            grid: s.getPropertyValue('--chart-grid').trim(),
+            textPri: s.getPropertyValue('--text-primary').trim(),
+            textSec: s.getPropertyValue('--text-secondary').trim(),
+            textTer: s.getPropertyValue('--text-tertiary').trim(),
+            bgPage: s.getPropertyValue('--bg-page').trim(),
+            bgInset: s.getPropertyValue('--bg-inset').trim(),
+            onTrackFill: s.getPropertyValue('--on-track-fill').trim(),
+            offTrackFill: s.getPropertyValue('--off-track-fill').trim(),
+            unclearFill: s.getPropertyValue('--unclear-fill').trim(),
+        };
+    }
+
+    function ewma(data, alpha = 0.15) {
+        // data: [{day, values:[]}] — compute EWMA on daily averages
+        // Trend carries forward through gaps; each point tagged measured/carried
+        const result = [];
+        let prev = null;
+        let gapCount = 0;
+        for (const d of data) {
+            if (d.values.length === 0) {
+                // No measurement — carry the trend forward, mark as carried
+                if (prev !== null) {
+                    gapCount++;
+                    result.push({ day: d.day, trend: prev, avg: null, min: null, max: null, raw: [], measured: false, gapLength: gapCount });
+                } else {
+                    result.push({ day: d.day, trend: null, avg: null, min: null, max: null, raw: [], measured: false, gapLength: 0 });
+                }
+                continue;
+            }
+            gapCount = 0;
+            const avg = d.values.reduce((a, b) => a + b, 0) / d.values.length;
+            const mn = Math.min(...d.values);
+            const mx = Math.max(...d.values);
+            const trend = prev === null ? avg : alpha * avg + (1 - alpha) * prev;
+            prev = trend;
+            result.push({ day: d.day, trend, avg, min: mn, max: mx, raw: d.values, measured: true, gapLength: 0 });
+        }
+        return result;
+    }
+
+    function drawChart(canvasId, opts) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const W = rect.width;
+        const H = canvas.height;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        const C = getColors();
+        const PAD = { top: 20, right: 16, bottom: 32, left: 52 };
+        const cW = W - PAD.left - PAD.right;
+        const cH = H - PAD.top - PAD.bottom;
+
+        const { data, goalLine, goalBand, trendColor, showRanges, sparse, noGoal } = opts;
+        const trend = ewma(data, 0.15);
+
+        // Determine Y range
+        let allVals = [];
+        trend.forEach(t => {
+            if (t.trend !== null) allVals.push(t.trend);
+            if (t.avg !== null) { allVals.push(t.min, t.max); }
+        });
+        if (goalLine != null) allVals.push(goalLine);
+        if (goalBand) { allVals.push(goalBand[0], goalBand[1]); }
+        let yMin = Math.min(...allVals);
+        let yMax = Math.max(...allVals);
+        let range = yMax - yMin;
+        if (range < 2) { const mid = (yMax + yMin) / 2; yMin = mid - 1; yMax = mid + 1; range = 2; }
+        const pad = range * 0.12;
+        yMin -= pad; yMax += pad; range = yMax - yMin;
+
+        const xScale = (i) => PAD.left + (i / (data.length - 1)) * cW;
+        const yScale = (v) => PAD.top + (1 - (v - yMin) / range) * cH;
+
+        // — Grid lines —
+        ctx.strokeStyle = C.grid;
+        ctx.lineWidth = 1;
+        const nGridY = 5;
+        const step = range / nGridY;
+        ctx.font = `500 10px 'JetBrains Mono', monospace`;
+        ctx.fillStyle = C.textTer;
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= nGridY; i++) {
+            const v = yMin + i * step;
+            const y = yScale(v);
+            ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W - PAD.right, y); ctx.stroke();
+            ctx.fillText(v.toFixed(1), PAD.left - 8, y + 3.5);
+        }
+
+        // — Goal band (maintain) —
+        if (goalBand) {
+            const y1 = yScale(goalBand[1]);
+            const y2 = yScale(goalBand[0]);
+            ctx.fillStyle = C.goalDim;
+            ctx.fillRect(PAD.left, y1, cW, y2 - y1);
+            // Band edge lines
+            ctx.strokeStyle = C.goal;
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath(); ctx.moveTo(PAD.left, y1); ctx.lineTo(W - PAD.right, y1); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(PAD.left, y2); ctx.lineTo(W - PAD.right, y2); ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        // — Goal line —
+        if (goalLine != null && !goalBand) {
+            const gy = yScale(goalLine);
+            ctx.strokeStyle = C.goal;
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([6, 4]);
+            ctx.beginPath(); ctx.moveTo(PAD.left, gy); ctx.lineTo(W - PAD.right, gy); ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = C.goal;
+            ctx.font = `600 10px 'JetBrains Mono', monospace`;
+            ctx.textAlign = 'left';
+            ctx.fillText(goalLine.toFixed(1), W - PAD.right + 4, gy + 3.5);
+        }
+
+        // — Daily range bars —
+        if (showRanges) {
+            trend.forEach((t, i) => {
+                if (t.raw.length > 1) {
+                    const x = xScale(i);
+                    ctx.strokeStyle = (typeof trendColor === 'string') ? trendColor : C.onTrack;
+                    ctx.globalAlpha = 0.18;
+                    ctx.lineWidth = 5;
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    ctx.moveTo(x, yScale(t.min));
+                    ctx.lineTo(x, yScale(t.max));
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+            });
+        }
+
+        // — Raw data dots —
+        trend.forEach((t, i) => {
+            if (t.avg === null) return;
+            const x = xScale(i);
+            t.raw.forEach(v => {
+                ctx.beginPath();
+                ctx.arc(x, yScale(v), 3, 0, Math.PI * 2);
+                ctx.fillStyle = C.textTer;
+                ctx.globalAlpha = 0.4;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            });
+        });
+
+        // — Trend fill (to goal or bottom) —
+        // Build one continuous set of points where trend exists
+        const trendPoints = trend.filter(t => t.trend !== null);
+
+        if (trendPoints.length >= 2) {
+            const fillBase = goalLine != null ? yScale(goalLine) : PAD.top + cH;
+            const col = typeof trendColor === 'function' ? trendColor(0.5) : (typeof trendColor === 'string' ? trendColor : C.onTrack);
+            ctx.beginPath();
+            trendPoints.forEach((p, j) => {
+                const idx = trend.indexOf(p);
+                const x = xScale(idx); const y = yScale(p.trend);
+                j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            });
+            const lastIdx = trend.indexOf(trendPoints[trendPoints.length - 1]);
+            const firstIdx = trend.indexOf(trendPoints[0]);
+            ctx.lineTo(xScale(lastIdx), fillBase);
+            ctx.lineTo(xScale(firstIdx), fillBase);
+            ctx.closePath();
+            ctx.globalAlpha = 0.06;
+            ctx.fillStyle = col;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+
+        // — Trend line — draw measured segments solid, carried segments dashed
+        if (trendPoints.length >= 2) {
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // Walk through consecutive pairs
+            for (let j = 1; j < trend.length; j++) {
+                const p0 = trend[j - 1];
+                const p1 = trend[j];
+                if (p0.trend === null || p1.trend === null) continue;
+
+                const idx0 = j - 1;
+                const idx1 = j;
+                const x0 = xScale(idx0), y0 = yScale(p0.trend);
+                const x1 = xScale(idx1), y1 = yScale(p1.trend);
+
+                // Determine if this segment spans a gap (either end is carried)
+                const isGap = !p0.measured || !p1.measured;
+
+                // Determine colour
+                let col;
+                if (typeof trendColor === 'function') {
+                    const t = j / (trend.length - 1);
+                    col = trendColor(t);
+                } else {
+                    col = trendColor || C.onTrack;
+                }
+
+                ctx.strokeStyle = col;
+
+                if (isGap || sparse) {
+                    // Dashed, reduced opacity for carried/uncertain segments
+                    ctx.setLineDash([6, 5]);
+                    ctx.globalAlpha = sparse ? 0.45 : 0.35;
+                    ctx.lineWidth = 2;
+                } else {
+                    ctx.setLineDash([]);
+                    ctx.globalAlpha = 1;
+                    ctx.lineWidth = 3;
+                }
+
+                ctx.beginPath();
+                ctx.moveTo(x0, y0);
+                ctx.lineTo(x1, y1);
+                ctx.stroke();
+            }
+
+            ctx.setLineDash([]);
+            ctx.globalAlpha = 1;
+            ctx.lineWidth = 3;
+        }
+
+        // — X axis labels —
+        ctx.font = `500 10px 'JetBrains Mono', monospace`;
+        ctx.fillStyle = C.textTer;
+        ctx.textAlign = 'center';
+        const labelEvery = data.length <= 14 ? 2 : data.length <= 31 ? 5 : 7;
+        data.forEach((d, i) => {
+            if (i % labelEvery === 0 || i === data.length - 1) {
+                ctx.fillText(d.label || `D${i + 1}`, xScale(i), H - 8);
+            }
+        });
+
+        // Aria label
+        const trendStart = trend.find(t => t.trend !== null);
+        const trendEnd = [...trend].reverse().find(t => t.trend !== null);
+        const desc = trendStart && trendEnd ?
+            `Weight chart. Trend from ${trendStart.trend.toFixed(1)} to ${trendEnd.trend.toFixed(1)} kg over ${data.length} days.` :
+            'Weight chart with insufficient data.';
+        canvas.setAttribute('role', 'img');
+        canvas.setAttribute('aria-label', desc);
+    }
+
+    // ═══ DATA GENERATORS ═══
+    function daily30(start, perDay, noise) {
+        const days = [];
+        let w = start;
+        for (let i = 0; i < 30; i++) {
+            w += perDay + (Math.random() - 0.5) * noise;
+            const label = `${(i + 1)}`;
+            days.push({ day: i, values: [w + (Math.random() - 0.5) * 0.4], label });
+        }
+        return days;
+    }
+
+    function irregular30(start, perDay, noise, presentDays) {
+        const days = [];
+        let lastW = start;
+        for (let i = 0; i < 30; i++) {
+            lastW += perDay + (Math.random() - 0.5) * noise * 0.5;
+            if (presentDays.includes(i)) {
+                days.push({ day: i, values: [lastW + (Math.random() - 0.5) * 0.3], label: `${i + 1}` });
+            } else {
+                days.push({ day: i, values: [], label: `${i + 1}` });
+            }
+        }
+        return days;
+    }
+
+    function multiWeigh14(start, perDay, noise) {
+        const days = [];
+        let w = start;
+        for (let i = 0; i < 14; i++) {
+            w += perDay + (Math.random() - 0.5) * noise;
+            const nReadings = 2 + Math.floor(Math.random() * 2);
+            const vals = [];
+            for (let j = 0; j < nReadings; j++) {
+                vals.push(w + (Math.random() - 0.5) * 1.2); // wider spread for multi-weigh
+            }
+            days.push({ day: i, values: vals, label: `${i + 1}` });
+        }
+        return days;
+    }
+
+    // Seeded pseudo-random for consistency
+    let seed = 42;
+    function srand() { seed = (seed * 16807 + 0) % 2147483647; return (seed - 1) / 2147483646; }
+    function sreset(s) { seed = s; }
+    const _mr = Math.random;
+    Math.random = srand;
+
+    function renderAll() {
+        sreset(42);
+
+        const C = getColors();
+
+        // ANATOMY
+        sreset(42);
+        drawChart('chart-anatomy', {
+            data: multiWeigh14(84.0, -0.12, 0.4),
+            goalLine: 82.0,
+            trendColor: C.onTrack,
+            showRanges: true,
+        });
+
+        // LOSE — DAILY ON TRACK
+        sreset(100);
+        drawChart('chart-lose-daily-on', {
+            data: daily30(84.5, -0.08, 0.6),
+            goalLine: 80.0,
+            trendColor: C.onTrack,
+        });
+
+        // LOSE — DAILY OFF TRACK
+        sreset(200);
+        drawChart('chart-lose-daily-off', {
+            data: daily30(82.0, 0.05, 0.7),
+            goalLine: 80.0,
+            trendColor: C.offTrack,
+        });
+
+        // LOSE — IRREGULAR UNCLEAR
+        sreset(300);
+        drawChart('chart-lose-irregular', {
+            data: irregular30(82.5, -0.01, 0.5, [0, 2, 4, 7, 10, 14, 17, 20, 23, 26, 29]),
+            goalLine: 78.0,
+            trendColor: C.unclear,
+        });
+
+        // LOSE — MULTI ON TRACK
+        sreset(400);
+        drawChart('chart-lose-multi', {
+            data: multiWeigh14(85.0, -0.15, 0.5),
+            goalLine: 82.0,
+            trendColor: C.onTrack,
+            showRanges: true,
+        });
+
+        // GAIN — ON TRACK
+        sreset(500);
+        drawChart('chart-gain-on', {
+            data: daily30(68.0, 0.07, 0.5),
+            goalLine: 72.0,
+            trendColor: C.onTrack,
+        });
+
+        // GAIN — OFF TRACK
+        sreset(600);
+        drawChart('chart-gain-off', {
+            data: irregular30(68.5, -0.04, 0.4, [0, 3, 5, 9, 13, 16, 20, 25, 29]),
+            goalLine: 70.0,
+            trendColor: C.offTrack,
+        });
+
+        // MAINTAIN — IN RANGE
+        sreset(700);
+        drawChart('chart-maintain-in', {
+            data: daily30(82.0, 0.002, 0.5),
+            goalBand: [81.2, 82.8],
+            trendColor: C.onTrack,
+        });
+
+        // MAINTAIN — DRIFTING OUT
+        sreset(800);
+        const maintOutData = daily30(82.0, 0.04, 0.5);
+        drawChart('chart-maintain-out', {
+            data: maintOutData,
+            goalBand: [81.2, 82.8],
+            trendColor: (t) => {
+                // Green early, transition to red
+                if (t < 0.4) return C.onTrack;
+                if (t < 0.6) return C.unclear;
+                return C.offTrack;
+            },
+        });
+
+        // MAINTAIN — MULTI NEAR EDGE
+        sreset(900);
+        drawChart('chart-maintain-multi', {
+            data: multiWeigh14(75.3, 0.025, 0.4),
+            goalBand: [74.3, 75.7],
+            trendColor: C.unclear,
+            showRanges: true,
+        });
+
+        // MAINTAIN — NO BOUNDS
+        sreset(950);
+        drawChart('chart-maintain-nobounds', {
+            data: irregular30(82.0, 0.005, 0.4, [0, 1, 3, 5, 7, 9, 11, 13, 16, 18, 21, 24, 27, 29]),
+            trendColor: C.onTrack,
+        });
+
+        // NO GOAL — DAILY
+        sreset(1000);
+        drawChart('chart-nogoal-daily', {
+            data: daily30(83.0, -0.03, 0.5),
+            trendColor: C.accent,
+            noGoal: true,
+        });
+
+        // NO GOAL — SPARSE
+        sreset(1100);
+        drawChart('chart-nogoal-sparse', {
+            data: irregular30(81.0, -0.02, 0.3, [0, 10, 20, 28]),
+            trendColor: C.accent,
+            sparse: true,
+            noGoal: true,
+        });
+    }
+
+    // Render on load and theme change
+    Math.random = srand;
+    renderAll();
+
+    const origToggle = document.querySelector('.theme-toggle').onclick;
+    document.querySelector('.theme-toggle').onclick = function(e) {
+        const html = document.documentElement;
+        if (html.getAttribute('data-theme') === 'dark') {
+            html.removeAttribute('data-theme');
+            this.textContent = '🌙 Dark';
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            this.textContent = '☀️ Light';
+        }
+        setTimeout(renderAll, 50);
+    };
+
+    // Resize handler
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderAll, 150);
+    });
+
+    Math.random = _mr; // restore
+    </script>
+</body>
+</html>
