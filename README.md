@@ -144,10 +144,10 @@ Open any `.html` file directly in a browser. Every page includes a theme toggle 
 ## Pushing to GitHub
 
 ```bash
-cd trueweight-design-system
+cd rescale-design-system
 git init
 git add .
 git commit -m "Initial commit: Re:Scale design system"
-git remote add origin git@github.com:YOUR_USERNAME/trueweight-design-system.git
+git remote add origin git@github.com:YOUR_USERNAME/rescale-design-system.git
 git push -u origin main
 ```
