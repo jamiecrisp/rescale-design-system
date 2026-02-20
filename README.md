@@ -21,13 +21,9 @@ A complete design system for **Re:Scale** — a weight tracking app focused on r
 │       └── chart-realdata.html    # Real data rendered across time ranges & goals
 │
 ├── mockups/
-│   ├── dashboard/
+│   └── dashboard/
 │   │   ├── light.html        # Final accessible responsive dashboard (light)
 │   │   └── dark.html         # Final accessible responsive dashboard (dark)
-│   └── exploration/
-│       ├── 01-typography.html    # Early concept: editorial/typography-driven
-│       ├── 02-flat-ui.html       # Early concept: colourful flat UI
-│       └── 03-glassmorphism-original.html  # Early concept: dark glassmorphism
 │
 ├── icons/
 │   ├── icon-home.svg         # Dashboard/home navigation icon
