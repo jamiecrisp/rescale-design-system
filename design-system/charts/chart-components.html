@@ -526,7 +526,9 @@ Chart role="img" with descriptive aria-label
         const dpr = window.devicePixelRatio || 1;
         const rect = canvas.parentElement.getBoundingClientRect();
         const W = rect.width;
-        const H = canvas.height;
+        // Store original CSS height on first render to prevent DPR doubling
+        if (!canvas.dataset.cssHeight) canvas.dataset.cssHeight = canvas.height;
+        const H = parseInt(canvas.dataset.cssHeight);
         canvas.width = W * dpr;
         canvas.height = H * dpr;
         canvas.style.width = W + 'px';
@@ -929,7 +931,10 @@ Chart role="img" with descriptive aria-label
 
     // Resize handler
     let resizeTimer;
+    let lastWidth = window.innerWidth;
     window.addEventListener('resize', () => {
+        if (Math.abs(window.innerWidth - lastWidth) < 1) return;
+        lastWidth = window.innerWidth;
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(renderAll, 150);
     });

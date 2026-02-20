@@ -775,7 +775,9 @@
         const dpr = window.devicePixelRatio || 1;
         const rect = canvas.parentElement.getBoundingClientRect();
         const W = rect.width;
-        const H = canvas.height;
+        // Store original CSS height on first render to prevent DPR doubling
+        if (!canvas.dataset.cssHeight) canvas.dataset.cssHeight = canvas.height;
+        const H = parseInt(canvas.dataset.cssHeight);
         canvas.width = W * dpr;
         canvas.height = H * dpr;
         canvas.style.width = W + 'px';
@@ -1065,7 +1067,14 @@
     }
 
     let resizeTimer;
-    window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(renderAll, 150); });
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+        // Only re-render on width change — ignore mobile URL bar height changes
+        if (Math.abs(window.innerWidth - lastWidth) < 1) return;
+        lastWidth = window.innerWidth;
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderAll, 150);
+    });
     </script>
 </body>
 </html>
