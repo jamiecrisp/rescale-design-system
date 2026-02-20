@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -201,11 +201,11 @@
             .demo-col { min-width: 0; }
         }
     </style>
-<script>if(localStorage.getItem("theme")==="dark")document.documentElement.setAttribute("data-theme","dark");</script>
+<script>if(localStorage.getItem("theme")==="light")document.documentElement.removeAttribute("data-theme");</script>
 </head>
 <body>
     <a href="#main" class="skip-link">Skip to content</a>
-    <button class="theme-toggle" onclick="document.documentElement.getAttribute('data-theme')==='dark'?(document.documentElement.removeAttribute('data-theme'),this.textContent='🌙 Dark',localStorage.setItem('theme','light')):(document.documentElement.setAttribute('data-theme','dark'),this.textContent='☀️ Light',localStorage.setItem('theme','dark'))" aria-label="Toggle dark mode">🌙 Dark</button>
+    <button class="theme-toggle" onclick="document.documentElement.getAttribute('data-theme')==='dark'?(document.documentElement.removeAttribute('data-theme'),this.textContent='🌙 Dark',localStorage.setItem('theme','light')):(document.documentElement.setAttribute('data-theme','dark'),this.textContent='☀️ Light',localStorage.setItem('theme','dark'))" aria-label="Toggle dark mode">☀️ Light</button>
 
     <div class="ds-page" id="main" role="main">
 
@@ -478,6 +478,6 @@
         </section>
 
     </div>
-<script>if(localStorage.getItem("theme")==="dark"){var b=document.querySelector(".theme-toggle");if(b)b.textContent="☀️ Light";}</script>
+<script>if(localStorage.getItem("theme")==="light"){var b=document.querySelector(".theme-toggle");if(b)b.textContent="🌙 Dark";}</script>
 </body>
 </html>

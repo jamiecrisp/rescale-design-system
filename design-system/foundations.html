@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -471,11 +471,11 @@
             .swatch-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
-<script>if(localStorage.getItem("theme")==="dark")document.documentElement.setAttribute("data-theme","dark");</script>
+<script>if(localStorage.getItem("theme")==="light")document.documentElement.removeAttribute("data-theme");</script>
 </head>
 <body>
     <a href="#main" class="skip-link">Skip to content</a>
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">🌙 Dark mode</button>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">☀️ Light mode</button>
 
     <div class="ds-page" id="main" role="main">
 
@@ -825,9 +825,9 @@
                 localStorage.setItem('theme', 'dark');
             }
         }
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            document.querySelector('.theme-toggle').textContent = '☀️ Light mode';
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.removeAttribute('data-theme');
+            document.querySelector('.theme-toggle').textContent = '🌙 Dark mode';
         }
     </script>
 </body>
