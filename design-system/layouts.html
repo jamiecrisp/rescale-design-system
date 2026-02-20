@@ -82,9 +82,10 @@
         [data-theme="dark"] .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23828690' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); }
         .toggle-wrap { display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
         .toggle-label { font-size: var(--text-sm); }
+        .toggle { position: relative; display: inline-flex; align-items: center; cursor: pointer; flex-shrink: 0; }
         .toggle-track { width: 44px; height: 24px; border-radius: var(--radius-full); background: var(--bg-inset); border: 2px solid var(--border-input); position: relative; transition: all var(--transition-fast); cursor: pointer; flex-shrink: 0; }
         .toggle-track::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: var(--radius-full); background: var(--text-tertiary); transition: all var(--transition-fast); }
-        .toggle-input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .toggle-input { position: absolute; opacity: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); pointer-events: none; }
         .toggle-input:checked + .toggle-track { background: var(--accent); border-color: var(--accent); }
         .toggle-input:checked + .toggle-track::after { transform: translateX(20px); background: var(--accent-on); }
         .toggle-input:focus-visible + .toggle-track { outline: 3px solid var(--border-focus); outline-offset: 2px; }
@@ -258,9 +259,9 @@
                                 <h3 class="settings-section-title">General</h3>
                                 <p class="settings-section-desc">Basic preferences for how Re:Scale works.</p>
                                 <div class="glass" style="padding: var(--space-5);">
-                                    <label class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Dark mode</div><div class="settings-row-desc">Switch between light and dark themes</div></div><span><input type="checkbox" class="toggle-input"><span class="toggle-track" role="switch" aria-checked="false"></span></span></label>
-                                    <label class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Google Fit sync</div><div class="settings-row-desc">Automatically import weight from Google Fit</div></div><span><input type="checkbox" class="toggle-input" checked><span class="toggle-track" role="switch" aria-checked="true"></span></span></label>
-                                    <label class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Daily reminder</div><div class="settings-row-desc">Get a notification to weigh in each morning</div></div><span><input type="checkbox" class="toggle-input" checked><span class="toggle-track" role="switch" aria-checked="true"></span></span></label>
+                                    <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Dark mode</div><div class="settings-row-desc">Switch between light and dark themes</div></div><label class="toggle"><input type="checkbox" class="toggle-input" aria-label="Dark mode"><span class="toggle-track"></span></label></div>
+                                    <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Google Fit sync</div><div class="settings-row-desc">Automatically import weight from Google Fit</div></div><label class="toggle"><input type="checkbox" class="toggle-input" checked aria-label="Google Fit sync"><span class="toggle-track"></span></label></div>
+                                    <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Daily reminder</div><div class="settings-row-desc">Get a notification to weigh in each morning</div></div><label class="toggle"><input type="checkbox" class="toggle-input" checked aria-label="Daily reminder"><span class="toggle-track"></span></label></div>
                                 </div>
                             </div>
                             <div class="settings-section">
