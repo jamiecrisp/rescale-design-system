@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Scale — Icons — Trend</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shell.css">
+    <style>
+    </style>
+    <script>if(localStorage.getItem("theme")==="light")document.documentElement.removeAttribute("data-theme");</script>
+</head>
+<body>
+    <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav__overlay" id="nav-overlay"></div>
+
+    <div class="shell">
+        <nav class="nav" id="nav">
+            <a href="../index.html" class="nav__brand">
+                <div class="nav__brand-icon">⚡</div>
+                <div class="nav__brand-text">Re:<span>Scale</span></div>
+            </a>
+            <div class="nav__scroll">
+        <div class="nav__group">
+            <div class="nav__group-title">Foundations</div>
+            <a class="nav__link" href="../foundations/colour.html">Colour</a>
+            <a class="nav__link" href="../foundations/typography.html">Typography</a>
+            <a class="nav__link" href="../foundations/spacing.html">Spacing</a>
+            <a class="nav__link" href="../foundations/shape.html">Shape & Elevation</a>
+            <a class="nav__link" href="../foundations/accessibility.html">Accessibility</a>
+        </div>
+        <div class="nav__group">
+            <div class="nav__group-title">Components</div>
+            <a class="nav__link" href="../components/button.html">Button</a>
+            <a class="nav__link" href="../components/input.html">Input</a>
+            <a class="nav__link" href="../components/textarea.html">Textarea</a>
+            <a class="nav__link" href="../components/select.html">Select</a>
+            <a class="nav__link" href="../components/checkbox.html">Checkbox</a>
+            <a class="nav__link" href="../components/radio.html">Radio</a>
+            <a class="nav__link" href="../components/toggle.html">Toggle</a>
+            <a class="nav__link" href="../components/range.html">Range</a>
+            <a class="nav__link" href="../components/badge.html">Badge</a>
+            <a class="nav__link" href="../components/chip.html">Chip</a>
+            <a class="nav__link" href="../components/alert.html">Alert</a>
+            <a class="nav__link" href="../components/toast.html">Toast</a>
+            <a class="nav__link" href="../components/progress.html">Progress</a>
+            <a class="nav__link" href="../components/tabs.html">Tabs</a>
+            <a class="nav__link" href="../components/table.html">Table</a>
+            <a class="nav__link" href="../components/modal.html">Modal</a>
+            <a class="nav__link" href="../components/empty-state.html">Empty State</a>
+        </div>
+        <div class="nav__group">
+            <div class="nav__group-title">Layouts</div>
+            <a class="nav__link" href="../layouts/settings.html">Settings</a>
+            <a class="nav__link" href="../layouts/chart-detail.html">Chart Detail</a>
+            <a class="nav__link" href="../layouts/log-entry.html">Log Entry</a>
+            <a class="nav__link" href="../layouts/onboarding.html">Onboarding</a>
+            <a class="nav__link" href="../layouts/profile.html">Profile</a>
+        </div>
+        <div class="nav__group">
+            <div class="nav__group-title">Charts</div>
+            <a class="nav__link" href="../charts/components.html">Components</a>
+            <a class="nav__link" href="../charts/real-data.html">Real Data</a>
+        </div>
+        <div class="nav__group">
+            <div class="nav__group-title">Resources</div>
+            <a class="nav__link" href="../resources/icons-nav.html">Icons — Nav</a>
+            <a class="nav__link nav__link--active" href="../resources/icons-trend.html">Icons — Trend</a>
+            <a class="nav__link" href="../resources/dashboard-light.html">Dashboard (Light)</a>
+            <a class="nav__link" href="../resources/dashboard-dark.html">Dashboard (Dark)</a>
+        </div>
+            </div>
+            <div class="nav__footer">
+                <button class="nav__theme-toggle" id="theme-btn">☀️ Light mode</button>
+            </div>
+        </nav>
+
+        <main class="main">
+            <div class="main__header">
+                <div class="main__breadcrumb"><a href="../index.html">Re:Scale</a><span class="sep">›</span>Resources<span class="sep">›</span>Icons — Trend</div>
+                <h1 class="main__title">Icons — Trend</h1>
+                <p class="main__desc">Directional trend indicators for weight change.</p>
+            </div>
+            <div class="section">
+                <p style="margin-bottom: var(--space-4);"><a href="../icons/trend-icons-reference.html" style="color: var(--accent);">Open full-screen →</a></p>
+                <iframe src="../icons/trend-icons-reference.html" style="width:100%; height:800px; border:1px solid var(--border-decorative); border-radius: var(--radius-lg); background: var(--bg-page);" loading="lazy"></iframe>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Theme toggle
+        document.getElementById('theme-btn').addEventListener('click', function() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                this.textContent = '🌙 Dark mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                this.textContent = '☀️ Light mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+        if (localStorage.getItem('theme') === 'light') {
+            document.getElementById('theme-btn').textContent = '🌙 Dark mode';
+        }
+        // Mobile nav
+        const toggle = document.getElementById('nav-toggle');
+        const nav = document.getElementById('nav');
+        const overlay = document.getElementById('nav-overlay');
+        toggle.addEventListener('click', () => { nav.classList.toggle('is-open'); overlay.classList.toggle('is-open'); });
+        overlay.addEventListener('click', () => { nav.classList.remove('is-open'); overlay.classList.remove('is-open'); });
+    </script>
+</body>
+</html>
