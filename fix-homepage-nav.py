@@ -1,4 +1,83 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""
+Fix the site structure:
+1. Root index.html = standalone homepage (no left nav)
+2. Section pages get scoped left nav (only their own section's links)
+"""
+
+import os, re, glob
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+SITE = os.path.join(BASE, "site")
+
+# ── Section mapping ────────────────────────────────────────────────────
+# folder_prefix → nav group title to KEEP
+SECTION_MAP = {
+    "foundations": "Foundations",
+    "components":  "Components",
+    "layouts":     "Layouts",
+    "charts":      "Charts",
+    "resources":   "Resources",
+}
+
+
+# ══════════════════════════════════════════════════════════════════════
+# 1. SCOPE LEFT NAV ON SECTION PAGES
+# ══════════════════════════════════════════════════════════════════════
+print("Scoping section navs...\n")
+
+for section_folder, keep_title in SECTION_MAP.items():
+    pattern = os.path.join(SITE, section_folder, "*.html")
+    files = sorted(glob.glob(pattern))
+
+    for filepath in files:
+        with open(filepath) as f:
+            html = f.read()
+
+        # Find all nav__group blocks and remove ones that don't match
+        # Pattern: <div class="nav__group"> ... </div> (with nav__group-title inside)
+        def replace_nav(match):
+            block = match.group(0)
+            # Extract the group title
+            title_match = re.search(r'class="nav__group-title">([^<]+)<', block)
+            if title_match:
+                title = title_match.group(1).strip()
+                if title == keep_title:
+                    return block  # Keep this group
+            return ""  # Remove this group
+
+        new_html = re.sub(
+            r'<div class="nav__group">.*?</div>\s*(?=<div class="nav__group">|</div>\s*<div class="nav__footer">)',
+            replace_nav,
+            html,
+            flags=re.DOTALL
+        )
+
+        # Handle the last nav group (before nav__footer)
+        # The regex above might miss the last group, so also handle it
+        new_html = re.sub(
+            r'(<div class="nav__group">(?:(?!<div class="nav__group">).)*?</div>)\s*(\s*</div>\s*<div class="nav__footer">)',
+            lambda m: (m.group(1) if keep_title in m.group(1) else "") + m.group(2),
+            new_html,
+            flags=re.DOTALL
+        )
+
+        if new_html != html:
+            with open(filepath, "w") as f:
+                f.write(new_html)
+            print(f"  ✓ {section_folder}/{os.path.basename(filepath)} → only '{keep_title}'")
+        else:
+            print(f"  ○ {section_folder}/{os.path.basename(filepath)} — unchanged")
+
+print()
+
+
+# ══════════════════════════════════════════════════════════════════════
+# 2. NEW ROOT INDEX (no sidebar)
+# ══════════════════════════════════════════════════════════════════════
+print("Writing root index.html (standalone homepage)...\n")
+
+homepage = '''<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -169,4 +248,71 @@
         }
     </script>
 </body>
-</html>
+</html>'''
+
+with open(os.path.join(BASE, "index.html"), "w") as f:
+    f.write(homepage)
+print("  ✓ index.html (standalone homepage, no sidebar)\n")
+
+
+# ══════════════════════════════════════════════════════════════════════
+# 3. SCOPE LEFT NAVS
+# ══════════════════════════════════════════════════════════════════════
+print("Scoping section navs...\n")
+
+for section_folder, keep_title in SECTION_MAP.items():
+    pattern = os.path.join(SITE, section_folder, "*.html")
+    files = sorted(glob.glob(pattern))
+
+    for filepath in files:
+        with open(filepath) as f:
+            html = f.read()
+
+        # Strategy: find the nav__scroll div, extract only the matching group
+        # Find all nav groups
+        groups = list(re.finditer(
+            r'(<div class="nav__group">.*?</div>)\s*(?=<div class="nav__group">|</div>\s*</div>)',
+            html, re.DOTALL
+        ))
+
+        if not groups:
+            # Try alternate pattern — last group before nav__footer
+            print(f"  ⚠ No groups found in {section_folder}/{os.path.basename(filepath)}")
+            continue
+
+        # Find which groups to keep
+        keep_blocks = []
+        remove_blocks = []
+        for g in groups:
+            block = g.group(1)
+            title_m = re.search(r'nav__group-title">([^<]+)<', block)
+            if title_m and title_m.group(1).strip() == keep_title:
+                keep_blocks.append(block)
+            else:
+                remove_blocks.append(g)
+
+        if not remove_blocks:
+            print(f"  ○ {section_folder}/{os.path.basename(filepath)} — already scoped")
+            continue
+
+        # Remove non-matching groups
+        for g in reversed(remove_blocks):
+            start, end = g.start(), g.end()
+            # Also remove trailing whitespace
+            while end < len(html) and html[end] in ' \n\r\t':
+                end += 1
+            html = html[:start] + html[end:]
+
+        with open(filepath, "w") as f:
+            f.write(html)
+        print(f"  ✓ {section_folder}/{os.path.basename(filepath)}")
+
+# ══════════════════════════════════════════════════════════════════════
+# 4. CLEAN UP: remove site/index.html (no longer needed)
+# ══════════════════════════════════════════════════════════════════════
+site_index = os.path.join(SITE, "index.html")
+if os.path.exists(site_index):
+    os.remove(site_index)
+    print(f"\n  ✓ Removed site/index.html (replaced by root index.html)")
+
+print("\n✅ Done!")
