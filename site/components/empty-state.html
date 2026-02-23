@@ -203,7 +203,32 @@
             .demo-row { flex-direction: column; }
             .demo-col { min-width: 0; }
         }
-        </style>
+    
+        .usage { margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--border-decorative); }
+        .usage__heading { font-size: var(--text-2xl); font-weight: var(--weight-bold); margin-bottom: var(--space-8); }
+        .usage__section { margin-bottom: var(--space-10); }
+        .usage__title { font-size: var(--text-sm); font-weight: var(--weight-semibold); margin-bottom: var(--space-2); }
+        .usage__desc { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-4); max-width: 640px; line-height: var(--leading-normal); }
+        .usage__desc code { font-family: var(--font-mono); font-size: var(--text-xs); background: var(--bg-inset); padding: 2px 6px; border-radius: 4px; }
+        .usage__note { font-size: var(--text-sm); color: var(--text-secondary); background: var(--color-warning-dim); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-4); line-height: var(--leading-normal); }
+        .usage__note strong { color: var(--color-warning); }
+        .usage__note code { font-family: var(--font-mono); font-size: var(--text-xs); }
+        .code-block { position: relative; background: var(--bg-inset); border: 1px solid var(--border-decorative); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-4); }
+        .code-block__header { display: flex; justify-content: space-between; align-items: center; padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border-decorative); background: var(--bg-elevated); }
+        .code-block__lang { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; }
+        .code-block__copy { font-family: var(--font-body); font-size: var(--text-2xs); font-weight: var(--weight-semibold); background: none; border: 1px solid var(--border-decorative); border-radius: var(--radius-sm); padding: 2px 10px; color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast); }
+        .code-block__copy:hover { background: var(--bg-glass-hover); color: var(--text-primary); }
+        .code-block pre { margin: 0; padding: var(--space-4); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-xs); line-height: 1.6; color: var(--text-primary); }
+
+        .api { margin-top: var(--space-10); }
+        .api__heading { font-size: var(--text-sm); font-weight: var(--weight-semibold); margin-bottom: var(--space-4); }
+        .api__table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+        .api__table th { text-align: left; font-size: var(--text-2xs); font-weight: var(--weight-semibold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-tertiary); padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border-decorative); }
+        .api__table td { padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border-decorative); vertical-align: top; }
+        .api__table code { font-family: var(--font-mono); font-size: var(--text-xs); background: var(--bg-inset); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+        .api__table td:last-child { color: var(--text-secondary); }
+        .api__table tbody tr:hover { background: var(--accent-dim); }
+    </style>
     <script>if(localStorage.getItem("theme")==="light")document.documentElement.removeAttribute("data-theme");</script>
 </head>
 <body>
@@ -295,6 +320,43 @@
 <script>if(localStorage.getItem("theme")==="light"){var b=document.querySelector(".theme-toggle");if(b)b.textContent="🌙 Dark";}</script>
 </body>
 </html>
+            </div>
+            <div class="usage">
+                <h2 class="usage__heading">Usage</h2>
+                <div class="usage__section">
+                    <h3 class="usage__title">Basic Usage</h3>
+                    <p class="usage__desc">Centre-aligned placeholder with icon, title, description, and a CTA button.</p>
+                    <div class="code-block">
+                        <div class="code-block__header"><span class="code-block__lang">HTML</span><button class="code-block__copy" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('pre').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button></div>
+                        <pre>&lt;div class=&quot;rs-empty&quot;&gt;
+    &lt;svg class=&quot;rs-empty__icon&quot; viewBox=&quot;0 0 24 24&quot;
+         fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot;&gt;
+        &lt;rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/&gt;
+        &lt;line x1=&quot;3&quot; y1=&quot;9&quot; x2=&quot;21&quot; y2=&quot;9&quot;/&gt;
+        &lt;line x1=&quot;9&quot; y1=&quot;3&quot; x2=&quot;9&quot; y2=&quot;21&quot;/&gt;
+    &lt;/svg&gt;
+    &lt;h3 class=&quot;rs-empty__title&quot;&gt;No entries yet&lt;/h3&gt;
+    &lt;p class=&quot;rs-empty__desc&quot;&gt;
+        Log your first weigh-in to start tracking.
+    &lt;/p&gt;
+    &lt;button class=&quot;rs-btn rs-btn--primary&quot;&gt;
+        Add entry
+    &lt;/button&gt;
+&lt;/div&gt;</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="api">
+                <h3 class="api__heading">Empty State Classes</h3>
+                <table class="api__table">
+                    <thead><tr><th>Class / Attr</th><th>Element</th><th>Description</th></tr></thead>
+                    <tbody>
+                    <tr><td><code>.rs-empty</code></td><td>&lt;div&gt;</td><td>Wrapper — centred text, vertical padding</td></tr>
+                    <tr><td><code>.rs-empty__icon</code></td><td>&lt;svg&gt;</td><td>64×64 icon (50% opacity, tertiary colour)</td></tr>
+                    <tr><td><code>.rs-empty__title</code></td><td>&lt;h3&gt;</td><td>Heading (18px, semibold)</td></tr>
+                    <tr><td><code>.rs-empty__desc</code></td><td>&lt;p&gt;</td><td>Description (14px, secondary, 320px max-width)</td></tr>
+                    </tbody>
+                </table>
             </div>
         </main>
     </div>

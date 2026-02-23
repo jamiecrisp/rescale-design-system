@@ -203,7 +203,32 @@
             .demo-row { flex-direction: column; }
             .demo-col { min-width: 0; }
         }
-        </style>
+    
+        .usage { margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--border-decorative); }
+        .usage__heading { font-size: var(--text-2xl); font-weight: var(--weight-bold); margin-bottom: var(--space-8); }
+        .usage__section { margin-bottom: var(--space-10); }
+        .usage__title { font-size: var(--text-sm); font-weight: var(--weight-semibold); margin-bottom: var(--space-2); }
+        .usage__desc { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-4); max-width: 640px; line-height: var(--leading-normal); }
+        .usage__desc code { font-family: var(--font-mono); font-size: var(--text-xs); background: var(--bg-inset); padding: 2px 6px; border-radius: 4px; }
+        .usage__note { font-size: var(--text-sm); color: var(--text-secondary); background: var(--color-warning-dim); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-4); line-height: var(--leading-normal); }
+        .usage__note strong { color: var(--color-warning); }
+        .usage__note code { font-family: var(--font-mono); font-size: var(--text-xs); }
+        .code-block { position: relative; background: var(--bg-inset); border: 1px solid var(--border-decorative); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-4); }
+        .code-block__header { display: flex; justify-content: space-between; align-items: center; padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border-decorative); background: var(--bg-elevated); }
+        .code-block__lang { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; }
+        .code-block__copy { font-family: var(--font-body); font-size: var(--text-2xs); font-weight: var(--weight-semibold); background: none; border: 1px solid var(--border-decorative); border-radius: var(--radius-sm); padding: 2px 10px; color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast); }
+        .code-block__copy:hover { background: var(--bg-glass-hover); color: var(--text-primary); }
+        .code-block pre { margin: 0; padding: var(--space-4); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-xs); line-height: 1.6; color: var(--text-primary); }
+
+        .api { margin-top: var(--space-10); }
+        .api__heading { font-size: var(--text-sm); font-weight: var(--weight-semibold); margin-bottom: var(--space-4); }
+        .api__table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+        .api__table th { text-align: left; font-size: var(--text-2xs); font-weight: var(--weight-semibold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-tertiary); padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border-decorative); }
+        .api__table td { padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border-decorative); vertical-align: top; }
+        .api__table code { font-family: var(--font-mono); font-size: var(--text-xs); background: var(--bg-inset); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+        .api__table td:last-child { color: var(--text-secondary); }
+        .api__table tbody tr:hover { background: var(--accent-dim); }
+    </style>
     <script>if(localStorage.getItem("theme")==="light")document.documentElement.removeAttribute("data-theme");</script>
 </head>
 <body>
@@ -316,6 +341,101 @@
             <h2 class="ds-section-title" id="form-t">Form Inputs</h2>
             <p class="ds-section-desc">Every input has a visible label. Errors use colour + text + icon (never colour alone). Minimum 44px height for touch targets.</p>
 
+            </div>
+            <div class="usage">
+                <h2 class="usage__heading">Usage</h2>
+                <div class="usage__section">
+                    <h3 class="usage__title">Basic Usage</h3>
+                    <p class="usage__desc">All buttons use the <code>.rs-btn</code> base class plus a variant modifier.</p>
+                    <div class="code-block">
+                        <div class="code-block__header"><span class="code-block__lang">HTML</span><button class="code-block__copy" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('pre').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button></div>
+                        <pre>&lt;button class=&quot;rs-btn rs-btn--primary&quot;&gt;Save changes&lt;/button&gt;
+&lt;button class=&quot;rs-btn rs-btn--secondary&quot;&gt;Cancel&lt;/button&gt;
+&lt;button class=&quot;rs-btn rs-btn--ghost&quot;&gt;Skip&lt;/button&gt;
+&lt;button class=&quot;rs-btn rs-btn--danger&quot;&gt;Delete entry&lt;/button&gt;</pre>
+                    </div>
+                </div>
+                <div class="usage__section">
+                    <h3 class="usage__title">Sizes</h3>
+                    <p class="usage__desc">Three sizes available. Default meets the 44px minimum tap target.</p>
+                    <div class="code-block">
+                        <div class="code-block__header"><span class="code-block__lang">HTML</span><button class="code-block__copy" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('pre').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button></div>
+                        <pre>&lt;button class=&quot;rs-btn rs-btn--primary rs-btn--sm&quot;&gt;Small&lt;/button&gt;
+&lt;button class=&quot;rs-btn rs-btn--primary&quot;&gt;Default (44px)&lt;/button&gt;
+&lt;button class=&quot;rs-btn rs-btn--primary rs-btn--lg&quot;&gt;Large&lt;/button&gt;</pre>
+                    </div>
+                </div>
+                <div class="usage__section">
+                    <h3 class="usage__title">With Icon</h3>
+                    <p class="usage__desc">Place an SVG inside with <code>.rs-btn__icon</code>. Icon inherits the button colour via <code>currentColor</code>.</p>
+                    <div class="code-block">
+                        <div class="code-block__header"><span class="code-block__lang">HTML</span><button class="code-block__copy" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('pre').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button></div>
+                        <pre>&lt;button class=&quot;rs-btn rs-btn--primary&quot;&gt;
+    &lt;svg class=&quot;rs-btn__icon&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;
+         stroke=&quot;currentColor&quot; stroke-width=&quot;2.5&quot;&gt;
+        &lt;line x1=&quot;12&quot; y1=&quot;5&quot; x2=&quot;12&quot; y2=&quot;19&quot;/&gt;
+        &lt;line x1=&quot;5&quot; y1=&quot;12&quot; x2=&quot;19&quot; y2=&quot;12&quot;/&gt;
+    &lt;/svg&gt;
+    Add entry
+&lt;/button&gt;</pre>
+                    </div>
+                </div>
+                <div class="usage__section">
+                    <h3 class="usage__title">Full Width</h3>
+                    <p class="usage__desc">Add <code>.rs-btn--block</code> for 100% width.</p>
+                    <div class="code-block">
+                        <div class="code-block__header"><span class="code-block__lang">HTML</span><button class="code-block__copy" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('pre').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button></div>
+                        <pre>&lt;button class=&quot;rs-btn rs-btn--primary rs-btn--block&quot;&gt;
+    Continue
+&lt;/button&gt;</pre>
+                    </div>
+                </div>
+                <div class="usage__section">
+                    <h3 class="usage__title">Disabled</h3>
+                    <p class="usage__desc">Add the <code>disabled</code> attribute. Pointer events are suppressed automatically.</p>
+                    <div class="code-block">
+                        <div class="code-block__header"><span class="code-block__lang">HTML</span><button class="code-block__copy" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('pre').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button></div>
+                        <pre>&lt;button class=&quot;rs-btn rs-btn--primary&quot; disabled&gt;
+    Processing…
+&lt;/button&gt;</pre>
+                    </div>
+                </div>
+                <div class="usage__section">
+                    <h3 class="usage__title">SCSS Import</h3>
+                    <p class="usage__desc">To include only the button in your build:</p>
+                    <div class="code-block">
+                        <div class="code-block__header"><span class="code-block__lang">SCSS</span><button class="code-block__copy" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('pre').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button></div>
+                        <pre>@use &quot;@rescale/scss/settings&quot; as *;
+@use &quot;@rescale/scss/components/button/button&quot;;</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="api">
+                <h3 class="api__heading">Button Classes</h3>
+                <table class="api__table">
+                    <thead><tr><th>Class / Attr</th><th>Element</th><th>Description</th></tr></thead>
+                    <tbody>
+                    <tr><td><code>.rs-btn</code></td><td>&lt;button&gt;, &lt;a&gt;</td><td>Base button — required on all buttons</td></tr>
+                    <tr><td><code>.rs-btn--primary</code></td><td></td><td>Filled accent background, white text</td></tr>
+                    <tr><td><code>.rs-btn--secondary</code></td><td></td><td>Glass background with border</td></tr>
+                    <tr><td><code>.rs-btn--ghost</code></td><td></td><td>Transparent background, accent text</td></tr>
+                    <tr><td><code>.rs-btn--danger</code></td><td></td><td>Red filled background</td></tr>
+                    <tr><td><code>.rs-btn--sm</code></td><td></td><td>Small size (36px height, 12px text)</td></tr>
+                    <tr><td><code>.rs-btn--lg</code></td><td></td><td>Large size (52px height, 16px text)</td></tr>
+                    <tr><td><code>.rs-btn--block</code></td><td></td><td>Full width (100%)</td></tr>
+                    <tr><td><code>.rs-btn__icon</code></td><td>&lt;svg&gt;</td><td>16×16 icon inside button</td></tr>
+                    <tr><td><code>disabled</code></td><td>attr</td><td>Disabled state — 45% opacity, no pointer events</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="api" style="margin-top: var(--space-8);">
+                <h3 class="api__heading">Accessibility</h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="font-size: var(--text-sm); color: var(--text-secondary); padding: var(--space-2) 0; border-bottom: 1px solid var(--border-decorative); display: flex; gap: var(--space-3); align-items: baseline;"><span style="color: var(--color-success); flex-shrink: 0;">✓</span> <span>All buttons meet 44px minimum tap target (WCAG 2.5.8)</span></li>
+                    <li style="font-size: var(--text-sm); color: var(--text-secondary); padding: var(--space-2) 0; border-bottom: 1px solid var(--border-decorative); display: flex; gap: var(--space-3); align-items: baseline;"><span style="color: var(--color-success); flex-shrink: 0;">✓</span> <span>Focus ring uses <code>:focus-visible</code> — visible on keyboard, hidden on click</span></li>
+                    <li style="font-size: var(--text-sm); color: var(--text-secondary); padding: var(--space-2) 0; border-bottom: 1px solid var(--border-decorative); display: flex; gap: var(--space-3); align-items: baseline;"><span style="color: var(--color-success); flex-shrink: 0;">✓</span> <span>Use <code>&lt;button&gt;</code> for actions, <code>&lt;a&gt;</code> with <code>.rs-btn</code> for navigation</span></li>
+                    <li style="font-size: var(--text-sm); color: var(--text-secondary); padding: var(--space-2) 0; border-bottom: 1px solid var(--border-decorative); display: flex; gap: var(--space-3); align-items: baseline;"><span style="color: var(--color-success); flex-shrink: 0;">✓</span> <span>Disabled buttons use <code>pointer-events: none</code> and <code>opacity: 0.45</code></span></li>
+                </ul>
             </div>
         </main>
     </div>
