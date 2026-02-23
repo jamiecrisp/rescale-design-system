@@ -1,0 +1,53 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Checkbox — .rs-checkbox
+// ============================================================================
+// Elements: __input | __label
+// ============================================================================
+
+.rs-checkbox {
+  display: flex;
+  align-items: center;
+  gap: $rs-space-3;
+  min-height: 44px;
+  cursor: pointer;
+
+  &__input {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--rs-border-input);
+    border-radius: $rs-radius-sm;
+    appearance: none;
+    cursor: pointer;
+    transition: all $rs-transition-fast;
+    flex-shrink: 0;
+    background: var(--rs-bg-elevated);
+    position: relative;
+
+    @include rs-focus-ring;
+
+    &:checked {
+      background: var(--rs-accent);
+      border-color: var(--rs-accent);
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 10px;
+        border: 2px solid var(--rs-accent-on);
+        border-top: none;
+        border-left: none;
+        transform: translate(-50%, -60%) rotate(45deg);
+      }
+    }
+  }
+
+  &__label {
+    font-size: $rs-text-sm;
+    cursor: pointer;
+  }
+}

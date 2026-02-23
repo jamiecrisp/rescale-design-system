@@ -1,0 +1,27 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Progress — .rs-progress
+// ============================================================================
+// Variants: --success | --info | --warning | --danger
+// Elements: __bar
+// ============================================================================
+
+.rs-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--rs-bg-inset);
+  border-radius: $rs-radius-full;
+  overflow: hidden;
+
+  &__bar {
+    height: 100%;
+    border-radius: $rs-radius-full;
+    transition: width 0.5s ease;
+  }
+
+  &--success .rs-progress__bar { background: var(--rs-color-success); }
+  &--info    .rs-progress__bar { background: var(--rs-color-info); }
+  &--warning .rs-progress__bar { background: var(--rs-color-warning); }
+  &--danger  .rs-progress__bar { background: var(--rs-color-danger); }
+}

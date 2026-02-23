@@ -1,0 +1,39 @@
+// ============================================================================
+// Re:Scale Design System — Main Entry Point
+// ============================================================================
+// Import this file to get the complete design system.
+// For tree-shaking, @use individual component partials directly.
+//
+//   @use "@rescale/design-system/scss/settings" as *;
+//   @use "@rescale/design-system/scss/components/button/button";
+//
+// ============================================================================
+
+// Settings (tokens + custom properties)
+@use "settings/tokens";
+
+// Base
+@use "base/reset";
+@use "base/typography";
+
+// Utilities
+@use "utilities/a11y";
+
+// Components
+@use "components/button/button";
+@use "components/input/input";
+@use "components/textarea/textarea";
+@use "components/select/select";
+@use "components/checkbox/checkbox";
+@use "components/radio/radio";
+@use "components/toggle/toggle";
+@use "components/range/range";
+@use "components/badge/badge";
+@use "components/chip/chip";
+@use "components/alert/alert";
+@use "components/toast/toast";
+@use "components/progress/progress";
+@use "components/tabs/tabs";
+@use "components/table/table";
+@use "components/modal/modal";
+@use "components/empty-state/empty-state";

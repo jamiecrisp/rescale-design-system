@@ -1,0 +1,37 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Alert — .rs-alert
+// ============================================================================
+// Variants: --success | --danger | --info | --warning
+// Elements: __icon | __content | __title
+// ============================================================================
+
+.rs-alert {
+  display: flex;
+  gap: $rs-space-3;
+  padding: $rs-space-4 $rs-space-5;
+  border-radius: $rs-radius-lg;
+  font-size: $rs-text-sm;
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    font-weight: $rs-weight-semibold;
+    margin-bottom: $rs-space-1;
+  }
+
+  &--success { background: var(--rs-color-success-dim); color: var(--rs-color-success); border: 1px solid var(--rs-color-success); }
+  &--danger  { background: var(--rs-color-danger-dim);  color: var(--rs-color-danger);  border: 1px solid var(--rs-color-danger); }
+  &--info    { background: var(--rs-color-info-dim);    color: var(--rs-color-info);    border: 1px solid var(--rs-color-info); }
+  &--warning { background: var(--rs-color-warning-dim); color: var(--rs-color-warning); border: 1px solid var(--rs-color-warning); }
+}

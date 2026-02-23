@@ -1,0 +1,85 @@
+// ============================================================================
+// Re:Scale CSS Custom Properties (emitted once in output)
+// ============================================================================
+@use "variables" as *;
+
+:root {
+  --rs-bg-page: #f0f2f5;
+  --rs-bg-glass: rgba(255, 255, 255, 0.55);
+  --rs-bg-glass-hover: rgba(255, 255, 255, 0.7);
+  --rs-bg-elevated: #ffffff;
+  --rs-bg-inset: #e8eaed;
+  --rs-bg-overlay: rgba(0, 0, 0, 0.4);
+
+  --rs-border-decorative: rgba(0, 0, 0, 0.10);
+  --rs-border-input: #7e828a;
+  --rs-border-focus: #006b4e;
+
+  --rs-text-primary: #1a1d24;
+  --rs-text-secondary: #4a4e56;
+  --rs-text-tertiary: #696d76;
+  --rs-text-inverse: #ffffff;
+
+  --rs-color-success: #006b4e;
+  --rs-color-success-dim: rgba(0, 107, 78, 0.12);
+  --rs-color-danger: #a12040;
+  --rs-color-danger-dim: rgba(161, 32, 64, 0.1);
+  --rs-color-info: #2a4fa8;
+  --rs-color-info-dim: rgba(42, 79, 168, 0.1);
+  --rs-color-warning: #7a4b00;
+  --rs-color-warning-dim: rgba(122, 75, 0, 0.08);
+
+  --rs-accent: #006b4e;
+  --rs-accent-hover: #005540;
+  --rs-accent-dim: rgba(0, 107, 78, 0.12);
+  --rs-accent-on: #ffffff;
+  --rs-accent-btn-bg: #008060;
+  --rs-accent-btn-hover: #006b4e;
+
+  --rs-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --rs-shadow-md: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --rs-shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --rs-shadow-focus: 0 0 0 3px rgba(0, 107, 78, 0.2);
+
+  --rs-font-body: #{$rs-font-body};
+  --rs-font-mono: #{$rs-font-mono};
+}
+
+[data-theme="dark"] {
+  --rs-bg-page: #0a0e1a;
+  --rs-bg-glass: rgba(255, 255, 255, 0.06);
+  --rs-bg-glass-hover: rgba(255, 255, 255, 0.1);
+  --rs-bg-elevated: #131722;
+  --rs-bg-inset: #0d1120;
+  --rs-bg-overlay: rgba(0, 0, 0, 0.6);
+
+  --rs-border-decorative: rgba(255, 255, 255, 0.10);
+  --rs-border-input: #606472;
+  --rs-border-focus: #00e5a0;
+
+  --rs-text-primary: #e8eaed;
+  --rs-text-secondary: #b0b4bc;
+  --rs-text-tertiary: #828690;
+  --rs-text-inverse: #0a0e1a;
+
+  --rs-color-success: #00e5a0;
+  --rs-color-success-dim: rgba(0, 229, 160, 0.15);
+  --rs-color-danger: #ff6b8a;
+  --rs-color-danger-dim: rgba(255, 107, 138, 0.15);
+  --rs-color-info: #5b8def;
+  --rs-color-info-dim: rgba(91, 141, 239, 0.15);
+  --rs-color-warning: #ffb84d;
+  --rs-color-warning-dim: rgba(255, 184, 77, 0.12);
+
+  --rs-accent: #00e5a0;
+  --rs-accent-hover: #00c98c;
+  --rs-accent-dim: rgba(0, 229, 160, 0.15);
+  --rs-accent-on: #0a0e1a;
+  --rs-accent-btn-bg: #00e5a0;
+  --rs-accent-btn-hover: #00c98c;
+
+  --rs-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --rs-shadow-md: 0 2px 12px rgba(0, 0, 0, 0.2);
+  --rs-shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.25);
+  --rs-shadow-focus: 0 0 0 3px rgba(0, 229, 160, 0.25);
+}

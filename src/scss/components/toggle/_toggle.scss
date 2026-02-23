@@ -1,0 +1,63 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Toggle — .rs-toggle
+// ============================================================================
+// Elements: __input | __track | __label
+// ============================================================================
+
+.rs-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: $rs-space-3;
+  min-height: 44px;
+  cursor: pointer;
+  position: relative;
+
+  &__input {
+    @include rs-sr-only;
+
+    &:checked + .rs-toggle__track {
+      background: var(--rs-accent);
+      border-color: var(--rs-accent);
+
+      &::after {
+        transform: translateX(20px);
+        background: var(--rs-accent-on);
+      }
+    }
+
+    &:focus-visible + .rs-toggle__track {
+      outline: 3px solid var(--rs-border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__track {
+    width: 44px;
+    height: 24px;
+    border-radius: $rs-radius-full;
+    background: var(--rs-bg-inset);
+    border: 2px solid var(--rs-border-input);
+    position: relative;
+    transition: all $rs-transition-fast;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: $rs-radius-full;
+      background: var(--rs-text-tertiary);
+      transition: all $rs-transition-fast;
+    }
+  }
+
+  &__label {
+    font-size: $rs-text-sm;
+  }
+}

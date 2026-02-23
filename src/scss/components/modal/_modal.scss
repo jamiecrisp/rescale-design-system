@@ -1,0 +1,81 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Modal — .rs-modal
+// ============================================================================
+// .rs-modal          — backdrop overlay
+// .rs-modal__dialog  — the dialog box
+// .rs-modal__title   — heading
+// .rs-modal__desc    — description text
+// .rs-modal__actions — button row
+// .rs-modal__close   — close button (top-right)
+//
+// Use role="dialog", aria-modal="true", aria-labelledby on __dialog.
+// See modal.js for focus trap implementation.
+// ============================================================================
+
+.rs-modal {
+  position: fixed;
+  inset: 0;
+  background: var(--rs-bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 150;
+  padding: $rs-space-4;
+
+  &[hidden] {
+    display: none;
+  }
+
+  &__dialog {
+    background: var(--rs-bg-elevated);
+    border: 1px solid var(--rs-border-decorative);
+    border-radius: $rs-radius-xl;
+    padding: $rs-space-8;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: var(--rs-shadow-lg);
+    position: relative;
+  }
+
+  &__title {
+    font-size: $rs-text-xl;
+    font-weight: $rs-weight-bold;
+    margin-bottom: $rs-space-2;
+  }
+
+  &__desc {
+    font-size: $rs-text-sm;
+    color: var(--rs-text-secondary);
+    margin-bottom: $rs-space-6;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $rs-space-3;
+    justify-content: flex-end;
+  }
+
+  &__close {
+    position: absolute;
+    top: $rs-space-4;
+    right: $rs-space-4;
+    background: none;
+    border: none;
+    color: var(--rs-text-tertiary);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $rs-radius-sm;
+
+    @include rs-focus-ring;
+
+    &:hover {
+      background: var(--rs-bg-inset);
+    }
+  }
+}

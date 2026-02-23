@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Scale — Table</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../dist/rescale.css">
+    <style>
+        .example { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+        .example h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .example p.desc { font-size: 0.875rem; color: var(--rs-text-secondary); margin-bottom: 32px; }
+        .example section { margin-bottom: 40px; }
+        .example h2 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rs-text-tertiary); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--rs-border-decorative); }
+    </style>
+</head>
+<body>
+    <div class="example">
+        <h1>Data Table</h1>
+        <p class="desc">Re:Scale Design System — <code>.rs-table</code></p>
+        <section>
+            <h2>Default</h2>
+            <table class="rs-table">
+                <thead>
+                    <tr><th>Date</th><th>Weight</th><th>Δ Trend</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>23 Feb</td><td class="rs-table__mono">95.1 kg</td><td class="rs-table__mono">−0.2</td><td><span class="rs-badge rs-badge--success">On track</span></td></tr>
+                    <tr><td>22 Feb</td><td class="rs-table__mono">95.3 kg</td><td class="rs-table__mono">−0.1</td><td><span class="rs-badge rs-badge--success">On track</span></td></tr>
+                    <tr><td>21 Feb</td><td class="rs-table__mono">95.8 kg</td><td class="rs-table__mono">+0.4</td><td><span class="rs-badge rs-badge--warning">Stalled</span></td></tr>
+                    <tr><td>20 Feb</td><td class="rs-table__mono">95.0 kg</td><td class="rs-table__mono">−0.3</td><td><span class="rs-badge rs-badge--success">On track</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>

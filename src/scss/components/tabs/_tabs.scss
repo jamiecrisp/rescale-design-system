@@ -1,0 +1,42 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Tabs — .rs-tabs
+// ============================================================================
+// Elements: __tab
+// Use role="tablist" on .rs-tabs, role="tab" + aria-selected on __tab.
+// ============================================================================
+
+.rs-tabs {
+  display: inline-flex;
+  gap: 2px;
+  background: var(--rs-bg-inset);
+  border-radius: $rs-radius-md;
+  padding: 3px;
+
+  &__tab {
+    padding: $rs-space-2 $rs-space-4;
+    border: none;
+    border-radius: $rs-radius-sm;
+    font-family: var(--rs-font-body);
+    font-size: $rs-text-xs;
+    font-weight: $rs-weight-semibold;
+    color: var(--rs-text-tertiary);
+    background: transparent;
+    cursor: pointer;
+    transition: all $rs-transition-fast;
+    min-height: 36px;
+
+    @include rs-focus-ring;
+
+    &:hover {
+      color: var(--rs-text-secondary);
+    }
+
+    &[aria-selected="true"] {
+      background: var(--rs-bg-glass);
+      color: var(--rs-text-primary);
+      box-shadow: var(--rs-shadow-sm);
+    }
+  }
+}

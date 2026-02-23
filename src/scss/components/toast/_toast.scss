@@ -1,0 +1,27 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Toast — .rs-toast
+// ============================================================================
+// Elements: __icon
+// Use aria-live="polite" on the toast container.
+// ============================================================================
+
+.rs-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: $rs-space-3;
+  padding: $rs-space-3 $rs-space-5;
+  background: var(--rs-bg-elevated);
+  border: 1px solid var(--rs-border-decorative);
+  border-radius: $rs-radius-lg;
+  box-shadow: var(--rs-shadow-lg);
+  font-size: $rs-text-sm;
+  font-weight: $rs-weight-medium;
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+}

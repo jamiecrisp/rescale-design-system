@@ -1,0 +1,112 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Button — .rs-btn
+// ============================================================================
+// Variants: --primary | --secondary | --ghost | --danger
+// Sizes:    --sm | (default) | --lg
+// States:   --block | :disabled
+// Elements: __icon
+// ============================================================================
+
+.rs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $rs-space-2;
+  font-family: var(--rs-font-body);
+  font-weight: $rs-weight-semibold;
+  font-size: $rs-text-sm;
+  border: none;
+  border-radius: $rs-radius-md;
+  cursor: pointer;
+  transition: all $rs-transition-fast;
+  text-decoration: none;
+  min-height: 44px;
+  padding: $rs-space-3 $rs-space-5;
+
+  @include rs-focus-ring;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Elements
+  // --------
+  &__icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  // Variants
+  // --------
+  &--primary {
+    background: var(--rs-accent-btn-bg);
+    color: var(--rs-accent-on);
+    box-shadow: var(--rs-shadow-sm);
+
+    &:hover {
+      background: var(--rs-accent-btn-hover);
+      box-shadow: var(--rs-shadow-md);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  }
+
+  &--secondary {
+    background: var(--rs-bg-glass);
+    color: var(--rs-text-primary);
+    border: 1px solid var(--rs-border-input);
+    box-shadow: var(--rs-shadow-sm);
+
+    &:hover {
+      background: var(--rs-bg-glass-hover);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: var(--rs-accent);
+
+    &:hover {
+      background: var(--rs-accent-dim);
+    }
+  }
+
+  &--danger {
+    background: var(--rs-color-danger);
+    color: var(--rs-text-inverse);
+    box-shadow: var(--rs-shadow-sm);
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  // Sizes
+  // -----
+  &--sm {
+    min-height: 36px;
+    padding: $rs-space-2 $rs-space-3;
+    font-size: $rs-text-xs;
+  }
+
+  &--lg {
+    min-height: 52px;
+    padding: $rs-space-4 $rs-space-8;
+    font-size: $rs-text-base;
+  }
+
+  // Modifiers
+  // ---------
+  &--block {
+    width: 100%;
+  }
+}

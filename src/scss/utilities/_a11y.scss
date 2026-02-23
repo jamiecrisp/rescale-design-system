@@ -1,0 +1,39 @@
+@use "../settings" as *;
+
+// ============================================================================
+// Re:Scale Accessibility Utilities
+// ============================================================================
+
+// Screen reader only
+.rs-sr-only {
+  @include rs-sr-only;
+}
+
+// Skip to main content link
+.rs-skip-link {
+  position: absolute;
+  top: -100px;
+  left: $rs-space-4;
+  background: var(--rs-accent);
+  color: var(--rs-accent-on);
+  padding: $rs-space-3 $rs-space-6;
+  border-radius: 0 0 $rs-radius-md $rs-radius-md;
+  font-weight: $rs-weight-semibold;
+  font-size: $rs-text-sm;
+  text-decoration: none;
+  z-index: 200;
+
+  &:focus {
+    top: 0;
+  }
+}
+
+// Global focus ring
+*:focus-visible {
+  outline: 3px solid var(--rs-border-focus);
+  outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}

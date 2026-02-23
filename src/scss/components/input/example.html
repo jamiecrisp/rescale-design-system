@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Scale — Text Input</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../dist/rescale.css">
+    <style>
+        .example { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+        .example h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .example p.desc { font-size: 0.875rem; color: var(--rs-text-secondary); margin-bottom: 32px; }
+        .example section { margin-bottom: 40px; }
+        .example h2 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rs-text-tertiary); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--rs-border-decorative); }
+        .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+        .col { display: flex; flex-direction: column; gap: 12px; flex: 1; min-width: 260px; }
+    </style>
+</head>
+<body>
+    <div class="example">
+        <h1>Text Input</h1>
+        <p class="desc">Re:Scale Design System — <code>.rs-input</code></p>
+
+        <section>
+            <h2>States</h2>
+            <div class="col" style="max-width:400px;">
+                <div class="rs-field">
+                    <label class="rs-field__label" for="i1">Default</label>
+                    <input class="rs-input" id="i1" placeholder="Enter weight…">
+                </div>
+                <div class="rs-field rs-field--error">
+                    <label class="rs-field__label rs-field__label--required" for="i2">With error</label>
+                    <input class="rs-input" id="i2" value="abc">
+                    <span class="rs-field__error">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
+                        Please enter a valid number
+                    </span>
+                </div>
+                <div class="rs-field rs-field--success">
+                    <label class="rs-field__label" for="i3">Success</label>
+                    <input class="rs-input" id="i3" value="82.4">
+                </div>
+                <div class="rs-field">
+                    <label class="rs-field__label" for="i4">Disabled</label>
+                    <input class="rs-input" id="i4" value="—" disabled>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Monospace (Weight Entry)</h2>
+            <div class="rs-field" style="max-width:200px;">
+                <label class="rs-field__label" for="i5">Today&rsquo;s weight</label>
+                <input class="rs-input rs-input--mono" id="i5" type="number" step="0.1" value="82.4">
+                <span class="rs-field__hint">In kilograms</span>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

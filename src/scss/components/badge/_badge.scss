@@ -1,0 +1,29 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Badge — .rs-badge
+// ============================================================================
+// Variants: --success | --danger | --info | --warning | --neutral
+// Elements: __icon
+// ============================================================================
+
+.rs-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $rs-space-1;
+  font-size: $rs-text-xs;
+  font-weight: $rs-weight-semibold;
+  padding: 3px $rs-space-3;
+  border-radius: $rs-radius-sm;
+
+  &__icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  &--success { background: var(--rs-color-success-dim); color: var(--rs-color-success); }
+  &--danger  { background: var(--rs-color-danger-dim);  color: var(--rs-color-danger); }
+  &--info    { background: var(--rs-color-info-dim);    color: var(--rs-color-info); }
+  &--warning { background: var(--rs-color-warning-dim); color: var(--rs-color-warning); }
+  &--neutral { background: var(--rs-bg-inset);          color: var(--rs-text-secondary); }
+}

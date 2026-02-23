@@ -1,0 +1,35 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Chip — .rs-chip
+// ============================================================================
+// Modifiers: --active
+// ============================================================================
+
+.rs-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $rs-space-2;
+  font-family: var(--rs-font-body);
+  font-size: $rs-text-sm;
+  font-weight: $rs-weight-medium;
+  padding: $rs-space-2 $rs-space-4;
+  border-radius: $rs-radius-full;
+  border: 1px solid var(--rs-border-input);
+  background: var(--rs-bg-glass);
+  cursor: pointer;
+  transition: all $rs-transition-fast;
+  min-height: 36px;
+
+  @include rs-focus-ring;
+
+  &:hover {
+    background: var(--rs-bg-glass-hover);
+  }
+
+  &--active {
+    background: var(--rs-accent-dim);
+    border-color: var(--rs-accent);
+    color: var(--rs-accent);
+  }
+}

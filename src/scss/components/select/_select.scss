@@ -1,0 +1,25 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Select — .rs-select
+// ============================================================================
+// ⚠ USE SPARINGLY: Prefer .rs-radio for ≤5 options. Reserve <select> for
+//   long lists (countries, timezones) where radios would be overwhelming.
+//
+// Extends .rs-input — use both classes: class="rs-input rs-select"
+// ============================================================================
+
+$_chevron-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23696d76' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+$_chevron-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23828690' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+
+.rs-select {
+  appearance: none;
+  background-image: $_chevron-light;
+  background-repeat: no-repeat;
+  background-position: right $rs-space-3 center;
+  padding-right: $rs-space-10;
+
+  [data-theme="dark"] & {
+    background-image: $_chevron-dark;
+  }
+}

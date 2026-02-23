@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Scale — Badge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../dist/rescale.css">
+    <style>
+        .example { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+        .example h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .example p.desc { font-size: 0.875rem; color: var(--rs-text-secondary); margin-bottom: 32px; }
+        .example section { margin-bottom: 40px; }
+        .example h2 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rs-text-tertiary); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--rs-border-decorative); }
+        .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    </style>
+</head>
+<body>
+    <div class="example">
+        <h1>Badge</h1>
+        <p class="desc">Re:Scale Design System — <code>.rs-badge</code></p>
+        <section>
+            <h2>Variants</h2>
+            <div class="row">
+                <span class="rs-badge rs-badge--success">On track</span>
+                <span class="rs-badge rs-badge--danger">Off track</span>
+                <span class="rs-badge rs-badge--info">Synced</span>
+                <span class="rs-badge rs-badge--warning">Stalled</span>
+                <span class="rs-badge rs-badge--neutral">No data</span>
+            </div>
+        </section>
+        <section>
+            <h2>With Icon</h2>
+            <div class="row">
+                <span class="rs-badge rs-badge--success">
+                    <svg class="rs-badge__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    −0.3 kg
+                </span>
+                <span class="rs-badge rs-badge--danger">
+                    <svg class="rs-badge__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                    +0.5 kg
+                </span>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

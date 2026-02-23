@@ -1,0 +1,66 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Radio — .rs-radio
+// ============================================================================
+// Elements:  __input | __label
+// Groups:    .rs-radio-group | .rs-radio-group--vertical
+// ============================================================================
+
+.rs-radio {
+  display: flex;
+  align-items: center;
+  gap: $rs-space-3;
+  min-height: 44px;
+  cursor: pointer;
+
+  &__input {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--rs-border-input);
+    border-radius: $rs-radius-full;
+    appearance: none;
+    cursor: pointer;
+    transition: all $rs-transition-fast;
+    flex-shrink: 0;
+    background: var(--rs-bg-elevated);
+    position: relative;
+
+    @include rs-focus-ring;
+
+    &:checked {
+      background: var(--rs-accent);
+      border-color: var(--rs-accent);
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        background: var(--rs-accent-on);
+        border-radius: $rs-radius-full;
+      }
+    }
+  }
+
+  &__label {
+    font-size: $rs-text-sm;
+    cursor: pointer;
+  }
+}
+
+// Radio group layouts
+.rs-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $rs-space-1 $rs-space-4;
+
+  &--vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+}

@@ -1,0 +1,38 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Table — .rs-table
+// ============================================================================
+// Modifiers on td: .rs-table__mono — monospace cell
+// ============================================================================
+
+.rs-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    font-size: $rs-text-xs;
+    font-weight: $rs-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--rs-text-tertiary);
+    padding: $rs-space-3 $rs-space-4;
+    border-bottom: 1px solid var(--rs-border-decorative);
+  }
+
+  td {
+    padding: $rs-space-3 $rs-space-4;
+    font-size: $rs-text-sm;
+    border-bottom: 1px solid var(--rs-border-decorative);
+  }
+
+  tbody tr:hover {
+    background: var(--rs-accent-dim);
+  }
+
+  &__mono {
+    font-family: var(--rs-font-mono);
+    font-weight: $rs-weight-medium;
+  }
+}

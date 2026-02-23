@@ -1,0 +1,13 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Textarea — .rs-textarea
+// ============================================================================
+// Extends .rs-input — use both classes: class="rs-input rs-textarea"
+// ============================================================================
+
+.rs-textarea {
+  min-height: 100px;
+  resize: vertical;
+  line-height: $rs-leading-normal;
+}

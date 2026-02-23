@@ -1,0 +1,52 @@
+// ============================================================================
+// Re:Scale Variables (SCSS only — no CSS output)
+// ============================================================================
+
+$rs-prefix: "rs-" !default;
+
+$rs-font-body: "Outfit", system-ui, -apple-system, sans-serif !default;
+$rs-font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace !default;
+
+$rs-text-4xl: 2.25rem !default;
+$rs-text-3xl: 1.875rem !default;
+$rs-text-2xl: 1.5rem !default;
+$rs-text-xl:  1.25rem !default;
+$rs-text-lg:  1.125rem !default;
+$rs-text-base: 1rem !default;
+$rs-text-sm:  0.875rem !default;
+$rs-text-xs:  0.75rem !default;
+$rs-text-2xs: 0.6875rem !default;
+
+$rs-weight-regular:  400 !default;
+$rs-weight-medium:   500 !default;
+$rs-weight-semibold: 600 !default;
+$rs-weight-bold:     700 !default;
+
+$rs-leading-tight:  1.2 !default;
+$rs-leading-normal: 1.5 !default;
+$rs-leading-loose:  1.7 !default;
+
+$rs-space-1:  4px !default;
+$rs-space-2:  8px !default;
+$rs-space-3:  12px !default;
+$rs-space-4:  16px !default;
+$rs-space-5:  20px !default;
+$rs-space-6:  24px !default;
+$rs-space-8:  32px !default;
+$rs-space-10: 40px !default;
+$rs-space-12: 48px !default;
+$rs-space-16: 64px !default;
+$rs-space-20: 80px !default;
+
+$rs-radius-sm:   6px !default;
+$rs-radius-md:   10px !default;
+$rs-radius-lg:   14px !default;
+$rs-radius-xl:   16px !default;
+$rs-radius-full: 9999px !default;
+
+$rs-transition-fast:   0.15s ease !default;
+$rs-transition-normal: 0.2s ease !default;
+
+$rs-breakpoint-sm: 640px !default;
+$rs-breakpoint-md: 840px !default;
+$rs-breakpoint-lg: 1100px !default;

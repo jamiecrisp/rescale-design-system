@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Scale — Chip</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../dist/rescale.css">
+    <style>
+        .example { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+        .example h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .example p.desc { font-size: 0.875rem; color: var(--rs-text-secondary); margin-bottom: 32px; }
+        .example section { margin-bottom: 40px; }
+        .example h2 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rs-text-tertiary); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--rs-border-decorative); }
+        .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    </style>
+</head>
+<body>
+    <div class="example">
+        <h1>Filter Chip</h1>
+        <p class="desc">Re:Scale Design System — <code>.rs-chip</code></p>
+        <section>
+            <h2>Default &amp; Active</h2>
+            <div class="row">
+                <button class="rs-chip rs-chip--active">7d</button>
+                <button class="rs-chip">30d</button>
+                <button class="rs-chip">3m</button>
+                <button class="rs-chip">6m</button>
+                <button class="rs-chip">1y</button>
+                <button class="rs-chip">All</button>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

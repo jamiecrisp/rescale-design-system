@@ -1,0 +1,48 @@
+// ============================================================================
+// Re:Scale Mixins
+// ============================================================================
+@use "variables" as *;
+
+@mixin rs-breakpoint-down($bp) {
+  @media (max-width: $bp - 1px) { @content; }
+}
+
+@mixin rs-breakpoint-up($bp) {
+  @media (min-width: $bp) { @content; }
+}
+
+@mixin rs-mobile  { @include rs-breakpoint-down($rs-breakpoint-sm) { @content; } }
+@mixin rs-tablet  { @include rs-breakpoint-down($rs-breakpoint-md) { @content; } }
+@mixin rs-desktop { @include rs-breakpoint-up($rs-breakpoint-md)   { @content; } }
+
+@mixin rs-glass {
+  background: var(--rs-bg-glass);
+  border: 1px solid var(--rs-border-decorative);
+  backdrop-filter: blur(16px);
+}
+
+@mixin rs-focus-ring {
+  &:focus-visible {
+    outline: 3px solid var(--rs-border-focus);
+    outline-offset: 2px;
+  }
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+@mixin rs-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@mixin rs-reduced-motion {
+  @media (prefers-reduced-motion: reduce) { @content; }
+}

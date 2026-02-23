@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Scale — Tabs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../dist/rescale.css">
+    <style>
+        .example { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+        .example h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .example p.desc { font-size: 0.875rem; color: var(--rs-text-secondary); margin-bottom: 32px; }
+        .example section { margin-bottom: 40px; }
+        .example h2 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rs-text-tertiary); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--rs-border-decorative); }
+    </style>
+</head>
+<body>
+    <div class="example">
+        <h1>Pill Tabs</h1>
+        <p class="desc">Re:Scale Design System — <code>.rs-tabs</code>. Use <code>role="tablist"</code> and <code>aria-selected</code>. See <code>tabs.js</code> for keyboard navigation.</p>
+        <section>
+            <h2>Default</h2>
+            <div class="rs-tabs" role="tablist">
+                <button class="rs-tabs__tab" role="tab" aria-selected="true">7 days</button>
+                <button class="rs-tabs__tab" role="tab" aria-selected="false">30 days</button>
+                <button class="rs-tabs__tab" role="tab" aria-selected="false">3 months</button>
+                <button class="rs-tabs__tab" role="tab" aria-selected="false">1 year</button>
+                <button class="rs-tabs__tab" role="tab" aria-selected="false">All</button>
+            </div>
+        </section>
+    </div>
+    <script type="module">
+        import { RsTabs } from '../../js/tabs.js';
+        new RsTabs(document.querySelector('.rs-tabs'), (i) => console.log('Tab', i));
+    </script>
+</body>
+</html>

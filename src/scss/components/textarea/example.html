@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Scale — Textarea</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../dist/rescale.css">
+    <style>
+        .example { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+        .example h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .example p.desc { font-size: 0.875rem; color: var(--rs-text-secondary); margin-bottom: 32px; }
+        .example section { margin-bottom: 40px; }
+        .example h2 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rs-text-tertiary); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--rs-border-decorative); }
+        .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+        .col { display: flex; flex-direction: column; gap: 12px; flex: 1; min-width: 260px; }
+    </style>
+</head>
+<body>
+    <div class="example">
+        <h1>Textarea</h1>
+        <p class="desc">Re:Scale Design System — <code>.rs-textarea</code></p>
+
+        <section>
+            <h2>Default</h2>
+            <div class="rs-field" style="max-width:500px;">
+                <label class="rs-field__label" for="ta1">Notes</label>
+                <textarea class="rs-input rs-textarea" id="ta1" placeholder="How are you feeling today?"></textarea>
+                <span class="rs-field__hint">Optional — log anything relevant to your progress</span>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

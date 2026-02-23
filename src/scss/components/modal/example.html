@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Scale — Modal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../dist/rescale.css">
+    <style>
+        .example { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+        .example h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .example p.desc { font-size: 0.875rem; color: var(--rs-text-secondary); margin-bottom: 32px; }
+    </style>
+</head>
+<body>
+    <div class="example">
+        <h1>Modal Dialog</h1>
+        <p class="desc">Re:Scale Design System — <code>.rs-modal</code>. See <code>modal.js</code> for focus trap. Press Escape or click backdrop to close.</p>
+        <button class="rs-btn rs-btn--primary" id="open-btn">Open modal</button>
+    </div>
+
+    <div class="rs-modal" id="demo-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="rs-modal__dialog">
+            <button class="rs-modal__close" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <h2 class="rs-modal__title" id="modal-title">Delete entry?</h2>
+            <p class="rs-modal__desc">This will permanently remove your weigh-in for 23 Feb. This action cannot be undone.</p>
+            <div class="rs-modal__actions">
+                <button class="rs-btn rs-btn--secondary" id="cancel-btn">Cancel</button>
+                <button class="rs-btn rs-btn--danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { RsModal } from '../../js/modal.js';
+        const modal = new RsModal(document.getElementById('demo-modal'));
+        document.getElementById('open-btn').addEventListener('click', () => modal.open());
+        document.getElementById('cancel-btn').addEventListener('click', () => modal.close());
+    </script>
+</body>
+</html>

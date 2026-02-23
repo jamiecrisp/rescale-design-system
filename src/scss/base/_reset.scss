@@ -1,0 +1,22 @@
+@use "../settings" as *;
+
+// ============================================================================
+// Re:Scale Base Reset
+// ============================================================================
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@include rs-reduced-motion {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

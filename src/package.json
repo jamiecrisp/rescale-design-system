@@ -1,0 +1,14 @@
+{
+  "name": "@rescale/design-system",
+  "version": "1.0.0",
+  "description": "Re:Scale design system — glassmorphism UI components with WCAG AA compliance",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "sass scss/rescale.scss dist/rescale.css --style=expanded --no-source-map && sass scss/rescale.scss dist/rescale.min.css --style=compressed --no-source-map",
+    "watch": "sass scss/rescale.scss dist/rescale.css --watch --style=expanded"
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}

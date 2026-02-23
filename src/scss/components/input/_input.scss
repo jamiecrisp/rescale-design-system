@@ -1,0 +1,110 @@
+@use "../../settings" as *;
+
+// ============================================================================
+// Re:Scale Input — .rs-input, .rs-field
+// ============================================================================
+// .rs-field        — wrapper: label + input + hint/error
+// .rs-field__label — label text
+// .rs-field__hint  — help text below input
+// .rs-field__error — error message with icon
+// .rs-field--error — error state modifier on wrapper
+// .rs-field--success — success state modifier on wrapper
+// .rs-input        — the input element itself
+// .rs-input--mono  — monospace variant (for weight values)
+// ============================================================================
+
+// Field wrapper
+.rs-field {
+  display: flex;
+  flex-direction: column;
+  gap: $rs-space-2;
+
+  &__label {
+    font-size: $rs-text-sm;
+    font-weight: $rs-weight-medium;
+    color: var(--rs-text-primary);
+
+    &--required::after {
+      content: " *";
+      color: var(--rs-color-danger);
+    }
+  }
+
+  &__hint {
+    font-size: $rs-text-xs;
+    color: var(--rs-text-tertiary);
+  }
+
+  &__error {
+    font-size: $rs-text-xs;
+    color: var(--rs-color-danger);
+    font-weight: $rs-weight-medium;
+    display: flex;
+    align-items: center;
+    gap: $rs-space-1;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+  }
+
+  // Error state
+  &--error .rs-input {
+    border-color: var(--rs-color-danger);
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(161, 32, 64, 0.15);
+
+      [data-theme="dark"] & {
+        box-shadow: 0 0 0 3px rgba(255, 107, 138, 0.2);
+      }
+    }
+  }
+
+  // Success state
+  &--success .rs-input {
+    border-color: var(--rs-color-success);
+  }
+}
+
+// Input element
+.rs-input {
+  width: 100%;
+  padding: $rs-space-3 $rs-space-4;
+  border: 1px solid var(--rs-border-input);
+  border-radius: $rs-radius-md;
+  background: var(--rs-bg-elevated);
+  color: var(--rs-text-primary);
+  font-family: var(--rs-font-body);
+  font-size: $rs-text-base;
+  transition: border-color $rs-transition-fast, box-shadow $rs-transition-fast;
+  min-height: 44px;
+
+  &::placeholder {
+    color: var(--rs-text-tertiary);
+  }
+
+  &:hover {
+    border-color: var(--rs-text-secondary);
+  }
+
+  &:focus {
+    border-color: var(--rs-border-focus);
+    box-shadow: var(--rs-shadow-focus);
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--rs-bg-inset);
+  }
+
+  // Monospace variant (weight entry)
+  &--mono {
+    font-family: var(--rs-font-mono);
+    font-size: $rs-text-lg;
+  }
+}

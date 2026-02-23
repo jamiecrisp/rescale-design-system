@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Scale — Progress</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../dist/rescale.css">
+    <style>
+        .example { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+        .example h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .example p.desc { font-size: 0.875rem; color: var(--rs-text-secondary); margin-bottom: 32px; }
+        .example section { margin-bottom: 40px; }
+        .example h2 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rs-text-tertiary); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--rs-border-decorative); }
+        .stack { display: flex; flex-direction: column; gap: 20px; max-width: 500px; }
+        .label { font-size: 0.875rem; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="example">
+        <h1>Progress Bar</h1>
+        <p class="desc">Re:Scale Design System — <code>.rs-progress</code></p>
+        <section>
+            <h2>Variants</h2>
+            <div class="stack">
+                <div>
+                    <div class="label">Goal progress — 72%</div>
+                    <div class="rs-progress rs-progress--success" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100">
+                        <div class="rs-progress__bar" style="width:72%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="label">Sync in progress — 45%</div>
+                    <div class="rs-progress rs-progress--info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                        <div class="rs-progress__bar" style="width:45%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="label">Approaching limit — 85%</div>
+                    <div class="rs-progress rs-progress--warning" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                        <div class="rs-progress__bar" style="width:85%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="label">Off track — 30%</div>
+                    <div class="rs-progress rs-progress--danger" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                        <div class="rs-progress__bar" style="width:30%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

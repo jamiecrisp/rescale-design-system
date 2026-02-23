@@ -1,0 +1,47 @@
+@use "../settings" as *;
+
+// ============================================================================
+// Re:Scale Typography
+// ============================================================================
+
+body {
+  font-family: var(--rs-font-body);
+  font-size: $rs-text-base;
+  line-height: $rs-leading-normal;
+  color: var(--rs-text-primary);
+  background: var(--rs-bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ---------------------------------------------------------------------------
+// Text utilities
+// ---------------------------------------------------------------------------
+.rs-text--primary   { color: var(--rs-text-primary); }
+.rs-text--secondary { color: var(--rs-text-secondary); }
+.rs-text--tertiary  { color: var(--rs-text-tertiary); }
+.rs-text--inverse   { color: var(--rs-text-inverse); }
+.rs-text--success   { color: var(--rs-color-success); }
+.rs-text--danger    { color: var(--rs-color-danger); }
+.rs-text--info      { color: var(--rs-color-info); }
+.rs-text--warning   { color: var(--rs-color-warning); }
+.rs-text--accent    { color: var(--rs-accent); }
+
+// Sizes
+.rs-text--4xl  { font-size: $rs-text-4xl;  }
+.rs-text--3xl  { font-size: $rs-text-3xl;  }
+.rs-text--2xl  { font-size: $rs-text-2xl;  }
+.rs-text--xl   { font-size: $rs-text-xl;   }
+.rs-text--lg   { font-size: $rs-text-lg;   }
+.rs-text--base { font-size: $rs-text-base; }
+.rs-text--sm   { font-size: $rs-text-sm;   }
+.rs-text--xs   { font-size: $rs-text-xs;   }
+.rs-text--2xs  { font-size: $rs-text-2xs;  }
+
+// Weights
+.rs-text--medium   { font-weight: $rs-weight-medium; }
+.rs-text--semibold { font-weight: $rs-weight-semibold; }
+.rs-text--bold     { font-weight: $rs-weight-bold; }
+
+// Fonts
+.rs-text--mono { font-family: var(--rs-font-mono); }
