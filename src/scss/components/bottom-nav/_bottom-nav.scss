@@ -1,0 +1,61 @@
+// ============================================================================
+// Re:Scale Design System — Bottom Nav Component
+// ============================================================================
+// Mobile bottom navigation bar
+// ============================================================================
+
+@use "../../settings" as *;
+
+// Base bottom nav (hidden on desktop)
+.rs-bottom-nav {
+    display: none;
+}
+
+// Mobile styles
+@media (max-width: 640px) {
+    // Add padding to container to prevent content from being hidden behind bottom nav
+    .rs-container {
+        padding-bottom: calc(72px + 24px);
+    }
+
+    .rs-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        height: 72px;
+        background: var(--rs-bg-elevated);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid var(--rs-border-decorative);
+        box-shadow: var(--rs-shadow-lg);
+        padding: 8px 8px env(safe-area-inset-bottom, 8px);
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .rs-bottom-nav__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        text-decoration: none;
+        color: var(--rs-text-tertiary);
+        font-size: 0.62rem;
+        font-weight: var(--rs-weight-medium);
+        padding: 6px 10px;
+        border-radius: var(--rs-radius-md);
+        transition: color var(--rs-transition-fast);
+        min-width: 52px;
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        &--active {
+            color: var(--rs-accent-primary);
+        }
+    }
+}
