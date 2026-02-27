@@ -43,6 +43,51 @@
 
   --rs-font-body: #{$rs-font-body};
   --rs-font-mono: #{$rs-font-mono};
+
+  // Spacing
+  --rs-space-1: #{$rs-space-1};
+  --rs-space-2: #{$rs-space-2};
+  --rs-space-3: #{$rs-space-3};
+  --rs-space-4: #{$rs-space-4};
+  --rs-space-5: #{$rs-space-5};
+  --rs-space-6: #{$rs-space-6};
+  --rs-space-8: #{$rs-space-8};
+  --rs-space-10: #{$rs-space-10};
+  --rs-space-12: #{$rs-space-12};
+  --rs-space-16: #{$rs-space-16};
+  --rs-space-20: #{$rs-space-20};
+
+  // Radius
+  --rs-radius-sm: #{$rs-radius-sm};
+  --rs-radius-md: #{$rs-radius-md};
+  --rs-radius-lg: #{$rs-radius-lg};
+  --rs-radius-xl: #{$rs-radius-xl};
+  --rs-radius-full: #{$rs-radius-full};
+
+  // Typography sizes
+  --rs-text-4xl: #{$rs-text-4xl};
+  --rs-text-3xl: #{$rs-text-3xl};
+  --rs-text-2xl: #{$rs-text-2xl};
+  --rs-text-xl: #{$rs-text-xl};
+  --rs-text-lg: #{$rs-text-lg};
+  --rs-text-base: #{$rs-text-base};
+  --rs-text-sm: #{$rs-text-sm};
+  --rs-text-xs: #{$rs-text-xs};
+  --rs-text-2xs: #{$rs-text-2xs};
+
+  // Font weights
+  --rs-weight-regular: #{$rs-weight-regular};
+  --rs-weight-medium: #{$rs-weight-medium};
+  --rs-weight-semibold: #{$rs-weight-semibold};
+  --rs-weight-bold: #{$rs-weight-bold};
+
+  // Transitions
+  --rs-transition-fast: #{$rs-transition-fast};
+  --rs-transition-normal: #{$rs-transition-normal};
+
+  // Accent gradient colors (for topbar)
+  --rs-accent-primary: #006b4e;
+  --rs-accent-secondary: #008060;
 }
 
 [data-theme="dark"] {
@@ -82,4 +127,8 @@
   --rs-shadow-md: 0 2px 12px rgba(0, 0, 0, 0.2);
   --rs-shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.25);
   --rs-shadow-focus: 0 0 0 3px rgba(0, 229, 160, 0.25);
+
+  // Accent gradient colors (for topbar) - dark theme
+  --rs-accent-primary: #00e5a0;
+  --rs-accent-secondary: #00c98c;
 }
