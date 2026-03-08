@@ -12,7 +12,7 @@
 }
 
 // Mobile styles
-@media (max-width: 640px) {
+@media (max-width: $rs-breakpoint-sm) {
     // Add padding to container to prevent content from being hidden behind bottom nav
     .rs-container {
         padding-bottom: calc(72px + 24px);
@@ -43,10 +43,10 @@
         text-decoration: none;
         color: var(--rs-text-tertiary);
         font-size: 0.62rem;
-        font-weight: var(--rs-weight-medium);
+        font-weight: $rs-weight-medium;
         padding: 6px 10px;
-        border-radius: var(--rs-radius-md);
-        transition: color var(--rs-transition-fast);
+        border-radius: $rs-radius-md;
+        transition: color $rs-transition-fast;
         min-width: 52px;
 
         svg {
